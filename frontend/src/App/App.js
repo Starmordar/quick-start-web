@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import CreateWorkspace from './pages/CreateWorkspace/CreateWorkspace';
+import Registration from './pages/Registration/Registrations';
 
 class App extends Component {
   render() {
@@ -10,6 +11,7 @@ class App extends Component {
       <div>
         <Switch>
           <Route exact path='/' component={CreateWorkspace}/>
+          <Route exact path='/registration' component={Registration}/>
         </Switch>
       </div>
     )
