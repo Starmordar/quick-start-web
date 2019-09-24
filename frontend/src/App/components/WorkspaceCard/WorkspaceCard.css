@@ -1,4 +1,5 @@
 .workspace-card {
+    width: 98%;
     height: 45px;
     border-bottom: 1px solid rgba(197, 197, 197, .3);
     background: rgba(255, 255, 255, 1);
@@ -7,4 +8,27 @@
     align-items: center;
 }
 
+.workspace-card:not(.worksets-total-info) {
+    cursor: pointer;
+}
 
+.workspace-card:not(.worksets-total-info):not(:last-child):hover {
+    box-shadow: 0 0 20px #000;
+    z-index: 999;
+}
+
+.card-property {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(197, 197, 197, .9);
+}
+
+.checkbox-label {
+    margin-left: 25px;
+}

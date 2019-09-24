@@ -1,3 +1,7 @@
+body {
+    font-family: 'Blinker', sans-serif !important;
+}
+
 .gradiend-overplay {
     min-height: 100vh !important;
     background-image: url("https://p4.wallpaperbetter.com/wallpaper/784/171/578/pattern-abstract-blue-green-wallpaper-bbb61cdd03b13fd975340bc90d1cecb0.jpg");
@@ -14,5 +18,23 @@
 }
 
 .workset-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
+    background-color: #ffffff;
+}
+
+.worksets-total-info {
+    height: 60px !important;
+    display: flex;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+
+.worksets-total-info .workset-count {
+    font-size: 20px;
 }

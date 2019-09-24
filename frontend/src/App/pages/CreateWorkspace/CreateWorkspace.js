@@ -21,6 +21,10 @@ class CreateWorkspace extends React.Component {
                     <FilterArea />
                 </div>
                 <div className="workset-container">
+                    <div className="workspace-card worksets-total-info">
+                        <h3 className="workset-count">Total (12)</h3>
+                        <a className="btn btn-outline-light">Create workspace</a>
+                    </div>
                     <WorkspaceCard />
                     <WorkspaceCard />
                     <WorkspaceCard />
