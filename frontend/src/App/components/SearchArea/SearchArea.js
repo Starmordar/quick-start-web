@@ -1,11 +1,7 @@
 import React from 'react';
-import './CreateWorkspace.css';
-import CreateWorkspaceCard from '../../components/CreateWorkspaceCard/CreateWorkspaceCard';
-import WorkspaceCard from '../../components/WorkspaceCard/WorkspaceCard';
-import TopNavbar from '../../components/TopNavbar/TopNavbar';
-import FilterArea from '../../components/FilterArea/FilterArea';
+import './SearchArea.css';
 
-class CreateWorkspace extends React.Component {
+class SearchArea extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -15,10 +11,7 @@ class CreateWorkspace extends React.Component {
             <div className="gradiend-overplay">
                 <TopNavbar />
                 <div className="workset-filters">
-                    <FilterArea />
-                    <FilterArea />
-                    <FilterArea />
-                    <FilterArea />
+                    
                 </div>
                 <div className="workset-container">
                     <WorkspaceCard />
@@ -34,4 +27,4 @@ class CreateWorkspace extends React.Component {
     }
 }
 
-export default CreateWorkspace;
+export default SearchArea;

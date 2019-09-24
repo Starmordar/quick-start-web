@@ -5,6 +5,14 @@
     background-repeat: no-repeat;
 }
 
+.workset-filters {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    flex-direction: row;
+    padding: 40px 60px;
+}
+
 .workset-container {
     width: 100%;
 }
