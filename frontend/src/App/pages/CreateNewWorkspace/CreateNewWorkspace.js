@@ -1,6 +1,7 @@
 import React from 'react';
 import './CreateNewWorkspace.css';
 import FormStep from '../../components/FormStep/FormStep';
+import SetupForm from '../../components/WorspaceForm/SetupForm/SetupForm';
 
 class CreateNewWorkspace extends React.Component {
     constructor(props) {
@@ -11,6 +12,8 @@ class CreateNewWorkspace extends React.Component {
         return (
             <div className="gradiend-overplay">
                 <FormStep />
+
+                <SetupForm />
             </div>
         )
     }

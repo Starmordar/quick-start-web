@@ -1,0 +1,29 @@
+.setup-form {
+    margin: 40px auto 0 auto;
+    width: 30%;
+    background: #ffffff;
+    min-height: 200px !important;
+    padding: 30px 30px 40px 30px;
+    border-radius: 10px;
+}
+
+.setup-form .setup-form-info {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.setup-form .setup-form-info .step-helper {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+.setup-form .btn-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.setup-form .btn-container button{
+    font-size: 18px;
+}

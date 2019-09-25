@@ -4,6 +4,7 @@ body {
 
 .gradiend-overplay {
     min-height: 100vh !important;
+    height: 100%;
     background-image: url("https://p4.wallpaperbetter.com/wallpaper/784/171/578/pattern-abstract-blue-green-wallpaper-bbb61cdd03b13fd975340bc90d1cecb0.jpg");
     background-size: cover;
     background-repeat: no-repeat;
