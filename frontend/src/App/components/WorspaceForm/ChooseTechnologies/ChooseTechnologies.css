@@ -1,0 +1,37 @@
+.choose-technologies-form {
+    margin: 40px auto 0 auto;
+    width: 60%;
+    background: #ffffff;
+    min-height: 200px !important;
+    padding: 30px 30px 40px 30px;
+    border-radius: 10px;
+}
+
+.choose-technologies-form .setup-form-info {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.choose-technologies-form .setup-form-info .step-helper {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+.browser-selection {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.browser-card {
+    padding: 8px !important;
+}
+
+.card-border {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid gray;
+    padding: 10px;
+    border-radius: 5px;
+}
