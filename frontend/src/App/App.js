@@ -4,6 +4,7 @@ import './App.css';
 
 import CreateWorkspace from './pages/CreateWorkspace/CreateWorkspace';
 import Registration from './pages/Registration/Registrations';
+import CreateNewWorkspace from './pages/CreateNewWorkspace/CreateNewWorkspace';
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={CreateWorkspace}/>
           <Route exact path='/registration' component={Registration}/>
+          <Route exact path='/prackRoom' component={CreateNewWorkspace}/>
         </Switch>
       </div>
     )
