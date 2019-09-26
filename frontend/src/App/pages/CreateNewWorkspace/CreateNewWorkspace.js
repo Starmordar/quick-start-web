@@ -3,6 +3,7 @@ import './CreateNewWorkspace.css';
 import FormStep from '../../components/FormStep/FormStep';
 import SetupForm from '../../components/WorspaceForm/SetupForm/SetupForm';
 import ChooseTechnologies from '../../components/WorspaceForm/ChooseTechnologies/ChooseTechnologies';
+import InputForm from '../../components/WorspaceForm/InputFrom/InputForm';
 
 class CreateNewWorkspace extends React.Component {
     constructor(props) {
@@ -15,7 +16,8 @@ class CreateNewWorkspace extends React.Component {
                 <FormStep />
 
                 {/* <SetupForm /> */}
-                <ChooseTechnologies />
+                {/* <ChooseTechnologies /> */}
+                <InputForm />
             </div>
         )
     }
