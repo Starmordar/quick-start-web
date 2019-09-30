@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
-var UserSchema = new mongoose.Schema({
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         unique: true,
@@ -12,5 +13,16 @@ var UserSchema = new mongoose.Schema({
     }
 });
 
-var User = mongoose.model('User', UserSchema);
+UserSchema.pre('save', function (next) {
+    const user = this;
+    bcrypt.hash(user.password, 10, function (err, hash) {
+        if (err) {
+            return next(err);
+        }
+        user.password = hash;
+        next();
+    })
+});
+
+const User = mongoose.model('User', UserSchema);
 module.exports = User;
