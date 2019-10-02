@@ -3,7 +3,26 @@ var bcrypt = require('bcryptjs');
 var router = express.Router();
 var User = require('../models/user.shema');
 
+router.get('/', function (req, res, next) {
+  if (!req.session.views) {
+    req.session.views = 1;
+  } else {
+    req.session.views += 1;
+  }
+
+  res.json({
+    "status" : "ok",
+    "frequency" : req.session.views
+  });
+})
+
 router.post('/', function (req, res, next) {
+  console.log(req.session, req.cookies)
+
+  if (req.session.userId) {
+    res.send('redirect-middle')
+  }
+
   const userData = {
     username: req.body.username,
     password: req.body.password
@@ -20,6 +39,7 @@ router.post('/', function (req, res, next) {
             return next(error);
           } else {
             req.session.userId = user._id;
+            console.log(req.session, req.cookies)
             res.send("User create successful")
           }
         });

@@ -5,10 +5,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const cookieParser = require('cookie-parser');
 
 app.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/quick-start-test-auth', {
+mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-1', {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -19,19 +20,22 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () { });
 
-app.use(session({
-  secret: 'quick-start-test',
-  resave: true,
+
+const sessionOptions = {
+  secret: "secret",
+  resave: false,
   saveUninitialized: false,
   store: new MongoStore({
-    mongooseConnection: db
+    url: "mongodb://localhost:27017/quick-start-test-auth-1",
   })
-}));
+};
+
+app.use(session(sessionOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(__dirname + '/'));
+app.use(cookieParser());
 
 const routes = require('./routes/router');
 app.use('/', routes);

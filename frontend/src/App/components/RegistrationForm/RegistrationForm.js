@@ -62,6 +62,15 @@ class RegistrationForm extends React.Component {
         }
     }
 
+    componentDidMount() {
+        axios.get('http://localhost:4000')
+        .then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
     render() {
         return (
             <form onSubmit={this.onSubmitHandler}>
