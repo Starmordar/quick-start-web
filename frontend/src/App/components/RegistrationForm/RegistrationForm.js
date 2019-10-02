@@ -10,10 +10,10 @@ class RegistrationForm extends React.Component {
         this.state = {
             username: '',
             password: '',
-            usernameErr: '1212',
-            isUsernameErr: '',
-            passwordErr: '1212',
-            isPasswordErr: ''
+            usernameErr: '',
+            isUsernameErr: false,
+            passwordErr: '',
+            isPasswordErr: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,7 +26,9 @@ class RegistrationForm extends React.Component {
     }
 
     isValidForm() {
-        if (this.state.username == '') {
+        this.setState({ isUsernameErr: false, isPasswordErr: false });
+
+        if (this.state.username === '') {
             this.setState({
                 isUsernameErr: true,
                 usernameErr: "Username field can't be empty"
@@ -34,11 +36,10 @@ class RegistrationForm extends React.Component {
             return false
         }
 
-        if (this.state.password == '') {
+        if (this.state.password === '') {
             this.setState({
                 isPasswordErr: true,
                 passwordErr: "Password field can't be empty",
-                isUsernameErr: false
             })
             return false
         }
@@ -48,8 +49,6 @@ class RegistrationForm extends React.Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
-
-        this.isValidForm();
 
         if (this.isValidForm()) {
 

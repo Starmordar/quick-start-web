@@ -11,7 +11,6 @@ router.get('/', function (req, res, next) {
   } else {
     res.send("Not registered yet")
   }
-
 })
 
 router.get('/auth', function (req, res, next) {
