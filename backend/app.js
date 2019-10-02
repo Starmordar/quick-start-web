@@ -7,9 +7,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
 
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
-mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-1', {
+mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-2', {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -20,14 +20,14 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () { });
 
-
 const sessionOptions = {
   secret: "secret",
   resave: false,
   saveUninitialized: false,
   store: new MongoStore({
-    url: "mongodb://localhost:27017/quick-start-test-auth-1",
-  })
+    mongooseConnection: db
+  }),
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } //30 days
 };
 
 app.use(session(sessionOptions));

@@ -4,28 +4,20 @@ var router = express.Router();
 var User = require('../models/user.shema');
 
 router.get('/', function (req, res, next) {
-  if (!req.session.views) {
-    req.session.views = 1;
+  if (req.session.userId) {
+    console.log(req.cookies);
+
+    res.send("Already-registered")
   } else {
-    req.session.views += 1;
+    res.send("Not registered yet")
   }
 
-  res.json({
-    "status" : "ok",
-    "frequency" : req.session.views
-  });
 })
 
-router.post('/', function (req, res, next) {
-  console.log(req.session, req.cookies)
-
-  if (req.session.userId) {
-    res.send('redirect-middle')
-  }
-
+router.get('/auth', function (req, res, next) {
   const userData = {
-    username: req.body.username,
-    password: req.body.password
+    username: req.query.username,
+    password: req.query.password
   }
 
   User.findOne({ username: userData.username })
@@ -39,7 +31,7 @@ router.post('/', function (req, res, next) {
             return next(error);
           } else {
             req.session.userId = user._id;
-            console.log(req.session, req.cookies)
+
             res.send("User create successful")
           }
         });

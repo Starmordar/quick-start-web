@@ -2,6 +2,7 @@ import React from 'react';
 import './RegistrationForm.css';
 
 const axios = require('axios');
+axios.defaults.withCredentials = true;
 
 class RegistrationForm extends React.Component {
     constructor(props) {
@@ -51,9 +52,12 @@ class RegistrationForm extends React.Component {
         this.isValidForm();
 
         if (this.isValidForm()) {
-            axios.post('http://localhost:4000', {
-                username: this.state.username,
-                password: this.state.password
+
+            axios.get('http://localhost:4000/auth', {
+                params: {
+                    username: this.state.username,
+                    password: this.state.password
+                }
             }).then(function (response) {
                 console.log(response);
             }).catch(function (error) {
@@ -63,12 +67,12 @@ class RegistrationForm extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000')
-        .then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
+        axios.get('http://localhost:4000/')
+            .then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
     }
 
     render() {
