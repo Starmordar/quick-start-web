@@ -50,6 +50,8 @@ class RegistrationForm extends React.Component {
 
         if (!_helper.isValidEmail(this)) return false;
 
+        if(!_helper.isEqualsPassword(this)) return false;
+
         return true;
     }
 
@@ -69,6 +71,9 @@ class RegistrationForm extends React.Component {
 
                 if (response.data === 'email already taken') {
                     _helper.setErrMsg(context, 'emailErr', response.data)
+                }
+                if (response.data === 'a user with that nickname already exists') {
+                    _helper.setErrMsg(context, 'usernameErr', response.data)
                 }
                 console.log(response);
             }).catch(function (error) {

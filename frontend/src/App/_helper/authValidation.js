@@ -1,6 +1,5 @@
 const _helper = {
     resetErrMsg(context) {
-
         context.setState({
             userDataErr: {
                 usernameErr: { isErr: false, errDescription: '' },
@@ -52,6 +51,20 @@ const _helper = {
         }
 
         return true
+    },
+
+    isEqualsPassword(context) {
+        let userData = context.state.userData,
+            errDecription = "does not match password",
+            errFieldName = "confirmPasswordErr";
+    
+        if (userData.password !== userData.confirmPassword) {
+            this.setErrMsg(context, errFieldName, errDecription)
+
+            return false
+        }
+
+        return true;
     }
 }
 
