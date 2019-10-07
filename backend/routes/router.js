@@ -13,6 +13,42 @@ router.get('/', function (req, res, next) {
   }
 })
 
+router.get('/registration', function (req, res, next) {
+  const userData = {
+    username: req.query.username,
+    email: req.query.email,
+    password: req.query.password
+  }
+
+  console.log(userData);
+
+  User.findOne({ email: userData.email })
+    .exec(function (err, user) {
+      if (err) return next(err);
+      else if (user) {
+        res.send('email already taken');
+      } else {
+        User.findOne({ username: userData.username })
+          .exec(function (err, user) {
+            if (err) {
+              return next(err)
+            } else if (!user) {
+
+              User.create(userData, function (error, user) {
+                if (error) {
+                  return next(error);
+                } else {
+                  req.session.userId = user._id;
+
+                  res.send("User create successful")
+                }
+              });
+            } else res.send("a user with that nickname already exists");
+          });
+      }
+    })
+})
+
 router.get('/auth', function (req, res, next) {
   const userData = {
     username: req.query.username,

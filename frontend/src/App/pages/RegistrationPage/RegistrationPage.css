@@ -1,0 +1,16 @@
+.registration-section {
+    position: relative;
+    max-height: 100vh;
+    height: 100vh;
+    padding: 100px 0 100px 0;
+}
+
+.registration-section__brief-info-container {
+    border: 1px solid gray;
+}
+
+.registration-section__form-container {
+    padding: 40px !important;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+}

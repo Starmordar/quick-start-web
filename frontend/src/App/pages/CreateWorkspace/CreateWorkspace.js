@@ -1,6 +1,5 @@
 import React from 'react';
 import './CreateWorkspace.css';
-import CreateWorkspaceCard from '../../components/CreateWorkspaceCard/CreateWorkspaceCard';
 import WorkspaceCard from '../../components/WorkspaceCard/WorkspaceCard';
 import TopNavbar from '../../components/TopNavbar/TopNavbar';
 import FilterArea from '../../components/FilterArea/FilterArea';

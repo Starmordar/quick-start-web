@@ -2,18 +2,28 @@ import React from 'react';
 import './RegistrationForm.css';
 
 const axios = require('axios');
+const { _helper } = require('../../_helper/authValidation')
+
+
 axios.defaults.withCredentials = true;
 
 class RegistrationForm extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
+
         this.state = {
-            username: '',
-            password: '',
-            usernameErr: '',
-            isUsernameErr: false,
-            passwordErr: '',
-            isPasswordErr: false
+            userData: {
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+            },
+            userDataErr: {
+                usernameErr: { isErr: false, errDescription: '' },
+                emailErr: { isErr: false, errDescription: '' },
+                passwordErr: { isErr: false, errDescription: '' },
+                confirmPasswordErr: { isErr: false, errDescription: '' }
+            }
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -21,28 +31,24 @@ class RegistrationForm extends React.Component {
     }
 
     handleChange(event) {
-        const targetName = event.target.name;
-        this.setState({ [targetName]: event.target.value });
+        const targetName = event.target.name,
+            targetValue = event.target.value
+
+        this.setState(prevState => {
+            let data = Object.assign({}, prevState);
+
+            data.userData[targetName] = targetValue
+
+            return { data }
+        });
     }
 
     isValidForm() {
-        this.setState({ isUsernameErr: false, isPasswordErr: false });
+        _helper.resetErrMsg(this);
 
-        if (this.state.username === '') {
-            this.setState({
-                isUsernameErr: true,
-                usernameErr: "Username field can't be empty"
-            });
-            return false
-        }
+        if (_helper.isEmptyFields(this)) return false;
 
-        if (this.state.password === '') {
-            this.setState({
-                isPasswordErr: true,
-                passwordErr: "Password field can't be empty",
-            })
-            return false
-        }
+        if (!_helper.isValidEmail(this)) return false;
 
         return true;
     }
@@ -50,28 +56,25 @@ class RegistrationForm extends React.Component {
     onSubmitHandler(event) {
         event.preventDefault();
 
+        let context = this;
         if (this.isValidForm()) {
-
-            axios.get('http://localhost:4000/auth', {
+            axios.get('http://localhost:4000/registration', {
                 params: {
-                    username: this.state.username,
-                    password: this.state.password
+                    username: this.state.userData.username,
+                    email: this.state.userData.email,
+                    password: this.state.userData.password
                 }
             }).then(function (response) {
+                _helper.resetErrMsg(context);
+
+                if (response.data === 'email already taken') {
+                    _helper.setErrMsg(context, 'emailErr', response.data)
+                }
                 console.log(response);
             }).catch(function (error) {
                 console.log(error);
             });
         }
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:4000/')
-            .then(function (response) {
-                console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-            });
     }
 
     render() {
@@ -83,11 +86,31 @@ class RegistrationForm extends React.Component {
                     <input name="username"
                         type="text"
                         className="form-control"
-                        value={this.state.username}
                         id="usernameInput"
                         placeholder="Enter username"
                         onChange={this.handleChange} />
-                    {this.state.isUsernameErr ? <ErrorLabel text={this.state.usernameErr} /> : null}
+                    {
+                        this.state.userDataErr.usernameErr.isErr ?
+                            <ErrorLabel
+                                text={this.state.userDataErr.usernameErr.errDescription} />
+                            : null
+                    }
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="emailInput">Email</label>
+                    <input name="email"
+                        type="text"
+                        className="form-control"
+                        id="emailInput"
+                        placeholder="Email"
+                        onChange={this.handleChange} />
+                    {
+                        this.state.userDataErr.emailErr.isErr ?
+                            <ErrorLabel
+                                text={this.state.userDataErr.emailErr.errDescription} />
+                            : null
+                    }
                 </div>
 
                 <div className="form-group">
@@ -95,12 +118,33 @@ class RegistrationForm extends React.Component {
                     <input name="password"
                         type="password"
                         className="form-control"
-                        value={this.state.password}
                         id="passwordInput"
                         placeholder="Password"
                         autoComplete="on"
                         onChange={this.handleChange} />
-                    {this.state.isPasswordErr ? <ErrorLabel text={this.state.passwordErr} /> : null}
+                    {
+                        this.state.userDataErr.passwordErr.isErr ?
+                            <ErrorLabel
+                                text={this.state.userDataErr.passwordErr.errDescription} />
+                            : null
+                    }
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="passwordInput">Confirm password</label>
+                    <input name="confirmPassword"
+                        type="password"
+                        className="form-control"
+                        id="confirm-passwordInput"
+                        placeholder="Confirm password"
+                        autoComplete="on"
+                        onChange={this.handleChange} />
+                    {
+                        this.state.userDataErr.confirmPasswordErr.isErr ?
+                            <ErrorLabel
+                                text={this.state.userDataErr.confirmPasswordErr.errDescription} />
+                            : null
+                    }
                 </div>
 
                 <button type="submit" className="btn btn-primary">Submit</button>
@@ -109,7 +153,6 @@ class RegistrationForm extends React.Component {
         )
     }
 }
-
 
 function ErrorLabel(props) {
     return (

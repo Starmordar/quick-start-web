@@ -1,8 +1,8 @@
 import React from 'react';
-import './Registration.css';
-import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
+import './LoginPage.css';
+import LoginForm from '../../components/LoginForm/LoginForm';
 
-class Registration extends React.Component {
+class LoginPage extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -11,11 +11,11 @@ class Registration extends React.Component {
         return (
             <div className="wall-image">
                 <div className="form-container">
-                    <RegistrationForm />
+                    <LoginForm />
                 </div>
             </div>
         )
     }
 }
 
-export default Registration;
+export default LoginPage;
