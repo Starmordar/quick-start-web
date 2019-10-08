@@ -1,19 +1,24 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import './LoginForm.css';
 
 const axios = require('axios');
 axios.defaults.withCredentials = true;
 
+const { _helper } = require('../../_helper/authValidation')
+
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
-            usernameErr: '',
-            isUsernameErr: false,
-            passwordErr: '',
-            isPasswordErr: false
+            userData: {
+                username: '',
+                password: '',
+            },
+            userDataErr: {
+                usernameErr: { isErr: false, errDescription: "" },
+                passwordErr: { isErr: false, errDescription: "" },
+            }
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -21,36 +26,13 @@ class LoginForm extends React.Component {
     }
 
     handleChange(event) {
-        const targetName = event.target.name;
-        this.setState({ [targetName]: event.target.value });
-    }
-
-    isValidForm() {
-        this.setState({ isUsernameErr: false, isPasswordErr: false });
-
-        if (this.state.username === '') {
-            this.setState({
-                isUsernameErr: true,
-                usernameErr: "Username field can't be empty"
-            });
-            return false
-        }
-
-        if (this.state.password === '') {
-            this.setState({
-                isPasswordErr: true,
-                passwordErr: "Password field can't be empty",
-            })
-            return false
-        }
-
-        return true;
+        _helper.updateInputFormFields(this, event);
     }
 
     onSubmitHandler(event) {
         event.preventDefault();
 
-        if (this.isValidForm()) {
+        if (_helper.isValidForm(this)) {
 
             axios.get('http://localhost:4000/auth', {
                 params: {

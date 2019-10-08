@@ -32,39 +32,14 @@ class RegistrationForm extends React.Component {
     }
 
     handleChange(event) {
-        const targetName = event.target.name,
-            targetValue = event.target.value
-
-        this.setState(prevState => {
-            let data = Object.assign({}, prevState);
-
-            data.userData[targetName] = targetValue
-
-            return { data }
-        });
-    }
-
-    isValidForm() {
-        _helper.resetErrMsg(this);
-
-        if (_helper.isEmptyFields(this)) return false;
-
-        if (!_helper.isValidEmail(this)) return false;
-
-        if (!_helper.isValidPassword(this)) return false;
-
-        if (!_helper.isEqualsPassword(this)) return false;
-
-        if (!_helper.isValidUsername(this)) return false;
-
-        return true;
+        _helper.updateInputFormFields(this, event);
     }
 
     onSubmitHandler(event) {
         event.preventDefault();
 
         let context = this;
-        if (this.isValidForm()) {
+        if (_helper.isValidForm(this)) {
             axios.get('http://localhost:4000/registration', {
                 params: {
                     username: this.state.userData.username,

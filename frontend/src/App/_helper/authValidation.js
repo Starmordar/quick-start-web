@@ -1,12 +1,26 @@
 const _helper = {
 
+    updateInputFormFields(context, event) {
+        const targetName = event.target.name,
+            targetValue = event.target.value
+
+        context.setState(prevState => {
+            let data = Object.assign({}, prevState);
+
+            data.userData[targetName] = targetValue
+
+            return { data }
+        });
+    },
+
     resetErrMsg(context) {
-        context.setState({
-            userDataErr: {
-                usernameErr: { isErr: false, errDescription: '' },
-                emailErr: { isErr: false, errDescription: '' },
-                passwordErr: { isErr: false, errDescription: '' },
-                confirmPasswordErr: { isErr: false, errDescription: '' }
+        context.setState(prevState => {
+            let data = Object.assign({}, prevState);
+
+            for (const key in data.userDataErr) {
+                data.userDataErr[key] = {
+                    isErr: false, errDescription: ""
+                }
             }
         });
     },
@@ -145,6 +159,22 @@ const _helper = {
         }
 
         return true
+    },
+
+    isValidForm(context) {
+        this.resetErrMsg(context);
+
+        if (this.isEmptyFields(context)) return false;
+
+        if (!this.isValidEmail(context)) return false;
+
+        if (!this.isValidPassword(context)) return false;
+
+        if (!this.isEqualsPassword(context)) return false;
+
+        if (!this.isValidUsername(context)) return false;
+
+        return true;
     }
 }
 
