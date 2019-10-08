@@ -32,14 +32,16 @@ class RegistrationForm extends React.Component {
     }
 
     handleChange(event) {
-        _helper.updateInputFormFields(this, event);
+        _helper.updateValueInFormInput(this, event);
     }
 
     onSubmitHandler(event) {
         event.preventDefault();
 
-        let context = this;
+        const componentContext = this;
+
         if (_helper.isValidForm(this)) {
+            
             axios.get('http://localhost:4000/registration', {
                 params: {
                     username: this.state.userData.username,
@@ -47,17 +49,17 @@ class RegistrationForm extends React.Component {
                     password: this.state.userData.password
                 }
             }).then(function (response) {
-                _helper.resetErrMsg(context);
+                _helper.resetErrorMessages(componentContext);
 
                 if (response.data === 'email already taken') {
-                    _helper.setErrMsg(context, 'emailErr', response.data)
+                    _helper.setErrorMessageOnInputField(componentContext, 'emailErr', response.data)
                 }
                 if (response.data === 'a user with that nickname already exists') {
-                    _helper.setErrMsg(context, 'usernameErr', response.data)
+                    _helper.setErrorMessageOnInputField(componentContext, 'usernameErr', response.data)
                 }
 
                 if (response.data === 'User create successful') {
-                    context.setState({ redirect: true })
+                    componentContext.setState({ redirect: true })
                 }
                 console.log(response);
             }).catch(function (error) {

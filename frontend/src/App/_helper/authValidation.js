@@ -1,66 +1,107 @@
 const _helper = {
 
-    updateInputFormFields(context, event) {
+    NO_ERROR_STRING: "",
+    BLANK_INPUT_FIELD: "",
+    ERROR_FIELD_NAME_ENDING: "Err",
+    ERROR_BLANK_DESCRIPTION: " cannot be blank",
+
+    EMAIL_VALIDATION_REGEX: new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
+    ONLY_LETTER_NUMBER_UNDERSCOPES_REGEX: new RegExp(/\W/),
+    AT_LEAST_ONE_NUMBER_REGEX: new RegExp(/[0-9]/),
+    AT_LEAST_ONE_LOWER_CASE_REGEX: new RegExp(/[a-z]/),
+    AT_LEAST_ONE_UPPER_CASE_REGEX: new RegExp(/[A-Z]/),
+
+    ERROR_EMAIL_FIELD_NAME: "emailErr",
+    ERROR_CONFIRM_PASSWORD_FIELD_NAME: "confirmPasswordErr",
+    ERROR_USERNAME_FIELD_NAME: "usernameErr",
+    ERROR_PASSWORD_FIELD_NAME: "passwordErr",
+
+    ERROR_INVALID_EMAIL_DESCRIPTION: "Email is invalid",
+
+    ERROR_NOT_MATCH_PASSWORDS_DESCRIPTION: "Does not match passwords",
+
+    ERROR_USERNAME_ALPHABET: "The username can contains only letters, numbers, and underscores",
+    ERROR_USERNAME_LENGTH: "The username length must be between 6 - 30 characters",
+
+    ERROR_PASSWORD_ALPHABET: "The password can contains only letters, numbers, and underscores",
+    ERROR_PASSWORD_LENGTH: "The password should contains 8 - 30 characters",
+    ERROR_PASSWORD_DIFFERENCE_FROM_USERNAME: "Password must be different from Username!",
+    ERROR_PASSWORD_AT_LEAST_ONE_NUMBER: "Password must contain at least one number",
+    ERROR_PASSWORD_AT_LEAST_ONE_UPPER_CASE: "Password must contain at least one uppercase letter (A-Z)!",
+    ERROR_PASSWORD_AT_LEAST_ONE_LOWERCASE: "Password must contain at least one lowercase letter (a-z)!",
+
+    MIN_USERNAME_LENGTH: 6,
+    MAX_USERNAME_LENGHT: 30,
+    MIN_PASSWORD_LENGTH: 8,
+    MAX_PASSWORD_LENGHT: 30,
+
+    updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value
 
-        context.setState(prevState => {
-            let data = Object.assign({}, prevState);
+        componentContext.setState(prevState => {
+            let newState = Object.assign({}, prevState);
 
-            data.userData[targetName] = targetValue
+            newState.userData[targetName] = targetValue
 
-            return { data }
+            return { newState }
         });
     },
 
-    resetErrMsg(context) {
-        context.setState(prevState => {
-            let data = Object.assign({}, prevState);
+    resetErrorMessages(componentContext) {
+        componentContext.setState(prevState => {
+            let newState = Object.assign({}, prevState);
 
-            for (const key in data.userDataErr) {
-                data.userDataErr[key] = {
-                    isErr: false, errDescription: ""
+            for (const key in newState.userDataErr) {
+                newState.userDataErr[key] = {
+                    isErr: false, errDescription: this.NO_ERROR_STRING
                 }
             }
         });
     },
 
-    setErrMsg(context, errorFieldName, errorDescription) {
-        context.setState(prevState => {
-            let data = Object.assign({}, prevState);
+    setErrorMessageOnInputField(componentContext, errorFieldName, errorDescription) {
+        componentContext.setState(prevState => {
+            let newState = Object.assign({}, prevState);
 
-            data.userDataErr[errorFieldName] = {
+            newState.userDataErr[errorFieldName] = {
                 isErr: true,
                 errDescription: errorDescription
             }
 
-            return { data }
+            return { newState }
         })
     },
 
-    isEmptyFields(context) {
-        for (const key in context.state.userData) {
-            const element = context.state.userData[key];
+    isExistsBlankInputFields(componentContext) {
+        for (const fieldName in componentContext.state.userData) {
+            const inputField = componentContext.state.userData[fieldName];
 
-            if (element === "") {
-                let errStr = `${key}Err`,
-                    errDecription = `${key} cannot be blank`
+            if (inputField === this.BLANK_INPUT_FIELD) {
+                const errorFieldName = fieldName + this.ERROR_FIELD_NAME_ENDING,
+                    errDescription = fieldName + this.ERROR_BLANK_DESCRIPTION
 
-                this.setErrMsg(context, errStr, errDecription)
+                this.setErrorMessageOnInputField(
+                    componentContext,
+                    errorFieldName,
+                    errDescription
+                )
 
                 return true
             }
         }
     },
 
-    isValidEmail(context) {
-        const validEmail = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-        const email = context.state.userData.email;
-        const errorFieldName = 'emailErr',
-            errDecription = 'Email is invalid';
+    isValidEmail(componentContext) {
+        const email = componentContext.state.userData.email;
 
-        if (!validEmail.test(email)) {
-            this.setErrMsg(context, errorFieldName, errDecription)
+        if (!this.EMAIL_VALIDATION_REGEX.test(email)) {
+
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_EMAIL_FIELD_NAME,
+                this.ERROR_INVALID_EMAIL_DESCRIPTION
+            )
 
             return false
         }
@@ -68,13 +109,16 @@ const _helper = {
         return true
     },
 
-    isEqualsPassword(context) {
-        const userData = context.state.userData,
-            errDecription = "does not match password",
-            errFieldName = "confirmPasswordErr";
+    isEqualsPasswords(componentContext) {
+        const userData = componentContext.state.userData;
 
         if (userData.password !== userData.confirmPassword) {
-            this.setErrMsg(context, errFieldName, errDecription)
+
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_CONFIRM_PASSWORD_FIELD_NAME,
+                this.ERROR_NOT_MATCH_PASSWORDS_DESCRIPTION
+            )
 
             return false
         }
@@ -82,97 +126,120 @@ const _helper = {
         return true
     },
 
-    isValidUsername(context) {
-        const illegalChars = new RegExp(/\W/);
-        const username = context.state.userData.username;
+    isValidUsername(componentContext) {
+        const username = componentContext.state.userData.username;
 
-        let errDecription = "",
-            errFieldName = "usernameErr";
+        if (this.ONLY_LETTER_NUMBER_UNDERSCOPES_REGEX.test(username)) {
 
-        if (illegalChars.test(username)) {
-            errDecription = "The username can contains only letters, numbers, and underscores";
-            this.setErrMsg(context, errFieldName, errDecription);
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_USERNAME_FIELD_NAME,
+                this.ERROR_USERNAME_ALPHABET
+            )
 
-            return false;
+            return false
         }
 
-        if (username.length <= 5 || username.length >= 30) {
-            errDecription = "The username can contains 5 - 30 characters";
-            this.setErrMsg(context, errFieldName, errDecription);
+        if (username.length < this.MIN_USERNAME_LENGTH ||
+            username.length > this.MAX_USERNAME_LENGHT) {
 
-            return false;
-        }
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_USERNAME_FIELD_NAME,
+                this.ERROR_USERNAME_LENGTH
+            )
 
-        return true
-    },
-
-    isValidPassword(context) {
-        const illegalChars = new RegExp(/\W/);
-        const atLeastOneNumber = new RegExp(/[0-9]/);
-        const atLeastOneLowerCase = new RegExp(/[a-z]/);
-        const atLeastOneUpperCase = new RegExp(/[A-Z]/);
-        const password = context.state.userData.password;
-
-        let errDecription = "",
-            errFieldName = "passwordErr";
-
-        if (illegalChars.test(password)) {
-            errDecription = "The password can contains only letters, numbers, and underscores";
-            this.setErrMsg(context, errFieldName, errDecription);
-
-            return false;
-        }
-
-        if (password.length <= 5 || password.length >= 30) {
-            errDecription = "The password should contains 5 - 30 characters";
-            this.setErrMsg(context, errFieldName, errDecription);
-
-            return false;
-        }
-
-        if (password === context.state.userData.username) {
-            errDecription = "Password must be different from Username!";
-            this.setErrMsg(context, errFieldName, errDecription);
-
-            return false;
-        }
-
-        if (!atLeastOneNumber.test(password)) {
-            errDecription = "Password must contain at least one number";
-            this.setErrMsg(context, errFieldName, errDecription);
-
-            return false;
-        }
-
-        if (!atLeastOneLowerCase.test(password)) {
-            errDecription = "Password must contain at least one lowercase letter (a-z)!";
-            this.setErrMsg(context, errFieldName, errDecription);
-
-            return false;
-        }
-
-        if (!atLeastOneUpperCase.test(password)) {
-            errDecription = "Password must contain at least one uppercase letter (a-z)!";
-            this.setErrMsg(context, errFieldName, errDecription);
-
-            return false;
+            return false
         }
 
         return true
     },
 
-    isValidForm(context) {
-        this.resetErrMsg(context);
+    isValidPassword(componentContext) {
+        const password = componentContext.state.userData.password;
 
-        if (this.isEmptyFields(context)) return false;
+        if (this.ONLY_LETTER_NUMBER_UNDERSCOPES_REGEX.test(password)) {
 
-        if (!this.isValidEmail(context)) return false;
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_PASSWORD_FIELD_NAME,
+                this.ERROR_PASSWORD_ALPHABET
+            )
 
-        if (!this.isValidPassword(context)) return false;
+            return false
+        }
 
-        if (!this.isEqualsPassword(context)) return false;
+        if (password.length < this.MIN_PASSWORD_LENGTH
+            || password.length > this.MAX_PASSWORD_LENGHT) {
 
-        if (!this.isValidUsername(context)) return false;
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_PASSWORD_FIELD_NAME,
+                this.ERROR_PASSWORD_LENGTH
+            )
+
+            return false
+        }
+
+        if (password === componentContext.state.userData.username) {
+
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_PASSWORD_FIELD_NAME,
+                this.ERROR_PASSWORD_DIFFERENCE_FROM_USERNAME
+            )
+
+            return false
+        }
+
+        if (!this.AT_LEAST_ONE_NUMBER_REGEX.test(password)) {
+
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_PASSWORD_FIELD_NAME,
+                this.ERROR_PASSWORD_AT_LEAST_ONE_NUMBER
+            )
+
+            return false
+        }
+
+        if (!this.AT_LEAST_ONE_LOWER_CASE_REGEX.test(password)) {
+
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_PASSWORD_FIELD_NAME,
+                this.ERROR_PASSWORD_AT_LEAST_ONE_LOWERCASE
+            )
+
+            return false
+        }
+
+        if (!this.AT_LEAST_ONE_UPPER_CASE_REGEX.test(password)) {
+
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_PASSWORD_FIELD_NAME,
+                this.ERROR_PASSWORD_AT_LEAST_ONE_UPPER_CASE
+            )
+
+            return false
+        }
+
+        return true
+    },
+
+    isValidForm(componentContext) {
+        this.resetErrorMessages(componentContext);
+
+        if (this.isExistsBlankInputFields(componentContext)) return false;
+
+        if (!this.isValidEmail(componentContext)) return false;
+
+        if (!this.isValidPassword(componentContext)) return false;
+
+        if (!this.isEqualsPasswords(componentContext)) return false;
+
+        if (!this.isValidUsername(componentContext)) return false;
 
         return true;
     }

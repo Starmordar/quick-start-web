@@ -26,7 +26,7 @@ class LoginForm extends React.Component {
     }
 
     handleChange(event) {
-        _helper.updateInputFormFields(this, event);
+        _helper.updateValueInFormInput(this, event);
     }
 
     onSubmitHandler(event) {
