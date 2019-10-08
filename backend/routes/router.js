@@ -20,8 +20,6 @@ router.get('/registration', function (req, res, next) {
     password: req.query.password
   }
 
-  console.log(userData);
-
   User.findOne({ email: userData.email })
     .exec(function (err, user) {
       if (err) return next(err);

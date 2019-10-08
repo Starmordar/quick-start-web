@@ -1,9 +1,9 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import './RegistrationForm.css';
 
 const axios = require('axios');
 const { _helper } = require('../../_helper/authValidation')
-
 
 axios.defaults.withCredentials = true;
 
@@ -13,17 +13,18 @@ class RegistrationForm extends React.Component {
 
         this.state = {
             userData: {
-                username: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
+                username: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
             },
             userDataErr: {
-                usernameErr: { isErr: false, errDescription: '' },
-                emailErr: { isErr: false, errDescription: '' },
-                passwordErr: { isErr: false, errDescription: '' },
-                confirmPasswordErr: { isErr: false, errDescription: '' }
-            }
+                usernameErr: { isErr: false, errDescription: "" },
+                emailErr: { isErr: false, errDescription: "" },
+                passwordErr: { isErr: false, errDescription: "" },
+                confirmPasswordErr: { isErr: false, errDescription: "" }
+            },
+            redirect: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -79,6 +80,10 @@ class RegistrationForm extends React.Component {
                 if (response.data === 'a user with that nickname already exists') {
                     _helper.setErrMsg(context, 'usernameErr', response.data)
                 }
+
+                if (response.data === 'User create successful') {
+                    context.setState({ redirect: true })
+                }
                 console.log(response);
             }).catch(function (error) {
                 console.log(error);
@@ -86,9 +91,23 @@ class RegistrationForm extends React.Component {
         }
     }
 
+    componentDidMount() {
+        let context = this;
+        axios.get('http://localhost:4000/')
+            .then(function (response) {
+                if (response.data === "Already-registered") {
+                    context.setState({ redirect: true })
+                }
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+
     render() {
         return (
             <form onSubmit={this.onSubmitHandler}>
+                {this.state.redirect ? <Redirect to='/' /> : null}
 
                 <div className="form-group">
                     <label htmlFor="usernameInput">Username</label>
