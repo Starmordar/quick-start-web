@@ -50,7 +50,11 @@ class RegistrationForm extends React.Component {
 
         if (!_helper.isValidEmail(this)) return false;
 
-        if(!_helper.isEqualsPassword(this)) return false;
+        if (!_helper.isValidPassword(this)) return false;
+
+        if (!_helper.isEqualsPassword(this)) return false;
+
+        if (!_helper.isValidUsername(this)) return false;
 
         return true;
     }
