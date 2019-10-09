@@ -3,10 +3,10 @@ var bcrypt = require('bcryptjs');
 var router = express.Router();
 var User = require('../models/user.shema');
 
-router.get('/', function (req, res, next) {
-  if (req.session.userId) {
-    console.log(req.cookies);
+const { findUserByParams } = require('../database/queries');
 
+router.get('/', function (req, res, next) {
+  if (req.session.userId && req.cookies['connect.sid']) {
     res.send("Already-registered")
   } else {
     res.send("Not registered yet")
@@ -20,31 +20,32 @@ router.get('/registration', function (req, res, next) {
     password: req.query.password
   }
 
-  User.findOne({ email: userData.email })
-    .exec(function (err, user) {
-      if (err) return next(err);
-      else if (user) {
-        res.send('email already taken');
-      } else {
-        User.findOne({ username: userData.username })
-          .exec(function (err, user) {
-            if (err) {
-              return next(err)
-            } else if (!user) {
+  Promise.all([
+    findUserByParams({ email: userData.email }, 'email already taken'),
+    findUserByParams({ username: userData.username }, "a user with that nickname already exists")
+  ]).then(function (mongoResponces) {
 
-              User.create(userData, function (error, user) {
-                if (error) {
-                  return next(error);
-                } else {
-                  req.session.userId = user._id;
+    mongoResponces.forEach(mongoResponce => {
+      if (mongoResponce === "email already taken") res.send("email already taken");
+      else if (mongoResponce === "a user with that nickname already exists") res.send("a user with that nickname already exists");
+    });
 
-                  res.send("User create successful")
-                }
-              });
-            } else res.send("a user with that nickname already exists");
-          });
-      }
-    })
+    if (mongoResponces[0] === "unique user" && mongoResponces[1] === "unique user") {
+
+      User.create(userData, function (error, user) {
+        if (error) return next(error);
+
+        else {
+          req.session.userId = user._id;
+
+          res.send("User create successful")
+        }
+      })
+    }
+  }).catch(function (err) {
+    console.log(11);
+    console.error(err.message)
+  })
 })
 
 router.get('/auth', function (req, res, next) {

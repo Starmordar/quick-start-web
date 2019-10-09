@@ -30,7 +30,7 @@ const _serverHelper = {
 
     userRegistration(componentContext, userData) {
         const helperContext = this;
-
+        
         axios.get(helperContext.IP_ADRESS + helperContext.PATH_USER_REGISTRATION, {
             params: {
                 username: userData.username,
