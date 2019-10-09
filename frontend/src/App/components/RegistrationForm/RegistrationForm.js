@@ -2,10 +2,8 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import './RegistrationForm.css';
 
-const axios = require('axios');
-const { _helper } = require('../../_helper/authValidation')
-
-axios.defaults.withCredentials = true;
+const { _helper } = require('../../_helper/authValidation');
+const { _serverHelper } = require('../../_helper/serverReponce');
 
 class RegistrationForm extends React.Component {
     constructor(props) {
@@ -37,48 +35,23 @@ class RegistrationForm extends React.Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
-
         const componentContext = this;
 
         if (_helper.isValidForm(this)) {
-            
-            axios.get('http://localhost:4000/registration', {
-                params: {
-                    username: this.state.userData.username,
-                    email: this.state.userData.email,
-                    password: this.state.userData.password
-                }
-            }).then(function (response) {
-                _helper.resetErrorMessages(componentContext);
+            let userData = {
+                username: this.state.userData.username,
+                email: this.state.userData.email,
+                password: this.state.userData.password
+            }
 
-                if (response.data === 'email already taken') {
-                    _helper.setErrorMessageOnInputField(componentContext, 'emailErr', response.data)
-                }
-                if (response.data === 'a user with that nickname already exists') {
-                    _helper.setErrorMessageOnInputField(componentContext, 'usernameErr', response.data)
-                }
-
-                if (response.data === 'User create successful') {
-                    componentContext.setState({ redirect: true })
-                }
-                console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-            });
+            _serverHelper.userRegistration(componentContext, userData);
         }
     }
 
     componentDidMount() {
-        let context = this;
-        axios.get('http://localhost:4000/')
-            .then(function (response) {
-                if (response.data === "Already-registered") {
-                    context.setState({ redirect: true })
-                }
-                console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-            });
+        const componentContext = this;
+
+        _serverHelper.redirectToHomeIfUserAlreadyOnTheSystem(componentContext);
     }
 
     render() {

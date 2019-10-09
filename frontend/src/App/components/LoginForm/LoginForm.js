@@ -2,10 +2,8 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import './LoginForm.css';
 
-const axios = require('axios');
-axios.defaults.withCredentials = true;
-
-const { _helper } = require('../../_helper/authValidation')
+const { _helper } = require('../../_helper/authValidation');
+const { _serverHelper } = require('../../_helper/serverReponce');
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -18,7 +16,8 @@ class LoginForm extends React.Component {
             userDataErr: {
                 usernameErr: { isErr: false, errDescription: "" },
                 passwordErr: { isErr: false, errDescription: "" },
-            }
+            },
+            redirect: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -32,33 +31,29 @@ class LoginForm extends React.Component {
     onSubmitHandler(event) {
         event.preventDefault();
 
+        const componentContext = this;
+
         if (_helper.isValidForm(this)) {
 
-            axios.get('http://localhost:4000/auth', {
-                params: {
-                    username: this.state.username,
-                    password: this.state.password
-                }
-            }).then(function (response) {
-                console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-            });
+            let userData = {
+                username: this.state.userData.username,
+                password: this.state.userData.password
+            }
+
+            _serverHelper.userSignIn(componentContext, userData)
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/')
-            .then(function (response) {
-                console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-            });
+        const componentContext = this;
+
+        _serverHelper.redirectToHomeIfUserAlreadyOnTheSystem(componentContext);
     }
 
     render() {
         return (
             <form onSubmit={this.onSubmitHandler}>
+                {this.state.redirect ? <Redirect to='/' /> : null}
 
                 <div className="form-group">
                     <label htmlFor="usernameInput">Username</label>
@@ -69,7 +64,12 @@ class LoginForm extends React.Component {
                         id="usernameInput"
                         placeholder="Enter username"
                         onChange={this.handleChange} />
-                    {this.state.isUsernameErr ? <ErrorLabel text={this.state.usernameErr} /> : null}
+                    {
+                        this.state.userDataErr.usernameErr.isErr ?
+                            <ErrorLabel
+                                text={this.state.userDataErr.usernameErr.errDescription} />
+                            : null
+                    }
                 </div>
 
                 <div className="form-group">
@@ -82,7 +82,12 @@ class LoginForm extends React.Component {
                         placeholder="Password"
                         autoComplete="on"
                         onChange={this.handleChange} />
-                    {this.state.isPasswordErr ? <ErrorLabel text={this.state.passwordErr} /> : null}
+                    {
+                        this.state.userDataErr.passwordErr.isErr ?
+                            <ErrorLabel
+                                text={this.state.userDataErr.passwordErr.errDescription} />
+                            : null
+                    }
                 </div>
 
                 <button type="submit" className="btn btn-primary">Submit</button>

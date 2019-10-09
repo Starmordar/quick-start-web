@@ -30,6 +30,9 @@ const _helper = {
     ERROR_PASSWORD_AT_LEAST_ONE_UPPER_CASE: "Password must contain at least one uppercase letter (A-Z)!",
     ERROR_PASSWORD_AT_LEAST_ONE_LOWERCASE: "Password must contain at least one lowercase letter (a-z)!",
 
+    ERROR_EMAIL_ALREADY_TAKEN: "email already taken",
+    ERROR_USERNAME_TAKEN: "a user with that nickname already exists",
+
     MIN_USERNAME_LENGTH: 6,
     MAX_USERNAME_LENGHT: 30,
     MIN_PASSWORD_LENGTH: 8,
@@ -242,6 +245,26 @@ const _helper = {
         if (!this.isValidUsername(componentContext)) return false;
 
         return true;
+    },
+
+
+    handleServerErrorMessages(componentContext, serverResponce) {
+        this.resetErrorMessages(componentContext);
+
+        if (serverResponce === this.ERROR_EMAIL_ALREADY_TAKEN) {
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_EMAIL_FIELD_NAME,
+                this.ERROR_EMAIL_ALREADY_TAKEN
+            )
+        }
+        if (serverResponce === this.ERROR_USERNAME_TAKEN) {
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_USERNAME_FIELD_NAME,
+                this.ERROR_USERNAME_TAKEN
+            )
+        }
     }
 }
 

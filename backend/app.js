@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
-mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-2', {
+mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-3', {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
