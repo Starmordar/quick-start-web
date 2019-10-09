@@ -1,20 +1,35 @@
 const User = require('../models/user.shema');
 
-function findUserByParams(params, returnString) {
+const { _helper } = require("../_helper/helper");
+
+function findUserByParams(params, errorMessage, successMessage) {
 
   return new Promise(function (resolve, reject) {
     User.findOne(params)
       .exec((err, user) => {
         if (err) reject(err);
 
-        else if (user) resolve(returnString);
+        else if (user) resolve(errorMessage);
 
-        else resolve("unique user")
+        else resolve(successMessage)
       })
   })
-  
+}
+
+function createNewUserAndSetCurrentSession(res, req, next, userData) {
+
+  User.create(userData, function (error, user) {
+    if (error) return next(error);
+
+    else {
+      req.session.userId = user._id;
+
+      res.send(_helper.USER_CREATED_SUCCESSFUL)
+    }
+  })
 }
 
 module.exports = {
-  findUserByParams: findUserByParams
+  findUserByParams: findUserByParams,
+  createNewUserAndSetCurrentSession: createNewUserAndSetCurrentSession
 }

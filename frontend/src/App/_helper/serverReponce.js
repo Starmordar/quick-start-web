@@ -7,6 +7,7 @@ const _serverHelper = {
     SERVER_USER_CREATED: "User create successful",
     SERVER_USER_ALREADY_IN_SYSTEM: "Already-registered",
     SERVER_USER_EXISTS: "Successesfull signin",
+    SERVER_FIND_USER_SUCCESS: "User with this username exists",
 
     IP_ADRESS: "http://localhost:4000",
 
@@ -30,7 +31,7 @@ const _serverHelper = {
 
     userRegistration(componentContext, userData) {
         const helperContext = this;
-        
+
         axios.get(helperContext.IP_ADRESS + helperContext.PATH_USER_REGISTRATION, {
             params: {
                 username: userData.username,
@@ -58,7 +59,12 @@ const _serverHelper = {
                 password: userData.password
             }
         }).then(function (response) {
+            _helper.handleServerErrorMessages(componentContext, response.data);
+
             if (response.data === _serverHelper.SERVER_USER_EXISTS) {
+                componentContext.setState({ redirect: true })
+            }
+            if (response.data === _serverHelper.SERVER_FIND_USER_SUCCESS) {
                 componentContext.setState({ redirect: true })
             }
         }).catch(function (error) {

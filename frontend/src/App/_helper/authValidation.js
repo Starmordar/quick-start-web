@@ -38,6 +38,9 @@ const _helper = {
     MIN_PASSWORD_LENGTH: 8,
     MAX_PASSWORD_LENGHT: 30,
 
+    FIND_USER_WRONG_USERNAME: "User with this username doesn't exists",
+    FIND_PASSWORD_ERROR: "Error password",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value
@@ -97,6 +100,7 @@ const _helper = {
 
     isValidEmail(componentContext) {
         const email = componentContext.state.userData.email;
+        if (email === undefined) return true;
 
         if (!this.EMAIL_VALIDATION_REGEX.test(email)) {
 
@@ -114,6 +118,7 @@ const _helper = {
 
     isEqualsPasswords(componentContext) {
         const userData = componentContext.state.userData;
+        if (userData.confirmPassword === undefined) return true;
 
         if (userData.password !== userData.confirmPassword) {
 
@@ -247,7 +252,6 @@ const _helper = {
         return true;
     },
 
-
     handleServerErrorMessages(componentContext, serverResponce) {
         this.resetErrorMessages(componentContext);
 
@@ -263,6 +267,20 @@ const _helper = {
                 componentContext,
                 this.ERROR_USERNAME_FIELD_NAME,
                 this.ERROR_USERNAME_TAKEN
+            )
+        }
+        if (serverResponce === this.FIND_USER_WRONG_USERNAME) {
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_USERNAME_FIELD_NAME,
+                this.FIND_USER_WRONG_USERNAME
+            )
+        }
+        if (serverResponce === this.FIND_PASSWORD_ERROR) {
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.ERROR_PASSWORD_FIELD_NAME,
+                this.FIND_PASSWORD_ERROR
             )
         }
     }
