@@ -2,6 +2,8 @@ var express = require('express');
 var bcrypt = require('bcryptjs');
 var router = express.Router();
 var User = require('../models/user.shema');
+var Workspace = require('../models/workspace.shema');
+
 
 const { findUserByParams, createNewUserAndSetCurrentSession } = require('../database/queries');
 
@@ -82,7 +84,23 @@ router.get(_helper.PATH_USER_SIGHIN, (req, res, next) => {
 });
 
 router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
-  console.log(req.body)
+  const workspaceSettings = {
+    userID: req.session.userId,
+    name: req.body.name,
+    category: req.body.category,
+    isActive: req.body.isActive,
+    dateString: "Added " + req.body.date,
+    count: 0
+  }
+  console.log(workspaceSettings);
+  Workspace.create(workspaceSettings, function (error, user) {
+    console.log(error);
+    if (error) return next(error);
+
+    else {
+      res.send("OK")
+    }
+  })
 })
 
 module.exports = router;

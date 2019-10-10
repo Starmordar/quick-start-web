@@ -10,7 +10,7 @@ const WorkspaceSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    categoty: {
+    category: {
         type: String,
         required: true,
     },
