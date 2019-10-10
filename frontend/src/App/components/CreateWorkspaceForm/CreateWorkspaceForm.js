@@ -105,7 +105,7 @@ class CreateWorkspaceForm extends React.Component {
                                 type="radio"
                                 name="exampleRadios"
                                 id="exampleRadios1"
-                                value="option1"
+                                value={_workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE}
                                 checked={this.state.selectedOption === _workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE}
                                 onChange={this.handleCheckBoxOnChange} />
                             <label className="form-check-label" htmlFor="exampleRadios1">Active mode</label>
@@ -115,7 +115,7 @@ class CreateWorkspaceForm extends React.Component {
                                 type="radio"
                                 name="exampleRadios"
                                 id="exampleRadios2"
-                                value="option2"
+                                value={_workspaceHelper.CHECKBOX_DISABLE_WORKSPACE_MODE}
                                 checked={this.state.selectedOption === _workspaceHelper.CHECKBOX_DISABLE_WORKSPACE_MODE}
                                 onChange={this.handleCheckBoxOnChange} />
                             <label className="form-check-label" htmlFor="exampleRadios2">Disables mode</label>
