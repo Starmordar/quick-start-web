@@ -14,6 +14,7 @@ const _serverHelper = {
     PATH_ALREADY_REGISTERED: "/",
     PATH_USER_REGISTRATION: "/registration",
     PATH_USER_SIGHIN: "/auth",
+    PATH_CREATE_WORKSPACE: "/createWorkspace",
 
     redirectToHomeIfUserAlreadyOnTheSystem(componentContext) {
         const helperContext = this;
@@ -70,6 +71,22 @@ const _serverHelper = {
         }).catch(function (error) {
             console.log(error);
         });
+    },
+
+    createNewWorkspace(componentContext, workspaseProps) {
+        const helperContext = this;
+
+        axios.post(helperContext.IP_ADRESS + helperContext.PATH_CREATE_WORKSPACE, {
+            name: workspaseProps.name,
+            categoy: workspaseProps.categoy,
+            isActive: workspaseProps.activeCheck
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 }
 
