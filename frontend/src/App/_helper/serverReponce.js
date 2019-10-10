@@ -76,11 +76,7 @@ const _serverHelper = {
     createNewWorkspace(componentContext, workspaseProps) {
         const helperContext = this;
 
-        axios.post(helperContext.IP_ADRESS + helperContext.PATH_CREATE_WORKSPACE, {
-            name: workspaseProps.name,
-            categoy: workspaseProps.categoy,
-            isActive: workspaseProps.activeCheck
-          })
+        axios.post(helperContext.IP_ADRESS + helperContext.PATH_CREATE_WORKSPACE, workspaseProps)
           .then(function (response) {
             console.log(response);
           })

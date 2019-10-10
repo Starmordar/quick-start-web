@@ -66,7 +66,7 @@ router.get(_helper.PATH_USER_SIGHIN, (req, res, next) => {
       if (err) return next(err);
 
       else if (user) {
-        
+
         bcrypt.compare(userData.password, user.password, function (err, result) {
           console.log(result);
           if (result === true) res.send(_helper.FIND_USER_SUCCESS)
@@ -80,5 +80,9 @@ router.get(_helper.PATH_USER_SIGHIN, (req, res, next) => {
       }
     })
 });
+
+router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
+  console.log(req.body)
+})
 
 module.exports = router;
