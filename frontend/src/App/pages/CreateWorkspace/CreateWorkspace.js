@@ -11,7 +11,8 @@ class CreateWorkspace extends React.Component {
         super(props)
 
         this.state = {
-            isVisibleWorkspaceForm: false
+            isVisibleWorkspaceForm: false,
+            animated: false
         }
         this.clickHandler = this.clickHandler.bind(this);
     }
@@ -20,11 +21,29 @@ class CreateWorkspace extends React.Component {
         this.setState({ isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm })
     }
 
+    childCallback = (dataFromChild) => {
+        if (dataFromChild === _workspaceHelper.USER_WANT_CLOSE_FORM) {
+            this.setState({
+                isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm
+            })
+
+            setTimeout(() => {
+                this.setState({
+                    animated: !this.state.animated
+                })
+            }, 500)
+        }
+    }
+
     render() {
         let darkOverplay = this.state.isVisibleWorkspaceForm
-            ? _workspaceHelper.VISIBLE_CLASSNAME
-            : _workspaceHelper.HIDDEN_CLASSNAME;
-        
+            ? _workspaceHelper.OVERPLAY_FADEIN_ANIMATION
+            : _workspaceHelper.OVERPLAY_FADEOUT_ANIMATION;
+
+        let darkOverplayZIndex = this.state.isVisibleWorkspaceForm
+            ? _workspaceHelper.Z_INDEX_IN
+            : _workspaceHelper.Z_INDEX_OUT;
+
         return (
             <div className="gradiend-overplay">
                 <TopNavbar />
@@ -49,10 +68,13 @@ class CreateWorkspace extends React.Component {
                     <WorkspaceCard />
                     <WorkspaceCard />
                 </div>
-                <div className={"dark-shadow-overplay " + darkOverplay}>
+                <div className={"dark-shadow-overplay " + darkOverplay + " " + darkOverplayZIndex}>
 
                 </div>
-                <CreateWorkspaceForm visible={this.state.isVisibleWorkspaceForm} />
+                <CreateWorkspaceForm
+                    visible={this.state.isVisibleWorkspaceForm}
+                    callback={this.childCallback}
+                />
             </div>
         )
     }

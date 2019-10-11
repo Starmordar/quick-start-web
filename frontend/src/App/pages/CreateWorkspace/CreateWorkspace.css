@@ -9,6 +9,7 @@ body {
     background-image: url("https://p4.wallpaperbetter.com/wallpaper/784/171/578/pattern-abstract-blue-green-wallpaper-bbb61cdd03b13fd975340bc90d1cecb0.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 .workset-filters {
@@ -47,16 +48,14 @@ body {
     left: 0;
     width: 100%;
     background: rgba(0, 0, 0, 0.8);
-    visibility: hidden;
-    transition: opacity .5s linear;
+    transition: all .5s linear;
+    z-index: 99;
 }
 
-.dark-shadow-overplay.hidden {
-    opacity: 0;
-    visibility: hidden;
+.dark-shadow-overplay.clickable {
+    z-index: 99;
 }
 
-.dark-shadow-overplay.visible {
-    opacity: 1;
-    visibility: visible;
+.dark-shadow-overplay.not-clickable {
+    z-index: -1;
 }

@@ -10,7 +10,15 @@ const _workspaceHelper = {
     HIDDEN_CLASSNAME: "hidden",
 
     FORM_ENTERING_ANIMATION: "animated bounceInUp",
-    FORM_OUT_ANIMATION: "",
+    FORM_OUT_ANIMATION: "animated bounceOutUp",
+
+    OVERPLAY_FADEIN_ANIMATION: "animated fadeIn",
+    OVERPLAY_FADEOUT_ANIMATION: "animated fadeOut",
+
+    Z_INDEX_IN: "clickable",
+    Z_INDEX_OUT: "not-clickable",
+
+    USER_WANT_CLOSE_FORM: "close form",
 
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,

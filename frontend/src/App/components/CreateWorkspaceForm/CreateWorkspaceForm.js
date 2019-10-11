@@ -18,12 +18,18 @@ class CreateWorkspaceForm extends React.Component {
                 name: { isWarn: false, warnDescription: "" },
                 category: { isWarn: false, warnDescription: "" },
             },
-            selectedOption: _workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE
+            selectedOption: _workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE,
+            showForm: ""
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleCloseForm = this.handleCloseForm.bind(this);
         this.handleCheckBoxOnChange = this.handleCheckBoxOnChange.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    }
+
+    handleCloseForm() {
+        this.props.callback(_workspaceHelper.USER_WANT_CLOSE_FORM);
     }
 
     handleChange(event) {
@@ -65,14 +71,13 @@ class CreateWorkspaceForm extends React.Component {
             ? _workspaceHelper.FORM_ENTERING_ANIMATION
             : _workspaceHelper.FORM_OUT_ANIMATION;
 
-        let visible = this.props.visible
-            ? _workspaceHelper.VISIBLE_CLASSNAME
-            : _workspaceHelper.HIDDEN_CLASSNAME;
         return (
-            <div className={"workspace-form-container " + showForm + " " + visible}>
-                
+            <div className={"workspace-form-container " + showForm}>
+
                 <div className="close-form">
-                    <i class="fa fa-window-close" aria-hidden="true"></i>
+                    <i class="fa fa-window-close"
+                        aria-hidden="true"
+                        onClick={this.handleCloseForm}></i>
                 </div>
 
                 <form onSubmit={this.onSubmitHandler}>
