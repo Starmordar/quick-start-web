@@ -101,6 +101,16 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
       res.send("OK")
     }
   })
+});
+
+router.get(_helper.PATH_LOAD_WORKSPACE, (req, res, next) => {
+  Workspace.find({ userID: req.session.userId }, function (error, workspaces) {
+    if (error) return next(error);
+
+    else {
+      res.send(workspaces)
+    }
+  })
 })
 
 module.exports = router;

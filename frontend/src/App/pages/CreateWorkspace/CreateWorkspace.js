@@ -4,7 +4,9 @@ import WorkspaceCard from '../../components/WorkspaceCard/WorkspaceCard';
 import TopNavbar from '../../components/TopNavbar/TopNavbar';
 import FilterArea from '../../components/FilterArea/FilterArea';
 import CreateWorkspaceForm from '../../components/CreateWorkspaceForm/CreateWorkspaceForm';
+
 import { _workspaceHelper } from '../../_helper/workspaceHelper';
+import { _serverHelper } from '../../_helper/serverReponce';
 
 class CreateWorkspace extends React.Component {
     constructor(props) {
@@ -12,7 +14,7 @@ class CreateWorkspace extends React.Component {
 
         this.state = {
             isVisibleWorkspaceForm: false,
-            animated: false
+            workspacesData: []
         }
         this.clickHandler = this.clickHandler.bind(this);
     }
@@ -26,13 +28,21 @@ class CreateWorkspace extends React.Component {
             this.setState({
                 isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm
             })
-
-            setTimeout(() => {
-                this.setState({
-                    animated: !this.state.animated
-                })
-            }, 500)
         }
+    }
+
+    componentDidMount() {
+        const _self = this;
+
+        _serverHelper.getWorkspaces()
+            .then(function (response) {
+                _self.setState({
+                    workspacesData: response
+                });
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
     }
 
     render() {
@@ -60,13 +70,11 @@ class CreateWorkspace extends React.Component {
                             onClick={this.clickHandler}
                         >Create workspace</a>
                     </div>
-                    <WorkspaceCard />
-                    <WorkspaceCard />
-                    <WorkspaceCard />
-                    <WorkspaceCard />
-                    <WorkspaceCard />
-                    <WorkspaceCard />
-                    <WorkspaceCard />
+                    {
+                        this.state.workspacesData.map((workspace, index) => {
+                            return <WorkspaceCard key={index} data={workspace} />
+                        })
+                    }
                 </div>
                 <div className={"dark-shadow-overplay " + darkOverplay + " " + darkOverplayZIndex}>
 

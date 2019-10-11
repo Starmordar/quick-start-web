@@ -7,17 +7,18 @@ class WorkspaceCard extends React.Component {
     }
 
     render() {
+        console.log(this.props.data);
         return (
             <div className="workspace-card">
                 <div className='card-property col-lg-2'>
                     <div className="checkbox"></div>
-                    <span className="checkbox-label">Name</span>
+                    <span className="checkbox-label">{this.props.data.name}</span>
                 </div>
                 <div className='card-property col-lg-2'>
-                    <span>Category</span>
+                    <span>{this.props.data.category}</span>
                 </div>
                 <div className='card-property col-lg-1'>
-                    <span>isActive</span>
+                    <span>{this.props.data.isActive}</span>
                 </div>
                 <div className='card-property col-lg-3 text-truncate'>
                     <span>Technologies</span>

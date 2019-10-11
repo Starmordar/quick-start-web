@@ -14,6 +14,7 @@ const _helper = {
     PATH_USER_REGISTRATION: "/registration",
     PATH_USER_SIGHIN: "/auth",
     PATH_CREATE_WORKSPACE: "/createWorkspace",
+    PATH_LOAD_WORKSPACE: "/getWorkspaces",
 
     COOKIES_PROP: "connect.sid",
 
