@@ -6,6 +6,12 @@ const _workspaceHelper = {
     CHECKBOX_ACTIVE_WORKSPACE_MODE: "active_mode",
     CHECKBOX_DISABLE_WORKSPACE_MODE: "disable_mode",
 
+    VISIBLE_CLASSNAME: "visible",
+    HIDDEN_CLASSNAME: "hidden",
+
+    FORM_ENTERING_ANIMATION: "animated bounceInUp",
+    FORM_OUT_ANIMATION: "",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value

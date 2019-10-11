@@ -56,13 +56,25 @@ class CreateWorkspaceForm extends React.Component {
         if (_workspaceHelper.isValidWorkspaceProps(componentContext)) {
 
             _serverHelper.createNewWorkspace(componentContext, workspaceSettings)
-            
+
         }
     }
 
     render() {
+        let showForm = this.props.visible
+            ? _workspaceHelper.FORM_ENTERING_ANIMATION
+            : _workspaceHelper.FORM_OUT_ANIMATION;
+
+        let visible = this.props.visible
+            ? _workspaceHelper.VISIBLE_CLASSNAME
+            : _workspaceHelper.HIDDEN_CLASSNAME;
         return (
-            <div className="workspace-form-container">
+            <div className={"workspace-form-container " + showForm + " " + visible}>
+                
+                <div className="close-form">
+                    <i class="fa fa-window-close" aria-hidden="true"></i>
+                </div>
+
                 <form onSubmit={this.onSubmitHandler}>
 
                     <div className="form-group">

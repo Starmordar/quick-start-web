@@ -3,6 +3,7 @@ body {
 }
 
 .gradiend-overplay {
+    position: relative;
     min-height: 100vh !important;
     height: 100%;
     background-image: url("https://p4.wallpaperbetter.com/wallpaper/784/171/578/pattern-abstract-blue-green-wallpaper-bbb61cdd03b13fd975340bc90d1cecb0.jpg");
@@ -35,7 +36,27 @@ body {
     justify-content: space-between !important;
 }
 
-
 .worksets-total-info .workset-count {
     font-size: 20px;
+}
+
+.dark-shadow-overplay {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    visibility: hidden;
+    transition: opacity .5s linear;
+}
+
+.dark-shadow-overplay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.dark-shadow-overplay.visible {
+    opacity: 1;
+    visibility: visible;
 }
