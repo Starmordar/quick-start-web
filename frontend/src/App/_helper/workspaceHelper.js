@@ -18,6 +18,9 @@ const _workspaceHelper = {
     Z_INDEX_IN: "clickable",
     Z_INDEX_OUT: "not-clickable",
 
+    DISPLAY_BLOCK: "display-block",
+    DISPLAY_NONE: "display-none",
+
     USER_WANT_CLOSE_FORM: "close form",
 
     updateValueInFormInput(componentContext, event) {

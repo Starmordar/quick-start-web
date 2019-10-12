@@ -11,3 +11,11 @@
     border-radius: 8px;
     z-index: 100;
 }
+
+.workspace-form-container.display-block {
+    z-index: 999
+}
+
+.workspace-form-container.display-none {
+   z-index: -1;
+}

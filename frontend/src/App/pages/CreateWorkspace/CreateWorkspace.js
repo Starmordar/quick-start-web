@@ -14,7 +14,8 @@ class CreateWorkspace extends React.Component {
 
         this.state = {
             isVisibleWorkspaceForm: false,
-            workspacesData: []
+            workspacesData: [],
+            invisible: "display-none"
         }
         this.clickHandler = this.clickHandler.bind(this);
     }

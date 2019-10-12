@@ -19,7 +19,8 @@ class CreateWorkspaceForm extends React.Component {
                 category: { isWarn: false, warnDescription: "" },
             },
             selectedOption: _workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE,
-            showForm: ""
+            showForm: "",
+            invisible: true
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -66,13 +67,26 @@ class CreateWorkspaceForm extends React.Component {
         }
     }
 
+    componentDidMount() {
+
+        setTimeout(() => {
+            this.setState({
+                invisible: false
+            })
+        }, 700)
+    }
+
     render() {
         let showForm = this.props.visible
             ? _workspaceHelper.FORM_ENTERING_ANIMATION
             : _workspaceHelper.FORM_OUT_ANIMATION;
 
+        let displayFrom = this.state.invisible
+            ? _workspaceHelper.DISPLAY_NONE
+            : _workspaceHelper.DISPLAY_BLOCK;
+
         return (
-            <div className={"workspace-form-container " + showForm}>
+            <div className={"workspace-form-container " + showForm + " " + displayFrom}>
 
                 <div className="close-form">
                     <i class="fa fa-window-close"
