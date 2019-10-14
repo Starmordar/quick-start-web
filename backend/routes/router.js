@@ -1,8 +1,8 @@
-var express = require('express');
-var bcrypt = require('bcryptjs');
-var router = express.Router();
-var User = require('../models/user.shema');
-var Workspace = require('../models/workspace.shema');
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const router = express.Router();
+const User = require('../models/user.shema');
+const Workspace = require('../models/workspace.shema');
 
 const { _helper } = require('../_helper/helper');
 const { _registration } = require('../_helper/registration')
