@@ -39,6 +39,9 @@ const _workspaceHelper = {
     DISABLED_WORKSPACE: "Disable",
     ACTIVE_WORKSPACE: "Active",
 
+    NAME_FIELD: "name",
+    DEFAULT_OPTION: "School",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value
@@ -77,9 +80,23 @@ const _workspaceHelper = {
         })
     },
 
-    isValidWorkspaceProps(componentContext) {
+    isValidWorkspaceProps(componentContext, validType) {
         this.resetErrorMessages(componentContext);
 
+        if (validType === this.CATEGORY_OPTION) {
+            if (componentContext.state.workspaceProps.name === this.BLANK_INPUT_FIELD) {
+                const errorFieldName = this.NAME_FIELD,
+                    warnDescription = this.NAME_FIELD + _helper.ERROR_BLANK_DESCRIPTION
+
+                this.setErrorMessageOnInputField(
+                    componentContext,
+                    errorFieldName,
+                    warnDescription
+                )
+                return false;
+            }
+            return true;
+        }
         if (this.isExistsBlankInputFields(componentContext)) return false;
 
         return true

@@ -23,7 +23,8 @@ class CreateWorkspaceForm extends React.Component {
             showForm: "",
             invisible: true,
 
-            currentCategoryInput: _workspaceHelper.CATEGORY_INPUT
+            currentCategoryInput: _workspaceHelper.CATEGORY_INPUT,
+            optionState: _workspaceHelper.DEFAULT_OPTION
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -31,6 +32,13 @@ class CreateWorkspaceForm extends React.Component {
         this.replaceInputsHandler = this.replaceInputsHandler.bind(this);
         this.handleCheckBoxOnChange = this.handleCheckBoxOnChange.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.onChangeOptionHandler = this.onChangeOptionHandler.bind(this);
+    }
+
+    onChangeOptionHandler(event) {
+        const targetValue = event.target.value;
+
+        this.setState({ optionState: targetValue })
     }
 
     handleCloseForm() {
@@ -64,8 +72,15 @@ class CreateWorkspaceForm extends React.Component {
             date: date
         }
 
+        if (this.state.currentCategoryInput === _workspaceHelper.CATEGORY_OPTION) {
+            workspaceSettings.category = this.state.optionState
+        }
+
         const componentContext = this;
-        if (_workspaceHelper.isValidWorkspaceProps(componentContext)) {
+        if (_workspaceHelper.isValidWorkspaceProps(
+            componentContext,
+            this.state.currentCategoryInput)
+        ) {
 
             _serverHelper.createNewWorkspace(componentContext, workspaceSettings)
                 .then((responce) => {
@@ -124,11 +139,11 @@ class CreateWorkspaceForm extends React.Component {
                         onChange={this.handleChange} />
                 </div>
                 {
-                        this.state.workspacePropsWarnings.category.isWarn ?
-                            <ErrorLabel
-                                text={this.state.workspacePropsWarnings.category.warnDescription} />
-                            : null
-                    }
+                    this.state.workspacePropsWarnings.category.isWarn ?
+                        <ErrorLabel
+                            text={this.state.workspacePropsWarnings.category.warnDescription} />
+                        : null
+                }
             </div>
         } else {
             inputContent = <div className="form-group col-12">
@@ -140,8 +155,11 @@ class CreateWorkspaceForm extends React.Component {
                         <div className="input-group-text">+</div>
                     </div>
 
-                    <select id="inputState" className="form-control">
-                        <option selected>Choose...</option>
+                    <select id="inputState"
+                        className="form-control"
+                        value={this.optionsState}
+                        onChange={this.onChangeOptionHandler}>
+                        <option>School</option>
                         <option>University</option>
                         <option>Work</option>
                         <option>CustomWorkspaces</option>
