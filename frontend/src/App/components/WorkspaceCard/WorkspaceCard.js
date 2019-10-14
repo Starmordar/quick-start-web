@@ -7,7 +7,7 @@ class WorkspaceCard extends React.Component {
     }
 
     render() {
-        console.log(this.props.data);
+        
         return (
             <div className="workspace-card">
                 <div className='card-property col-lg-2'>

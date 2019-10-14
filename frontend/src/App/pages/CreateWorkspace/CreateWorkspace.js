@@ -15,9 +15,14 @@ class CreateWorkspace extends React.Component {
         this.state = {
             isVisibleWorkspaceForm: false,
             workspacesData: [],
-            invisible: "display-none"
+            invisible: "display-none",
+            totalWorkspaces: 0
         }
         this.clickHandler = this.clickHandler.bind(this);
+
+        this.briefInfoWorkspaceCard = {
+
+        }
     }
 
     clickHandler() {
@@ -26,7 +31,7 @@ class CreateWorkspace extends React.Component {
 
     childCallback = (dataFromChild) => {
         const _self = this;
-        
+
         if (dataFromChild === _workspaceHelper.USER_WANT_CLOSE_FORM) {
             this.setState({
                 isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm
@@ -36,7 +41,8 @@ class CreateWorkspace extends React.Component {
             _serverHelper.getWorkspaces()
                 .then(function (response) {
                     _self.setState({
-                        workspacesData: response
+                        workspacesData: response,
+                        totalWorkspaces: response.length
                     });
                 })
                 .catch(function (err) {
@@ -51,7 +57,8 @@ class CreateWorkspace extends React.Component {
         _serverHelper.getWorkspaces()
             .then(function (response) {
                 _self.setState({
-                    workspacesData: response
+                    workspacesData: response,
+                    totalWorkspaces: response.length
                 });
             })
             .catch(function (err) {
@@ -79,7 +86,7 @@ class CreateWorkspace extends React.Component {
                 </div>
                 <div className="workset-container">
                     <div className="workspace-card worksets-total-info">
-                        <h3 className="workset-count">Total (12)</h3>
+                        <h3 className="workset-count">Total {this.state.totalWorkspaces}</h3>
                         <a className="btn btn-outline-light"
                             onClick={this.clickHandler}
                         >Create workspace</a>
