@@ -17,6 +17,7 @@ const _serverHelper = {
     PATH_USER_SIGHIN: "/auth",
     PATH_CREATE_WORKSPACE: "/createWorkspace",
     PATH_LOAD_WORKSPACE: "/getWorkspaces",
+    PATH_SIGNOUT: "/signout",
 
     redirectToHomeIfUserAlreadyOnTheSystem(componentContext) {
         const helperContext = this;
@@ -70,6 +71,17 @@ const _serverHelper = {
             if (response.data === _serverHelper.SERVER_FIND_USER_SUCCESS) {
                 componentContext.setState({ redirect: true })
             }
+        }).catch(function (error) {
+            console.log(error);
+        });
+    },
+
+    signOut() {
+       
+        const helperContext = this;
+        axios.get(helperContext.IP_ADRESS + helperContext.PATH_SIGNOUT
+        ).then(function (response) {
+            console.log(response)
         }).catch(function (error) {
             console.log(error);
         });

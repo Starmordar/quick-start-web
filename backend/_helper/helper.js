@@ -15,7 +15,8 @@ const _helper = {
     PATH_USER_SIGHIN: "/auth",
     PATH_CREATE_WORKSPACE: "/createWorkspace",
     PATH_LOAD_WORKSPACE: "/getWorkspaces",
-
+    PATH_SIGNOUT: "/signout",
+    
     COOKIES_PROP: "connect.sid",
 
     FIND_USER_SUCCESS: "User with this username exists",

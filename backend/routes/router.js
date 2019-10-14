@@ -71,9 +71,12 @@ router.get(_helper.PATH_USER_SIGHIN, (req, res, next) => {
 
         bcrypt.compare(userData.password, user.password, function (err, result) {
           console.log(result);
-          if (result === true) res.send(_helper.FIND_USER_SUCCESS)
-          else res.send(_helper.FIND_PASSWORD_ERROR)
+          if (result === true) {
+            req.session.userId = user._id;
+            res.send(_helper.FIND_USER_SUCCESS)
+          }
 
+          else res.send(_helper.FIND_PASSWORD_ERROR)
         })
       }
 
@@ -92,7 +95,7 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
     dateString: "Added " + req.body.date,
     count: 0
   }
-  
+
   Workspace.create(workspaceSettings, function (error, user) {
     console.log(error);
     if (error) return next(error);
@@ -102,6 +105,21 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
     }
   })
 });
+
+router.get(_helper.PATH_SIGNOUT, (req, res, next) => {
+  if (req.session.userId && req.cookies[_helper.COOKIES_PROP]) {
+
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        console.log(12);
+        // return res.send("OK");
+      }
+    });
+
+  }
+})
 
 router.get(_helper.PATH_LOAD_WORKSPACE, (req, res, next) => {
   Workspace.find({ userID: req.session.userId }, function (error, workspaces) {
