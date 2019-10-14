@@ -63,6 +63,15 @@ class CreateWorkspaceForm extends React.Component {
         if (_workspaceHelper.isValidWorkspaceProps(componentContext)) {
 
             _serverHelper.createNewWorkspace(componentContext, workspaceSettings)
+                .then((responce) => {
+                    if (responce === _serverHelper.SERVER_WORKSPACE_CREATED_SECCESSFUL) {
+                        this.props.callback(_workspaceHelper.USER_ADDED_NEW_WORKSPACE);
+                        this.props.callback(_workspaceHelper.USER_WANT_CLOSE_FORM);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
 
         }
     }

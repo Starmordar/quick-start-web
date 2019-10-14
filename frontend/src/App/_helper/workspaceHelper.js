@@ -22,6 +22,7 @@ const _workspaceHelper = {
     DISPLAY_NONE: "display-none",
 
     USER_WANT_CLOSE_FORM: "close form",
+    USER_ADDED_NEW_WORKSPACE: "added workspace",
 
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,

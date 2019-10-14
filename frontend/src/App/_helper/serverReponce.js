@@ -8,6 +8,7 @@ const _serverHelper = {
     SERVER_USER_ALREADY_IN_SYSTEM: "Already-registered",
     SERVER_USER_EXISTS: "Successesfull signin",
     SERVER_FIND_USER_SUCCESS: "User with this username exists",
+    SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
 
     IP_ADRESS: "http://localhost:4000",
 
@@ -77,13 +78,15 @@ const _serverHelper = {
     createNewWorkspace(componentContext, workspaseProps) {
         const helperContext = this;
 
-        axios.post(helperContext.IP_ADRESS + helperContext.PATH_CREATE_WORKSPACE, workspaseProps)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        return new Promise(function (resolve, reject) {
+            axios.post(helperContext.IP_ADRESS + helperContext.PATH_CREATE_WORKSPACE, workspaseProps)
+                .then(function (response) {
+                    resolve(response.data);
+                })
+                .catch(function (error) {
+                    reject(error);
+                });
+        })
     },
 
     getWorkspaces() {

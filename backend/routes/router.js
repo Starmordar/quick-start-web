@@ -92,13 +92,13 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
     dateString: "Added " + req.body.date,
     count: 0
   }
-  console.log(workspaceSettings);
+  
   Workspace.create(workspaceSettings, function (error, user) {
     console.log(error);
     if (error) return next(error);
 
     else {
-      res.send("OK")
+      res.send(_helper.SERVER_WORKSPACE_CREATED_SECCESSFUL)
     }
   })
 });

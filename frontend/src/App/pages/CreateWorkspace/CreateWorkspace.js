@@ -25,10 +25,23 @@ class CreateWorkspace extends React.Component {
     }
 
     childCallback = (dataFromChild) => {
+        const _self = this;
+        
         if (dataFromChild === _workspaceHelper.USER_WANT_CLOSE_FORM) {
             this.setState({
                 isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm
             })
+        }
+        if (dataFromChild === _workspaceHelper.USER_ADDED_NEW_WORKSPACE) {
+            _serverHelper.getWorkspaces()
+                .then(function (response) {
+                    _self.setState({
+                        workspacesData: response
+                    });
+                })
+                .catch(function (err) {
+                    console.log(err)
+                })
         }
     }
 

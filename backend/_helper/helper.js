@@ -20,7 +20,9 @@ const _helper = {
 
     FIND_USER_SUCCESS: "User with this username exists",
     FIND_USER_WRONG_USERNAME: "User with this username doesn't exists",
-    FIND_PASSWORD_ERROR: "Error password"
+    FIND_PASSWORD_ERROR: "Error password",
+
+    SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
 }
 
 module.exports = {
