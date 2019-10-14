@@ -98,7 +98,7 @@ class CreateWorkspaceForm extends React.Component {
             <div className={"workspace-form-container " + showForm + " " + displayFrom}>
 
                 <div className="close-form">
-                    <i class="fa fa-window-close"
+                    <i className="fa fa-window-close"
                         aria-hidden="true"
                         onClick={this.handleCloseForm}></i>
                 </div>

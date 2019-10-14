@@ -8,9 +8,9 @@ class TopNavbar extends React.Component {
 
     render() {
         return (
-            <nav class="navbar">
-                <a class="navbar-brand">Starmordar</a>
-                <button class="btn btn-outline-light my-2 my-sm-0" type="button">Sign out</button>
+            <nav className="navbar">
+                <a className="navbar-brand">Starmordar</a>
+                <button className="btn btn-outline-light my-2 my-sm-0" type="button">Sign out</button>
             </nav>
         )
     }

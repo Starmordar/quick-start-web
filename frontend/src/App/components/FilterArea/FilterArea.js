@@ -16,7 +16,7 @@ class FilterArea extends React.Component {
                         <span>All</span>
                     </div>
                     <div className="filter-action__arrow">
-                        <i class="fas fa-sort-down"></i>
+                        <i className="fas fa-sort-down"></i>
                     </div>
                 </div>
 
