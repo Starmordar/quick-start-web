@@ -29,6 +29,16 @@ const _workspaceHelper = {
     CATEGORY_OPTION: "option",
     CATEGORY_INPUT: "input",
 
+    WORKSPACE_PROP_NAME: "Name",
+    WORKSPACE_PROP_CATEGORY: "Category",
+    WORKSPACE_PROP_STATUS: "Status",
+    WORKSPACE_PROP_DATE: "Added",
+    WORKSPACE_PROP_TECHNOLOGIES: "Technologies",
+    WORKSPACE_PROP_COUNT: "Total usage",
+
+    DISABLED_WORKSPACE: "Disable",
+    ACTIVE_WORKSPACE: "Active",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value

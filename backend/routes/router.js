@@ -17,6 +17,7 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
     userID: req.session.userId,
     name: req.body.name,
     category: req.body.category,
+    technologies: req.body.technologies,
     isActive: req.body.isActive,
     dateString: "Added " + req.body.date,
     count: 0

@@ -59,6 +59,7 @@ class CreateWorkspaceForm extends React.Component {
         let workspaceSettings = {
             name: this.state.workspaceProps.name,
             category: this.state.workspaceProps.category,
+            technologies: [],
             isActive: isActive,
             date: date
         }
@@ -108,11 +109,11 @@ class CreateWorkspaceForm extends React.Component {
         if (this.state.currentCategoryInput === _workspaceHelper.CATEGORY_INPUT) {
             inputContent = <div className="form-group col-md-12" >
                 <label htmlFor="categoryInput">Input Categoty</label>
-                <div class="input-group mb-2">
+                <div className="input-group mb-2">
 
-                    <div class="input-group-prepend"
+                    <div className="input-group-prepend"
                         onClick={this.replaceInputsHandler}>
-                        <div class="input-group-text">+</div>
+                        <div className="input-group-text">+</div>
                     </div>
                     <input name="category"
                         type="text"
@@ -178,7 +179,7 @@ class CreateWorkspaceForm extends React.Component {
                         }
                     </div>
 
-                    <div class="form-row">
+                    <div className="form-row">
                         {inputContent}
                     </div>
 

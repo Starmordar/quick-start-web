@@ -18,6 +18,7 @@ const WorkspaceSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    technologies: [],
     dateString: {
         type: String,
         required: true,

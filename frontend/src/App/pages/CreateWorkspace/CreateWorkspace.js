@@ -15,13 +15,17 @@ class CreateWorkspace extends React.Component {
         this.state = {
             isVisibleWorkspaceForm: false,
             workspacesData: [],
-            invisible: "display-none",
             totalWorkspaces: 0
         }
         this.clickHandler = this.clickHandler.bind(this);
 
         this.briefInfoWorkspaceCard = {
-
+            name: _workspaceHelper.WORKSPACE_PROP_NAME,
+            category: _workspaceHelper.WORKSPACE_PROP_CATEGORY,
+            isActive: _workspaceHelper.WORKSPACE_PROP_STATUS,
+            technologies: _workspaceHelper.WORKSPACE_PROP_TECHNOLOGIES,
+            dateString: _workspaceHelper.WORKSPACE_PROP_DATE,
+            count: _workspaceHelper.WORKSPACE_PROP_COUNT
         }
     }
 
@@ -91,6 +95,7 @@ class CreateWorkspace extends React.Component {
                             onClick={this.clickHandler}
                         >Create workspace</a>
                     </div>
+                    <WorkspaceCard data={this.briefInfoWorkspaceCard} />
                     {
                         this.state.workspacesData.map((workspace, index) => {
                             return <WorkspaceCard key={index} data={workspace} />
