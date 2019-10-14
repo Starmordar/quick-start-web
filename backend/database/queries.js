@@ -2,7 +2,7 @@ const User = require('../models/user.shema');
 
 const { _helper } = require("../_helper/helper");
 
-function findUserByParams(params, errorMessage, successMessage) {
+function findUserByParamsAndResolveStatusMsg(params, errorMessage, successMessage) {
 
   return new Promise(function (resolve, reject) {
     User.findOne(params)
@@ -30,6 +30,6 @@ function createNewUserAndSetCurrentSession(res, req, next, userData) {
 }
 
 module.exports = {
-  findUserByParams: findUserByParams,
+  findUserByParamsAndResolveStatusMsg: findUserByParamsAndResolveStatusMsg,
   createNewUserAndSetCurrentSession: createNewUserAndSetCurrentSession
 }

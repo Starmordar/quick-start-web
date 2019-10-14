@@ -9,6 +9,7 @@ const _serverHelper = {
     SERVER_USER_EXISTS: "Successesfull signin",
     SERVER_FIND_USER_SUCCESS: "User with this username exists",
     SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
+    SERVER_USER_SUCCESSFUL_SIGNED_OUT: "User successful signed out",
 
     IP_ADRESS: "http://localhost:4000",
 
@@ -76,12 +77,15 @@ const _serverHelper = {
         });
     },
 
-    signOut() {
-       
+    signOut(componentContext) {
         const helperContext = this;
         axios.get(helperContext.IP_ADRESS + helperContext.PATH_SIGNOUT
         ).then(function (response) {
-            console.log(response)
+            if (response.data === helperContext.SERVER_USER_SUCCESSFUL_SIGNED_OUT) {
+                componentContext.setState({
+                    redirect: true
+                })
+            }
         }).catch(function (error) {
             console.log(error);
         });

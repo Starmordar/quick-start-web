@@ -7,7 +7,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
 
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+const { _helper } = require('./_helper/helper');
+
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-3', {
   useCreateIndex: true,
@@ -19,6 +21,11 @@ const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () { });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(cookieParser());
 
 const sessionOptions = {
   secret: "secret",
@@ -32,10 +39,12 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(cookieParser());
+app.use((req, res, next) => {
+  if (req.cookies[_helper.COOKIES_PROP] && !req.session.userId) {
+    res.clearCookie(_helper.COOKIES_PROP);
+  }
+  next();
+});
 
 const routes = require('./routes/router');
 app.use('/', routes);
@@ -48,6 +57,7 @@ app.use(function (req, res, next) {
 
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
+  console.log(err.message);
   res.send(err.message);
 });
 

@@ -24,6 +24,7 @@ const _helper = {
     FIND_PASSWORD_ERROR: "Error password",
 
     SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
+    SERVER_USER_SUCCESSFUL_SIGNED_OUT: "User successful signed out"
 }
 
 module.exports = {
