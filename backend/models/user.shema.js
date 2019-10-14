@@ -20,9 +20,11 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
+const HASH_SALT_LENGTH = 10;
+
 UserSchema.pre('save', function (next) {
     const user = this;
-    bcrypt.hash(user.password, 10, function (err, hash) {
+    bcrypt.hash(user.password, HASH_SALT_LENGTH, function (err, hash) {
         if (err) {
             return next(err);
         }

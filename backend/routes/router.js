@@ -9,7 +9,7 @@ const { _registration } = require('../_helper/registration')
 
 router.get(_helper.PATH_IS_USER_ALREADY_IN_SYSTEM, _registration.isUserLoggedIn);
 router.get(_helper.PATH_SIGNOUT, _registration.userSignOut);
-router.get(_helper.PATH_USER_SIGHIN, _registration.userLogIn);
+router.get(_helper.PATH_USER_SIGHIN, _registration.userLogIn.bind(this));
 router.get(_helper.PATH_USER_REGISTRATION, _registration.userSignIn)
 
 router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {

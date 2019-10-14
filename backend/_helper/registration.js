@@ -2,9 +2,6 @@ const { _helper } = require("./helper")
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.shema');
 
-const { findUserByParamsAndResolveStatusMsg,
-    createNewUserAndSetCurrentSession } = require('../database/queries');
-
 const _registration = {
 
     isUserLoggedIn: (req, res, next) => {
@@ -56,20 +53,35 @@ const _registration = {
             })
     },
 
-    userSignIn: (req, res, next) => {
+    userSignIn: function (req, res, next) {
+
+        function findUserAndResolveStatusMsg(params, errorMessage, successMessage) {
+
+            return new Promise(function (resolve, reject) {
+                User.findOne(params)
+                    .exec((err, user) => {
+                        if (err) reject(err);
+
+                        else if (user) resolve(errorMessage);
+
+                        else resolve(successMessage)
+                    })
+            })
+        }
+
         const userData = {
             username: req.query.username,
             email: req.query.email,
             password: req.query.password
         }
-
+        
         Promise.all([
-            findUserByParamsAndResolveStatusMsg(
+           findUserAndResolveStatusMsg(
                 { email: userData.email },
                 _helper.WARNING_EMAIL_ALREADY_TAKEN,
                 _helper.UNIQUE_VALUE
             ),
-            findUserByParamsAndResolveStatusMsg(
+            findUserAndResolveStatusMsg(
                 { username: userData.username },
                 _helper.WARNING_USER_WITH_PARTICULAR_USERNAME_EXISTS,
                 _helper.UNIQUE_VALUE
@@ -88,8 +100,18 @@ const _registration = {
             });
 
             if (lastErrorMessage.length !== 0) res.send(lastErrorMessage);
-            else createNewUserAndSetCurrentSession(res, req, next, userData);
 
+            else {
+                User.create(userData, function (error, user) {
+                    if (error) return next(error);
+
+                    else {
+                        req.session.userId = user._id;
+
+                        res.send(_helper.USER_CREATED_SUCCESSFUL)
+                    }
+                })
+            }
         }).catch(function (err) {
             console.error(err.message)
         })
