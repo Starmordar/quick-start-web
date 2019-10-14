@@ -1,3 +1,5 @@
+const { _helper } = require('./authValidation');
+
 const _workspaceHelper = {
 
     BLANK_INPUT_FIELD: "",
@@ -23,6 +25,9 @@ const _workspaceHelper = {
 
     USER_WANT_CLOSE_FORM: "close form",
     USER_ADDED_NEW_WORKSPACE: "added workspace",
+
+    CATEGORY_OPTION: "option",
+    CATEGORY_INPUT: "input",
 
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
@@ -77,7 +82,7 @@ const _workspaceHelper = {
 
             if (inputField === this.BLANK_INPUT_FIELD) {
                 const errorFieldName = fieldName,
-                    warnDescription = fieldName + this.ERROR_BLANK_DESCRIPTION
+                    warnDescription = fieldName + _helper.ERROR_BLANK_DESCRIPTION
 
                 this.setErrorMessageOnInputField(
                     componentContext,
@@ -90,6 +95,34 @@ const _workspaceHelper = {
         }
 
         return false
+    },
+
+    resetInputFields(componentContext) {
+        componentContext.setState(prevState => {
+            let newState = Object.assign({}, prevState);
+
+            for (const key in newState.workspaceProps) {
+                newState.workspaceProps[key] = this.BLANK_INPUT_FIELD
+            }
+        });
+
+        componentContext.setState({
+            selectedOption: _workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE
+        })
+    },
+
+    replaceInputs(componentContext) {
+        if (componentContext.state.currentCategoryInput === this.CATEGORY_OPTION) {
+            componentContext.setState({
+                currentCategoryInput: this.CATEGORY_INPUT
+            })
+        } else {
+            componentContext.setState({
+                currentCategoryInput: this.CATEGORY_OPTION
+            })
+        }
+
+
     }
 }
 

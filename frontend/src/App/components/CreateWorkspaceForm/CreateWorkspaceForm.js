@@ -18,13 +18,17 @@ class CreateWorkspaceForm extends React.Component {
                 name: { isWarn: false, warnDescription: "" },
                 category: { isWarn: false, warnDescription: "" },
             },
+
             selectedOption: _workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE,
             showForm: "",
-            invisible: true
+            invisible: true,
+
+            currentCategoryInput: _workspaceHelper.CATEGORY_INPUT
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleCloseForm = this.handleCloseForm.bind(this);
+        this.replaceInputsHandler = this.replaceInputsHandler.bind(this);
         this.handleCheckBoxOnChange = this.handleCheckBoxOnChange.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
     }
@@ -67,6 +71,8 @@ class CreateWorkspaceForm extends React.Component {
                     if (responce === _serverHelper.SERVER_WORKSPACE_CREATED_SECCESSFUL) {
                         this.props.callback(_workspaceHelper.USER_ADDED_NEW_WORKSPACE);
                         this.props.callback(_workspaceHelper.USER_WANT_CLOSE_FORM);
+
+                        _workspaceHelper.resetInputFields(componentContext)
                     }
                 })
                 .catch((err) => {
@@ -85,6 +91,10 @@ class CreateWorkspaceForm extends React.Component {
         }, 700)
     }
 
+    replaceInputsHandler() {
+        _workspaceHelper.replaceInputs(this)
+    }
+
     render() {
         let showForm = this.props.visible
             ? _workspaceHelper.FORM_ENTERING_ANIMATION
@@ -93,6 +103,52 @@ class CreateWorkspaceForm extends React.Component {
         let displayFrom = this.state.invisible
             ? _workspaceHelper.DISPLAY_NONE
             : _workspaceHelper.DISPLAY_BLOCK;
+
+        let inputContent;
+        if (this.state.currentCategoryInput === _workspaceHelper.CATEGORY_INPUT) {
+            inputContent = <div className="form-group col-md-12" >
+                <label htmlFor="categoryInput">Input Categoty</label>
+                <div class="input-group mb-2">
+
+                    <div class="input-group-prepend"
+                        onClick={this.replaceInputsHandler}>
+                        <div class="input-group-text">+</div>
+                    </div>
+                    <input name="category"
+                        type="text"
+                        className="form-control"
+                        value={this.state.workspaceProps.category}
+                        id="categoryInput"
+                        placeholder="category"
+                        onChange={this.handleChange} />
+                </div>
+                {
+                        this.state.workspacePropsWarnings.category.isWarn ?
+                            <ErrorLabel
+                                text={this.state.workspacePropsWarnings.category.warnDescription} />
+                            : null
+                    }
+            </div>
+        } else {
+            inputContent = <div className="form-group col-12">
+                <label htmlFor="inputState">choose exists</label>
+                <div className="input-group mb-2">
+
+                    <div className="input-group-prepend"
+                        onClick={this.replaceInputsHandler}>
+                        <div className="input-group-text">+</div>
+                    </div>
+
+                    <select id="inputState" className="form-control">
+                        <option selected>Choose...</option>
+                        <option>University</option>
+                        <option>Work</option>
+                        <option>CustomWorkspaces</option>
+                    </select>
+
+                </div>
+            </div>
+        }
 
         return (
             <div className={"workspace-form-container " + showForm + " " + displayFrom}>
@@ -122,21 +178,8 @@ class CreateWorkspaceForm extends React.Component {
                         }
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="categoryInput">Input Categoty</label>
-                        <input name="category"
-                            type="text"
-                            className="form-control"
-                            value={this.state.workspaceProps.category}
-                            id="categoryInput"
-                            placeholder="category"
-                            onChange={this.handleChange} />
-                        {
-                            this.state.workspacePropsWarnings.category.isWarn ?
-                                <ErrorLabel
-                                    text={this.state.workspacePropsWarnings.category.warnDescription} />
-                                : null
-                        }
+                    <div class="form-row">
+                        {inputContent}
                     </div>
 
                     <div className="row justify-content-center">
