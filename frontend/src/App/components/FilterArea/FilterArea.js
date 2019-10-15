@@ -10,9 +10,22 @@ class FilterArea extends React.Component {
         this.state = {
             isVisibleMenu: false,
             arrowDown: true,
+            sortRules: "All"
         }
 
-        this.dropDownHandler = this.dropDownHandler.bind(this)
+        this.dropDownHandler = this.dropDownHandler.bind(this);
+        this.menuStateHandler = this.menuStateHandler.bind(this)
+    }
+
+    menuStateHandler(event) {
+        const targetTagName = event.target.tagName
+        let choosenText = "";
+
+        if (targetTagName === "A") choosenText = event.target.textContent
+        else if (targetTagName === "LI") choosenText = event.target.firstChild.textContent
+        else return;
+
+        this.setState({ sortRules: choosenText })
     }
 
     dropDownHandler(event) {
@@ -37,14 +50,15 @@ class FilterArea extends React.Component {
 
                 <div className="filter-action" onClick={this.dropDownHandler}>
                     <div className="filter-action__filter-name">
-                        <span>All</span>
+                        <span>{this.state.sortRules}</span>
                     </div>
                     <div className={"filter-action__arrow " + arrowState}>
                         <i className="fas fa-chevron-down"></i>
                     </div>
                 </div>
 
-                <ul class={"filter-menu " + menuState}>
+                <ul class={"filter-menu " + menuState} onClick={this.menuStateHandler}>
+                    <li><a href="#">All</a></li>
                     <li><a href="#">HTML</a></li>
                     <li><a href="#">CSS</a></li>
                     <li><a href="#">JavaScript</a></li>
