@@ -53,6 +53,8 @@ const _workspaceHelper = {
     STATUS_FILTER_OPTION_1: "Active",
     STATUS_FILTER_OPTION_2: "Disable",
 
+    CATEGORY_FILTER_NAME: "Category",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value

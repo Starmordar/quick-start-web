@@ -51,7 +51,7 @@ class FilterArea extends React.Component {
         let menuState = this.state.isVisibleMenu
             ? _workspaceHelper.VISIBLE_CLASSNAME
             : _workspaceHelper.HIDDEN_CLASSNAME
-
+        
         return (
             <div className="filter">
                 <h4 className="filter__filter-name">{this.props.filterName}</h4>

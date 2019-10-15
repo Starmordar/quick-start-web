@@ -16,8 +16,13 @@ class CreateWorkspace extends React.Component {
             isVisibleWorkspaceForm: false,
             workspacesData: [],
             totalWorkspaces: 0,
-            filterWorkspaces: []
+            filterWorkspaces: [],
+            uniqueCategories: [],
+
+            statusRules: _workspaceHelper.DEFAULT_FILTER_RULES,
+            categoryRules: _workspaceHelper.DEFAULT_FILTER_RULES,
         }
+
         this.clickHandler = this.clickHandler.bind(this);
 
         this.briefInfoWorkspaceCard = {
@@ -35,7 +40,11 @@ class CreateWorkspace extends React.Component {
                 _workspaceHelper.STATUS_FILTER_OPTION_1,
                 _workspaceHelper.STATUS_FILTER_OPTION_2
             ],
-            statusFilterName: _workspaceHelper.STATUS_FILTER_NAME
+            statusFilterName: _workspaceHelper.STATUS_FILTER_NAME,
+            categoryFilters: [
+
+            ],
+            categoryFilterName: _workspaceHelper.CATEGORY_FILTER_NAME
         }
     }
 
@@ -66,8 +75,14 @@ class CreateWorkspace extends React.Component {
     }
 
     filterCallback = (filterName, filterParam) => {
-        let filteredWorkspaces = Array.from(this.state.workspacesData)
-       
+        let filteredWorkspaces = [...this.state.workspacesData]
+
+        if (filterName === _workspaceHelper.STATUS_FILTER_NAME) {
+            this.setState({ statusRules: filterParam })
+        } else if (filterName === _workspaceHelper.CATEGORY_FILTER_NAME) {
+            this.setState({ categoryRules: filterParam })
+        }
+
         if (filterName === _workspaceHelper.STATUS_FILTER_NAME) {
             switch (filterParam) {
                 case _workspaceHelper.DEFAULT_FILTER_RULES:
@@ -88,12 +103,53 @@ class CreateWorkspace extends React.Component {
                 default:
                     break;
             }
-            
-            this.setState({
-                filterWorkspaces: filteredWorkspaces,
-                totalWorkspaces: filteredWorkspaces.length
-            })
+
+            if (this.state.categoryRules !== _workspaceHelper.DEFAULT_FILTER_RULES) {
+
+                filteredWorkspaces = filteredWorkspaces.filter((workspace) => {
+                    console.log(this.state.categoryRules);
+                    return workspace.category === this.state.categoryRules
+                })
+            }
         }
+
+        if (filterName === _workspaceHelper.CATEGORY_FILTER_NAME) {
+
+            if (filterParam === _workspaceHelper.DEFAULT_FILTER_RULES) {
+                this.filterProps.categoryFilters = [...this.state.workspacesData]
+
+            } else {
+                filteredWorkspaces = this.state.workspacesData.filter((workspace) => {
+                    return workspace.category === filterParam
+                })
+            }
+
+            if (this.state.statusRules !== _workspaceHelper.DEFAULT_FILTER_RULES) {
+
+                switch (this.state.statusRules) {
+
+                    case _workspaceHelper.STATUS_FILTER_OPTION_1:
+                        filteredWorkspaces = filteredWorkspaces.filter((workspace) => {
+                            return workspace.isActive
+                        })
+                        break;
+
+                    case _workspaceHelper.STATUS_FILTER_OPTION_2:
+                        filteredWorkspaces = filteredWorkspaces.filter((workspace) => {
+                            return !workspace.isActive
+                        })
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        this.setState({
+            filterWorkspaces: filteredWorkspaces,
+            totalWorkspaces: filteredWorkspaces.length
+        })
     }
 
     componentDidMount() {
@@ -104,7 +160,12 @@ class CreateWorkspace extends React.Component {
                 _self.setState({
                     workspacesData: response,
                     filterWorkspaces: response,
-                    totalWorkspaces: response.length
+                    totalWorkspaces: response.length,
+                    uniqueCategories: [...response
+                        .map((workspace) => workspace.category)
+                        .filter((category, index, self) => {
+                            return self.indexOf(category) === index
+                        }), _workspaceHelper.DEFAULT_FILTER_RULES]
                 });
             })
             .catch(function (err) {
@@ -131,8 +192,8 @@ class CreateWorkspace extends React.Component {
                         filterName={this.filterProps.statusFilterName}
                         callback={this.filterCallback} />
                     <FilterArea
-                        param={this.filterProps.statusFilters}
-                        filterName={this.filterProps.statusFilterName}
+                        param={this.state.uniqueCategories}
+                        filterName={this.filterProps.categoryFilterName}
                         callback={this.filterCallback} />
                     <FilterArea
                         param={this.filterProps.statusFilters}
