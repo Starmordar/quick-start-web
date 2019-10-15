@@ -45,6 +45,14 @@ const _workspaceHelper = {
     ARROW_UP: "up",
     ARROW_DOWN: "down",
 
+    LIST_TAG_NAME: "LI",
+    ACHNOR_TAG_NAME: "A",
+
+    STATUS_FILTER_NAME: "Workspace status",
+    DEFAULT_FILTER_RULES: "All",
+    STATUS_FILTER_OPTION_1: "Active",
+    STATUS_FILTER_OPTION_2: "Disable",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value
@@ -153,6 +161,10 @@ const _workspaceHelper = {
         }
 
 
+    },
+
+    filterHandler(componentContext) {
+        
     }
 }
 

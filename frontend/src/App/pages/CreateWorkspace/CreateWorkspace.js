@@ -15,7 +15,8 @@ class CreateWorkspace extends React.Component {
         this.state = {
             isVisibleWorkspaceForm: false,
             workspacesData: [],
-            totalWorkspaces: 0
+            totalWorkspaces: 0,
+            filterWorkspaces: []
         }
         this.clickHandler = this.clickHandler.bind(this);
 
@@ -26,6 +27,15 @@ class CreateWorkspace extends React.Component {
             technologies: _workspaceHelper.WORKSPACE_PROP_TECHNOLOGIES,
             dateString: _workspaceHelper.WORKSPACE_PROP_DATE,
             count: _workspaceHelper.WORKSPACE_PROP_COUNT
+        }
+
+        this.filterProps = {
+            statusFilters: [
+                _workspaceHelper.DEFAULT_FILTER_RULES,
+                _workspaceHelper.STATUS_FILTER_OPTION_1,
+                _workspaceHelper.STATUS_FILTER_OPTION_2
+            ],
+            statusFilterName: _workspaceHelper.STATUS_FILTER_NAME
         }
     }
 
@@ -55,6 +65,37 @@ class CreateWorkspace extends React.Component {
         }
     }
 
+    filterCallback = (filterName, filterParam) => {
+        let filteredWorkspaces = Array.from(this.state.workspacesData)
+       
+        if (filterName === _workspaceHelper.STATUS_FILTER_NAME) {
+            switch (filterParam) {
+                case _workspaceHelper.DEFAULT_FILTER_RULES:
+                    break;
+
+                case _workspaceHelper.STATUS_FILTER_OPTION_1:
+                    filteredWorkspaces = this.state.workspacesData.filter((workspace) => {
+                        return workspace.isActive
+                    })
+                    break;
+
+                case _workspaceHelper.STATUS_FILTER_OPTION_2:
+                    filteredWorkspaces = this.state.workspacesData.filter((workspace) => {
+                        return !workspace.isActive
+                    })
+                    break;
+
+                default:
+                    break;
+            }
+            
+            this.setState({
+                filterWorkspaces: filteredWorkspaces,
+                totalWorkspaces: filteredWorkspaces.length
+            })
+        }
+    }
+
     componentDidMount() {
         const _self = this;
 
@@ -62,6 +103,7 @@ class CreateWorkspace extends React.Component {
             .then(function (response) {
                 _self.setState({
                     workspacesData: response,
+                    filterWorkspaces: response,
                     totalWorkspaces: response.length
                 });
             })
@@ -83,10 +125,24 @@ class CreateWorkspace extends React.Component {
             <div className="gradiend-overplay">
                 <TopNavbar />
                 <div className="workset-filters">
-                    <FilterArea />
-                    <FilterArea />
-                    <FilterArea />
-                    <FilterArea />
+
+                    <FilterArea
+                        param={this.filterProps.statusFilters}
+                        filterName={this.filterProps.statusFilterName}
+                        callback={this.filterCallback} />
+                    <FilterArea
+                        param={this.filterProps.statusFilters}
+                        filterName={this.filterProps.statusFilterName}
+                        callback={this.filterCallback} />
+                    <FilterArea
+                        param={this.filterProps.statusFilters}
+                        filterName={this.filterProps.statusFilterName}
+                        callback={this.filterCallback} />
+                    <FilterArea
+                        param={this.filterProps.statusFilters}
+                        filterName={this.filterProps.statusFilterName}
+                        callback={this.filterCallback} />
+
                 </div>
                 <div className="workset-container">
                     <div className="workspace-card worksets-total-info">
@@ -97,7 +153,7 @@ class CreateWorkspace extends React.Component {
                     </div>
                     <WorkspaceCard data={this.briefInfoWorkspaceCard} />
                     {
-                        this.state.workspacesData.map((workspace, index) => {
+                        this.state.filterWorkspaces.map((workspace, index) => {
                             return <WorkspaceCard key={index} data={workspace} />
                         })
                     }

@@ -10,7 +10,7 @@ class FilterArea extends React.Component {
         this.state = {
             isVisibleMenu: false,
             arrowDown: true,
-            sortRules: "All"
+            sortRules: _workspaceHelper.DEFAULT_FILTER_RULES
         }
 
         this.dropDownHandler = this.dropDownHandler.bind(this);
@@ -21,14 +21,22 @@ class FilterArea extends React.Component {
         const targetTagName = event.target.tagName
         let choosenText = "";
 
-        if (targetTagName === "A") choosenText = event.target.textContent
-        else if (targetTagName === "LI") choosenText = event.target.firstChild.textContent
+        if (targetTagName === _workspaceHelper.ACHNOR_TAG_NAME)
+            choosenText = event.target.textContent;
+
+        else if (targetTagName === _workspaceHelper.LIST_TAG_NAME)
+            choosenText = event.target.firstChild.textContent;
+
         else return;
 
         this.setState({ sortRules: choosenText })
+
+        this.dropDownHandler();
+
+        this.props.callback(this.props.filterName, choosenText);
     }
 
-    dropDownHandler(event) {
+    dropDownHandler() {
         this.setState(prevState => ({
             isVisibleMenu: !prevState.isVisibleMenu,
             arrowDown: !prevState.arrowDown
@@ -46,7 +54,7 @@ class FilterArea extends React.Component {
 
         return (
             <div className="filter">
-                <h4 className="filter__filter-name">Category</h4>
+                <h4 className="filter__filter-name">{this.props.filterName}</h4>
 
                 <div className="filter-action" onClick={this.dropDownHandler}>
                     <div className="filter-action__filter-name">
@@ -58,10 +66,13 @@ class FilterArea extends React.Component {
                 </div>
 
                 <ul class={"filter-menu " + menuState} onClick={this.menuStateHandler}>
-                    <li><a href="#">All</a></li>
-                    <li><a href="#">HTML</a></li>
-                    <li><a href="#">CSS</a></li>
-                    <li><a href="#">JavaScript</a></li>
+                    {
+                        this.props.param.map((filterDescription, index) => {
+                            return <li key={index}>
+                                <a href="#">{filterDescription}</a>
+                            </li>
+                        })
+                    }
                 </ul>
             </div>
         )
