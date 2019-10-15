@@ -1,4 +1,5 @@
 .filter {
+    position: relative;
     width: 20%;
     margin: 0 30px;
 }
@@ -17,19 +18,70 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(255, 255, 255, .3);
-    padding: 5px 10px;
-    border-radius: 5px;
+    background-color: rgba(27, 26, 26, 0.7) !important;
+    padding: 5px 20px;
+    cursor: pointer;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
-.filter-action .filter-action__filter-name{
+.filter-action .filter-action__filter-name {
     color: white;
     font-size: 17px;
     letter-spacing: .5px;
 }
 
-
-.filter-action .filter-action__arrow{
+.filter-action .filter-action__arrow {
+    display: flex;
+    text-align: center;
+    justify-content: center;
     color: white;
-    font-size: 15px;
+    font-size: 20px;
+    transition: all .4s linear;
+}
+
+.filter-action .filter-action__arrow.up {
+    transform: rotate(180deg);
+}
+
+.filter-action .filter-action__arrow.down {
+    transform: rotate(0deg);
+}
+
+.filter-menu {
+    position: absolute;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 5px 10px;
+    background: rgba(27, 26, 26, 0.7);
+    user-select: none;
+    z-index: 99;
+    transition: .5s ease all;
+}
+
+.filter-menu.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(50px)
+}
+
+.filter-menu.visible {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px)
+}
+
+.filter-menu:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.filter-menu li {
+    padding: 5px 10px;
+}
+
+.filter-menu li a {
+    color: white;
+    text-decoration: none;
 }

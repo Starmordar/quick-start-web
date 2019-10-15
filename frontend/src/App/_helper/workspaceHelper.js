@@ -42,6 +42,9 @@ const _workspaceHelper = {
     NAME_FIELD: "name",
     DEFAULT_OPTION: "School",
 
+    ARROW_UP: "up",
+    ARROW_DOWN: "down",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value
