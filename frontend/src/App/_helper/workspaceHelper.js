@@ -288,6 +288,14 @@ const _workspaceHelper = {
                 break;
         }
         return temp
+    },
+
+    resetFiltersParameters(componentContext) {
+        componentContext.setState({
+            statusRules: _workspaceHelper.DEFAULT_FILTER_RULES,
+            categoryRules: _workspaceHelper.DEFAULT_FILTER_RULES,
+            sortRules: _workspaceHelper.DEFAULT_SORT_RULES
+        })
     }
 }
 export { _workspaceHelper }

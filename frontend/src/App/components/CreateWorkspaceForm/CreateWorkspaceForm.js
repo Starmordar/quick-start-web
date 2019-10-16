@@ -159,10 +159,11 @@ class CreateWorkspaceForm extends React.Component {
                         className="form-control"
                         value={this.optionsState}
                         onChange={this.onChangeOptionHandler}>
-                        <option>School</option>
-                        <option>University</option>
-                        <option>Work</option>
-                        <option>CustomWorkspaces</option>
+                        {
+                            this.props.options.map((value, index) => {
+                                return <option key={index}>{value}</option>
+                            })
+                        }
                     </select>
 
                 </div>

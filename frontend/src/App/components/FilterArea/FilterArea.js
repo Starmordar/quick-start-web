@@ -10,7 +10,6 @@ class FilterArea extends React.Component {
         this.state = {
             isVisibleMenu: false,
             arrowDown: true,
-            sortRules: _workspaceHelper.DEFAULT_FILTER_RULES
         }
 
         this.dropDownHandler = this.dropDownHandler.bind(this);
@@ -28,8 +27,6 @@ class FilterArea extends React.Component {
             choosenText = event.target.firstChild.textContent;
 
         else return;
-
-        this.setState({ sortRules: choosenText })
 
         this.dropDownHandler();
 
@@ -58,7 +55,7 @@ class FilterArea extends React.Component {
 
                 <div className="filter-action" onClick={this.dropDownHandler}>
                     <div className="filter-action__filter-name">
-                        <span>{this.state.sortRules}</span>
+                        <span>{this.props.filter}</span>
                     </div>
                     <div className={"filter-action__arrow " + arrowState}>
                         <i className="fas fa-chevron-down"></i>

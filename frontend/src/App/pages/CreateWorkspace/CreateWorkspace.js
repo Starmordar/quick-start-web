@@ -76,8 +76,16 @@ class CreateWorkspace extends React.Component {
                     _self.setState({
                         workspacesData: response,
                         filterWorkspaces: response,
-                        totalWorkspaces: response.length
+                        totalWorkspaces: response.length,
+                        uniqueCategories: [...response
+                            .map((workspace) => workspace.category)
+                            .filter((category, index, self) => {
+                                return self.indexOf(category) === index
+                            }), _workspaceHelper.DEFAULT_FILTER_RULES]
                     });
+                })
+                .then(() => {
+                    _workspaceHelper.resetFiltersParameters(_self)
                 })
                 .catch(function (err) {
                     console.log(err)
@@ -147,19 +155,23 @@ class CreateWorkspace extends React.Component {
                     <FilterArea
                         param={this.filterProps.statusFilters}
                         filterName={this.filterProps.statusFilterName}
-                        callback={this.filterCallback} />
+                        callback={this.filterCallback}
+                        filter={this.state.statusRules} />
                     <FilterArea
                         param={this.state.uniqueCategories}
                         filterName={this.filterProps.categoryFilterName}
-                        callback={this.filterCallback} />
+                        callback={this.filterCallback}
+                        filter={this.state.categoryRules} />
                     <FilterArea
                         param={this.filterProps.sortFilters}
                         filterName={this.filterProps.sortFilterName}
-                        callback={this.filterCallback} />
+                        callback={this.filterCallback}
+                        filter={this.state.sortRules} />
                     <FilterArea
                         param={this.filterProps.statusFilters}
                         filterName={this.filterProps.statusFilterName}
-                        callback={this.filterCallback} />
+                        callback={this.filterCallback}
+                        filter={this.state.statusRules} />
 
                 </div>
                 <div className="workset-container">
@@ -182,6 +194,7 @@ class CreateWorkspace extends React.Component {
                 <CreateWorkspaceForm
                     visible={this.state.isVisibleWorkspaceForm}
                     callback={this.childCallback}
+                    options={this.state.uniqueCategories}
                 />
             </div>
         )
