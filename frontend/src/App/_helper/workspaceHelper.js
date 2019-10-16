@@ -165,8 +165,55 @@ const _workspaceHelper = {
 
     },
 
-    filterHandler(componentContext) {
-        
+    applyFilterParams(componentContext, workspaces) {
+        let temp = [...workspaces]
+
+        temp = this.filterByStatus(componentContext, temp)
+
+        temp = this.filterByCategory(componentContext, temp)
+
+        return temp
+    },
+
+    filterByStatus(componentContext, workspaces) {
+        let temp = [...workspaces]
+
+        switch (componentContext.state.statusRules) {
+            case _workspaceHelper.DEFAULT_FILTER_RULES:
+                break;
+
+            case _workspaceHelper.STATUS_FILTER_OPTION_1:
+                temp = temp.filter((workspace) => {
+                    return workspace.isActive
+                })
+                break;
+
+            case _workspaceHelper.STATUS_FILTER_OPTION_2:
+                temp = temp.filter((workspace) => {
+                    return !workspace.isActive
+                })
+                break;
+
+            default:
+                break;
+        }
+
+        return temp
+    },
+
+    filterByCategory(componentContext, workspaces) {
+        let temp = [...workspaces];
+
+        if (componentContext.state.categoryRules === _workspaceHelper.DEFAULT_FILTER_RULES) {
+            return temp
+
+        } else {
+            temp = temp.filter((workspace) => {
+                return workspace.category === componentContext.state.categoryRules
+            })
+        }
+
+        return temp
     }
 }
 

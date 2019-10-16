@@ -74,82 +74,25 @@ class CreateWorkspace extends React.Component {
         }
     }
 
-    filterCallback = (filterName, filterParam) => {
-        let filteredWorkspaces = [...this.state.workspacesData]
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.statusRules !== this.state.statusRules ||
+            prevState.categoryRules !== this.state.categoryRules) {
 
+            let temp = _workspaceHelper.applyFilterParams(this, this.state.workspacesData)
+
+            this.setState({
+                filterWorkspaces: temp,
+                totalWorkspaces: temp.length
+            })
+        }
+    }
+
+    filterCallback = (filterName, filterParam) => {
         if (filterName === _workspaceHelper.STATUS_FILTER_NAME) {
             this.setState({ statusRules: filterParam })
         } else if (filterName === _workspaceHelper.CATEGORY_FILTER_NAME) {
             this.setState({ categoryRules: filterParam })
         }
-
-        if (filterName === _workspaceHelper.STATUS_FILTER_NAME) {
-            switch (filterParam) {
-                case _workspaceHelper.DEFAULT_FILTER_RULES:
-                    break;
-
-                case _workspaceHelper.STATUS_FILTER_OPTION_1:
-                    filteredWorkspaces = this.state.workspacesData.filter((workspace) => {
-                        return workspace.isActive
-                    })
-                    break;
-
-                case _workspaceHelper.STATUS_FILTER_OPTION_2:
-                    filteredWorkspaces = this.state.workspacesData.filter((workspace) => {
-                        return !workspace.isActive
-                    })
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (this.state.categoryRules !== _workspaceHelper.DEFAULT_FILTER_RULES) {
-
-                filteredWorkspaces = filteredWorkspaces.filter((workspace) => {
-                    console.log(this.state.categoryRules);
-                    return workspace.category === this.state.categoryRules
-                })
-            }
-        }
-
-        if (filterName === _workspaceHelper.CATEGORY_FILTER_NAME) {
-
-            if (filterParam === _workspaceHelper.DEFAULT_FILTER_RULES) {
-                this.filterProps.categoryFilters = [...this.state.workspacesData]
-
-            } else {
-                filteredWorkspaces = this.state.workspacesData.filter((workspace) => {
-                    return workspace.category === filterParam
-                })
-            }
-
-            if (this.state.statusRules !== _workspaceHelper.DEFAULT_FILTER_RULES) {
-
-                switch (this.state.statusRules) {
-
-                    case _workspaceHelper.STATUS_FILTER_OPTION_1:
-                        filteredWorkspaces = filteredWorkspaces.filter((workspace) => {
-                            return workspace.isActive
-                        })
-                        break;
-
-                    case _workspaceHelper.STATUS_FILTER_OPTION_2:
-                        filteredWorkspaces = filteredWorkspaces.filter((workspace) => {
-                            return !workspace.isActive
-                        })
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
-
-        this.setState({
-            filterWorkspaces: filteredWorkspaces,
-            totalWorkspaces: filteredWorkspaces.length
-        })
     }
 
     componentDidMount() {
