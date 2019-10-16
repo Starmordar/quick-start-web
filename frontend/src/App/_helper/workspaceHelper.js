@@ -63,6 +63,9 @@ const _workspaceHelper = {
     HIGH_USAGE_SORT: "High usage",
     BY_CATEGORY: "Category sort",
 
+    ENTER_CODE: "13",
+    FIND_BY_PARAMS: "User search",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value

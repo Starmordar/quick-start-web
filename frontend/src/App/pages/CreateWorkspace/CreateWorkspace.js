@@ -7,6 +7,7 @@ import CreateWorkspaceForm from '../../components/CreateWorkspaceForm/CreateWork
 
 import { _workspaceHelper } from '../../_helper/workspaceHelper';
 import { _serverHelper } from '../../_helper/serverReponce';
+import SearchWorkspace from '../../components/SearchWorkspace/SearchWorkspace';
 
 class CreateWorkspace extends React.Component {
     constructor(props) {
@@ -117,6 +118,40 @@ class CreateWorkspace extends React.Component {
         }
     }
 
+    searchCallback = (status, searchParams) => {
+        _workspaceHelper.resetFiltersParameters(this)
+        if (status === _workspaceHelper.FIND_BY_PARAMS) {
+            setTimeout(() => {
+                if (searchParams === "") {
+                    this.setState({
+                        filterWorkspaces: this.state.workspacesData,
+                        totalWorkspaces: this.state.workspacesData.length
+                    })
+                    return;
+                }
+
+                let temp = [...this.state.workspacesData]
+
+                for (let i = 0; i < temp.length; i++) {
+                    if (searchParams === temp[i].name) {
+
+                        this.setState({
+                            filterWorkspaces: [temp[i]],
+                            totalWorkspaces: 1
+                        })
+                        return;
+                    }
+                }
+
+                this.setState({
+                    filterWorkspaces: [],
+                    totalWorkspaces: 0
+                })
+            }, 10)
+        }
+
+    }
+
     componentDidMount() {
         const _self = this;
 
@@ -167,11 +202,8 @@ class CreateWorkspace extends React.Component {
                         filterName={this.filterProps.sortFilterName}
                         callback={this.filterCallback}
                         filter={this.state.sortRules} />
-                    <FilterArea
-                        param={this.filterProps.statusFilters}
-                        filterName={this.filterProps.statusFilterName}
-                        callback={this.filterCallback}
-                        filter={this.state.statusRules} />
+                    <SearchWorkspace
+                        callback={this.searchCallback} />
 
                 </div>
                 <div className="workset-container">
