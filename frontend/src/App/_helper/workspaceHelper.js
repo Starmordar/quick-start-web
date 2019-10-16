@@ -50,6 +50,7 @@ const _workspaceHelper = {
 
     STATUS_FILTER_NAME: "Workspace status",
     DEFAULT_FILTER_RULES: "All",
+    DEFAULT_SORT_RULES: "All",
     STATUS_FILTER_OPTION_1: "Active",
     STATUS_FILTER_OPTION_2: "Disable",
 

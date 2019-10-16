@@ -21,6 +21,7 @@ class CreateWorkspace extends React.Component {
 
             statusRules: _workspaceHelper.DEFAULT_FILTER_RULES,
             categoryRules: _workspaceHelper.DEFAULT_FILTER_RULES,
+            sortRules: _workspaceHelper.DEFAULT_SORT_RULES
         }
 
         this.clickHandler = this.clickHandler.bind(this);
@@ -65,6 +66,7 @@ class CreateWorkspace extends React.Component {
                 .then(function (response) {
                     _self.setState({
                         workspacesData: response,
+                        filterWorkspaces: response,
                         totalWorkspaces: response.length
                     });
                 })
