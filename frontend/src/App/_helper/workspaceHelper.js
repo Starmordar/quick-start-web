@@ -50,11 +50,18 @@ const _workspaceHelper = {
 
     STATUS_FILTER_NAME: "Workspace status",
     DEFAULT_FILTER_RULES: "All",
-    DEFAULT_SORT_RULES: "All",
     STATUS_FILTER_OPTION_1: "Active",
     STATUS_FILTER_OPTION_2: "Disable",
 
     CATEGORY_FILTER_NAME: "Category",
+
+    SORT_FILTER_NAME: "Sort by",
+    DEFAULT_SORT_RULES: "All",
+    NEWEST_DATE_SORT: "Newest workspaces",
+    OLDEST_DATE_SORT: "Oldest workspaces",
+    LOW_USAGE_SORT: "Lowest usage",
+    HIGH_USAGE_SORT: "High usage",
+    BY_CATEGORY: "Category sort",
 
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
@@ -166,12 +173,23 @@ const _workspaceHelper = {
 
     },
 
+    calculateDate(string) {
+        const dateArr = string.split('-'),
+            year = dateArr[0].split(" ")[1],
+            month = dateArr[1],
+            day = dateArr[2];
+
+        return new Date(year + "/" + month + "/" + day)
+    },
+
     applyFilterParams(componentContext, workspaces) {
         let temp = [...workspaces]
 
         temp = this.filterByStatus(componentContext, temp)
 
         temp = this.filterByCategory(componentContext, temp)
+
+        temp = this.sortHandler(componentContext, temp)
 
         return temp
     },
@@ -215,7 +233,61 @@ const _workspaceHelper = {
         }
 
         return temp
+    },
+
+    sortHandler(componentContext, workspaces) {
+        let temp = [...workspaces];
+        if (componentContext.state.sortRules === _workspaceHelper.DEFAULT_SORT_RULES) {
+            return temp
+        }
+        switch (componentContext.state.sortRules) {
+            case _workspaceHelper.DEFAULT_SORT_RULES:
+                break;
+
+            case _workspaceHelper.NEWEST_DATE_SORT:
+                temp.sort((workspace1, workspace2) => {
+                    let date1 = this.calculateDate(workspace1.dateString)
+                    let date2 = this.calculateDate(workspace2.dateString)
+
+                    if (date1.getTime() < date2.getTime()) return 1
+                    return -1
+                })
+                break;
+
+            case _workspaceHelper.OLDEST_DATE_SORT:
+                temp.sort((workspace1, workspace2) => {
+                    let date1 = this.calculateDate(workspace1.dateString)
+                    let date2 = this.calculateDate(workspace2.dateString)
+
+                    if (date1.getTime() > date2.getTime()) return 1
+                    return -1
+                })
+
+                break;
+
+            case _workspaceHelper.LOW_USAGE_SORT:
+                temp.sort((workspace1, workspace2) => {
+                    return workspace1.count - workspace2.count
+                })
+                break;
+
+            case _workspaceHelper.HIGH_USAGE_SORT:
+                temp.sort((workspace1, workspace2) => {
+                    console.log(workspace1.count, workspace2.count)
+                    return workspace2.count - workspace1.count
+                })
+                break;
+
+            case _workspaceHelper.BY_CATEGORY:
+                temp.sort((workspace1, workspace2) => {
+                    if (workspace1.category < workspace2.category) return -1
+                    return 1
+                })
+                break;
+            default:
+                break;
+        }
+        return temp
     }
 }
-
 export { _workspaceHelper }

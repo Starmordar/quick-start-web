@@ -20,7 +20,7 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
     technologies: req.body.technologies,
     isActive: req.body.isActive,
     dateString: "Added " + req.body.date,
-    count: 0
+    count: 1
   }
 
   Workspace.create(workspaceSettings, function (error, user) {

@@ -45,7 +45,16 @@ class CreateWorkspace extends React.Component {
             categoryFilters: [
 
             ],
-            categoryFilterName: _workspaceHelper.CATEGORY_FILTER_NAME
+            categoryFilterName: _workspaceHelper.CATEGORY_FILTER_NAME,
+            sortFilters: [
+                _workspaceHelper.DEFAULT_SORT_RULES,
+                _workspaceHelper.NEWEST_DATE_SORT,
+                _workspaceHelper.OLDEST_DATE_SORT,
+                _workspaceHelper.LOW_USAGE_SORT,
+                _workspaceHelper.HIGH_USAGE_SORT,
+                _workspaceHelper.BY_CATEGORY
+            ],
+            sortFilterName: _workspaceHelper.SORT_FILTER_NAME
         }
     }
 
@@ -78,7 +87,8 @@ class CreateWorkspace extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.statusRules !== this.state.statusRules ||
-            prevState.categoryRules !== this.state.categoryRules) {
+            prevState.categoryRules !== this.state.categoryRules ||
+            prevState.sortRules !== this.state.sortRules) {
 
             let temp = _workspaceHelper.applyFilterParams(this, this.state.workspacesData)
 
@@ -94,6 +104,8 @@ class CreateWorkspace extends React.Component {
             this.setState({ statusRules: filterParam })
         } else if (filterName === _workspaceHelper.CATEGORY_FILTER_NAME) {
             this.setState({ categoryRules: filterParam })
+        } else if (filterName === _workspaceHelper.SORT_FILTER_NAME) {
+            this.setState({ sortRules: filterParam })
         }
     }
 
@@ -141,8 +153,8 @@ class CreateWorkspace extends React.Component {
                         filterName={this.filterProps.categoryFilterName}
                         callback={this.filterCallback} />
                     <FilterArea
-                        param={this.filterProps.statusFilters}
-                        filterName={this.filterProps.statusFilterName}
+                        param={this.filterProps.sortFilters}
+                        filterName={this.filterProps.sortFilterName}
                         callback={this.filterCallback} />
                     <FilterArea
                         param={this.filterProps.statusFilters}
