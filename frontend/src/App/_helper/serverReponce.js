@@ -19,6 +19,7 @@ const _serverHelper = {
     PATH_CREATE_WORKSPACE: "/createWorkspace",
     PATH_LOAD_WORKSPACE: "/getWorkspaces",
     PATH_SIGNOUT: "/signout",
+    PATH_GET_WORKSPACE: "/getSingleWorkspace",
 
     redirectToHomeIfUserAlreadyOnTheSystem(componentContext) {
         const helperContext = this;

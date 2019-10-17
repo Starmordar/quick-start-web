@@ -1,4 +1,7 @@
+import { _serverHelper } from './serverReponce';
+
 const { _helper } = require('./authValidation');
+const { __serverHelper } = require('./serverReponce');
 
 const _workspaceHelper = {
 
@@ -66,6 +69,8 @@ const _workspaceHelper = {
     ENTER_CODE: "13",
     FIND_BY_PARAMS: "User search",
 
+    WARN_USER_UNIQUE: "User should be unique",
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value
@@ -123,7 +128,25 @@ const _workspaceHelper = {
         }
         if (this.isExistsBlankInputFields(componentContext)) return false;
 
+        if (this.nameValidation(componentContext)) return false;
         return true
+    },
+
+    nameValidation(componentContext) {
+        const temp = [...componentContext.props.workSpaceData]
+
+        for (let i = 0; i < temp.length; i++) {
+            if (temp[i].name === componentContext.state.workspaceProps.name) {
+                
+                this.setErrorMessageOnInputField(
+                    componentContext,
+                    this.NAME_FIELD,
+                    this.WARN_USER_UNIQUE
+                )
+                return true
+            }
+        }
+        return false;
     },
 
     isExistsBlankInputFields(componentContext) {
@@ -299,6 +322,6 @@ const _workspaceHelper = {
             categoryRules: _workspaceHelper.DEFAULT_FILTER_RULES,
             sortRules: _workspaceHelper.DEFAULT_SORT_RULES
         })
-    }
+    },
 }
 export { _workspaceHelper }

@@ -227,6 +227,7 @@ class CreateWorkspace extends React.Component {
                     visible={this.state.isVisibleWorkspaceForm}
                     callback={this.childCallback}
                     options={this.state.uniqueCategories}
+                    workSpaceData={this.state.workspacesData}
                 />
             </div>
         )

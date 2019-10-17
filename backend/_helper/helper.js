@@ -16,6 +16,7 @@ const _helper = {
     PATH_CREATE_WORKSPACE: "/createWorkspace",
     PATH_LOAD_WORKSPACE: "/getWorkspaces",
     PATH_SIGNOUT: "/signout",
+    PATH_GET_WORKSPACE: "/getSingleWorkspace",
     
     COOKIES_PROP: "connect.sid",
 
