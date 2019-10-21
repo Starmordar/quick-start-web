@@ -5,21 +5,15 @@ class InputForm extends React.Component {
     constructor(props) {
         super(props)
     }
-
     render() {
         return (
-            <div className="input-form">
+            <div className={"input-form " + this.props.visibilityState}>
                 <header className="setup-form-info">
                     <h2 className='step-description'>Select path your workspace</h2>
                     <h3 className="step-helper">Input path your workspaces</h3>
                 </header>
 
                 <div className="input-section">
-                    <TechnologiesCard />
-                    <TechnologiesCard />
-                    <TechnologiesCard />
-                    <TechnologiesCard />
-                    <TechnologiesCard />
                     <TechnologiesCard />
                     <TechnologiesCard />
                 </div>
@@ -38,7 +32,7 @@ class TechnologiesCard extends React.Component {
             <div className="card mb-3 border-left-0 border-right-0 border-top-0">
                 <div className="row">
                     <div className="col-md-2">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" className="card-img" alt="..." width="80px" height="80px"/>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" className="card-img" alt="..." width="80px" height="80px" />
                     </div>
 
                     <div className="col-md-8 align-items-center justify-content-center">

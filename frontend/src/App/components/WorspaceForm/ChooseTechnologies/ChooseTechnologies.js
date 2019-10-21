@@ -55,9 +55,29 @@ class ChooseTechnologies extends React.Component {
         }))
     }
 
+    submitTechnologies = (browser, technologies) => {
+        let flag = true;
+        for (let i = 0; i < this.state.selectedTechnologies.length; i++) {
+            for (const key in this.state.selectedTechnologies[i]) {
+                if (this.state.selectedTechnologies[i][key] === true) flag = false;
+            }
+        }
+
+        if (this.state.selectedBrowser === ""
+            && (this.state.selectedTechnologies.length === 0 || flag === true)) {
+            alert(_technoHelper.WARN_CHOOSE_SOMETHING)
+        } else {
+            this.props.callback(this.state.selectedBrowser, this.state.selectedTechnologies)
+        }
+    }
+
+    animationHandler = () => {
+        console.log(12);
+    }
+
     render() {
         return (
-            <div className="choose-technologies-form">
+            <div className={"choose-technologies-form " + this.props.visibilityState} onAnimationEnd={this.animationHandler}>
                 <header className="setup-form-info">
                     <h2 className='step-description'>Select technologies</h2>
                     <h3 className="step-helper">Choose browser and other programs</h3>
@@ -102,6 +122,7 @@ class ChooseTechnologies extends React.Component {
 
                 <div className='btn-container'>
                     <button
+                        onClick={this.submitTechnologies}
                         type="submit"
                         className="btn btn-success">Create Workspaces</button>
                 </div>
