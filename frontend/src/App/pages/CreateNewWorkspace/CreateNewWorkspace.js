@@ -14,39 +14,63 @@ class CreateNewWorkspace extends React.Component {
             chooseTechnoFormAnimation: "",
             chooseTechnoVisibility: true,
             inputLinksFormAnimation: "",
-            visibilityInputLinksClassname: _technoHelper.CLASSNAME_VISIBLE_FORM
+            inputLinksVisibility: false,
+            visibilityInputLinksClassname: _technoHelper.CLASSNAME_VISIBLE_FORM,
+
+            browser: "",
+            technologies: []
         }
     }
 
     submitTechnologiesCallback = (browser, technologies) => {
         this.setState({
+            browser: browser,
+            technologies: technologies,
             chooseTechnoFormAnimation: _technoHelper.ANIMATION_FADE_OUT
         })
 
         setTimeout(() => {
             this.setState({
                 chooseTechnoVisibility: !this.state.chooseTechnoVisibility,
+                inputLinksVisibility: !this.state.inputLinksVisibility,
                 inputLinksFormAnimation: _technoHelper.ANIMATION_FADE_IN
+            })
+        }, 500)
+    }
+
+    returnToPreviousFormCallback = () => {
+        this.setState({
+            inputLinksFormAnimation: _technoHelper.ANIMATION_FADE_OUT
+        })
+
+        setTimeout(() => {
+            this.setState({
+                chooseTechnoVisibility: !this.state.chooseTechnoVisibility,
+                inputLinksVisibility: !this.state.inputLinksVisibility,
+                chooseTechnoFormAnimation: _technoHelper.ANIMATION_FADE_IN
             })
         }, 500)
     }
 
     render() {
         return (
-            <div className="gradiend-overplay" style={{background: "black"}}>
+            <div className="gradiend-overplay" style={{ background: "black" }}>
                 <FormStep />
 
                 {
                     this.state.chooseTechnoVisibility
                         ?
                         <ChooseTechnologies
+                            defaultBrowser={this.state.browser}
+                            defaultTechnologies={this.state.technologies}
                             callback={this.submitTechnologiesCallback}
                             visibilityState={this.state.chooseTechnoFormAnimation} />
                         : null
                 }
                 {
-                    this.state.chooseTechnoFormAnimation === _technoHelper.ANIMATION_FADE_OUT
+                    this.state.inputLinksVisibility
                         ? <InputForm
+                            callback={this.returnToPreviousFormCallback}
                             visibilityState={this.state.inputLinksFormAnimation} />
                         : null
                 }

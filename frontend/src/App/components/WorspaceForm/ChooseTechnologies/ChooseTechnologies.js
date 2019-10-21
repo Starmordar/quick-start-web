@@ -16,6 +16,9 @@ class ChooseTechnologies extends React.Component {
             selectedBrowser: "",
             selectedTechnologies: []
         }
+
+        this.technoNameTemplate = [_technoHelper.CODE_ATOM,
+        _technoHelper.CODE_SUBLIME_TEXT, _technoHelper.CODE_VISUAL_STUDIO_CODE]
     }
 
     selectBrowserCallback = (browserName) => {
@@ -45,14 +48,13 @@ class ChooseTechnologies extends React.Component {
                 return;
             }
         }
+        // let selected = {
+        //     [technoName]: true
+        // }
 
-        let selected = {
-            [technoName]: true
-        }
-
-        this.setState(prevState => ({
-            selectedTechnologies: [...prevState.selectedTechnologies, selected]
-        }))
+        // this.setState(prevState => ({
+        //     selectedTechnologies: [...prevState.selectedTechnologies, selected]
+        // }))
     }
 
     submitTechnologies = (browser, technologies) => {
@@ -71,11 +73,38 @@ class ChooseTechnologies extends React.Component {
         }
     }
 
-    animationHandler = () => {
-        console.log(12);
+    componentDidMount() {
+        if (this.props.defaultBrowser !== ""
+            || this.props.defaultTechnologies.length !== 0) {
+
+            this.setState({
+                selectedBrowser: this.props.defaultBrowser,
+                selectedTechnologies: this.props.defaultTechnologies
+            })
+        } else {
+            let temp = [];
+
+            for (let i = 0; i < this.technoNameTemplate.length; i++) {
+                temp.push({
+                    [this.technoNameTemplate[i]]: false
+                })
+            }
+
+            this.setState({
+                selectedTechnologies: temp
+            })
+        }
     }
 
     render() {
+        let technoMap = {}
+        if (this.props.defaultTechnologies.length !== 0) {
+
+            for (let i = 0; i < this.props.defaultTechnologies.length; i++) {
+                let key = Object.keys(this.props.defaultTechnologies[i])[0]
+                technoMap[key] = this.props.defaultTechnologies[i][key]
+            }
+        }
         return (
             <div className={"choose-technologies-form " + this.props.visibilityState} onAnimationEnd={this.animationHandler}>
                 <header className="setup-form-info">
@@ -107,17 +136,17 @@ class ChooseTechnologies extends React.Component {
                 </div>
 
                 <div className="techno-selection">
+                    {
 
-                    <TechnoCard
-                        technoName={_technoHelper.CODE_ATOM}
-                        callback={this.selectTechnologiesCallback} />
-                    <TechnoCard
-                        technoName={_technoHelper.CODE_SUBLIME_TEXT}
-                        callback={this.selectTechnologiesCallback} />
-                    <TechnoCard
-                        technoName={_technoHelper.CODE_VISUAL_STUDIO_CODE}
-                        callback={this.selectTechnologiesCallback} />
+                        this.technoNameTemplate.map((value, index) => {
 
+                            return <TechnoCard
+                                key={index}
+                                technoName={value}
+                                callback={this.selectTechnologiesCallback}
+                                defaultSelection={technoMap[value]} />
+                        })
+                    }
                 </div>
 
                 <div className='btn-container'>
@@ -177,6 +206,14 @@ class TechnoCard extends React.Component {
             selected: !this.state.selected
         })
         this.props.callback(event.currentTarget.dataset.name)
+    }
+
+    componentDidMount() {
+        if (this.props.defaultSelection) {
+            this.setState({
+                selected: !this.state.selected
+            })
+        }
     }
 
     render() {

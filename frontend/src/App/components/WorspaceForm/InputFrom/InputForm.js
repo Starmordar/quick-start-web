@@ -5,9 +5,15 @@ class InputForm extends React.Component {
     constructor(props) {
         super(props)
     }
+
+    returnToPreviousForm = () => {
+        this.props.callback();
+    }
+
     render() {
         return (
             <div className={"input-form " + this.props.visibilityState}>
+                <button onClick={this.returnToPreviousForm}></button>
                 <header className="setup-form-info">
                     <h2 className='step-description'>Select path your workspace</h2>
                     <h3 className="step-helper">Input path your workspaces</h3>
