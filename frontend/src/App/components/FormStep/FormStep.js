@@ -11,7 +11,6 @@ class FormStep extends React.Component {
             <div className="form-step-container">
                 <SingleStep />
                 <SingleStep />
-                <SingleStep />
             </div>
         )
     }
