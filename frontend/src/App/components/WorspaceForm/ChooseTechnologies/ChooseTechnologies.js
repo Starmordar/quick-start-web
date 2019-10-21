@@ -7,6 +7,7 @@ import chromeIcon from "./../../../assets/browserIcons/google-chrome.png";
 import firefoxIcon from "./../../../assets/browserIcons/firefox.jpg";
 import safariIcon from "./../../../assets/browserIcons/safari.png";
 import IEIcon from "./../../../assets/browserIcons/IE.jpg";
+import { _helper } from '../../../_helper/authValidation';
 
 class ChooseTechnologies extends React.Component {
     constructor(props) {
@@ -134,6 +135,7 @@ class ChooseTechnologies extends React.Component {
                             return <TechnoCard
                                 key={index}
                                 technoName={value}
+                                altAttribute={value}
                                 callback={this.selectTechnologiesCallback}
                                 defaultSelection={technoMap[value]} />
                         })
@@ -218,7 +220,11 @@ class TechnoCard extends React.Component {
                     data-name={this.props.technoName}
                     onClick={this.selectTechology}>
 
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Icon_Atom.svg" width="80px" height="80px"></img>
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Icon_Atom.svg"
+                        width="80px"
+                        height="80px"
+                        alt={this.props.altAttribute + " " + _technoHelper.ICON_NAME}></img>
                     <h5 className="techno-description">{this.props.technoName}</h5>
                 </div>
             </div>
