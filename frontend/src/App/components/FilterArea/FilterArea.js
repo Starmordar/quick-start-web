@@ -62,7 +62,7 @@ class FilterArea extends React.Component {
                     </div>
                 </div>
 
-                <ul class={"filter-menu " + menuState} onClick={this.menuStateHandler}>
+                <ul className={"filter-menu " + menuState} onClick={this.menuStateHandler}>
                     {
                         this.props.param.map((filterDescription, index) => {
                             return <li key={index}>

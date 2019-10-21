@@ -35,7 +35,7 @@ class CreateNewWorkspace extends React.Component {
                 inputLinksVisibility: !this.state.inputLinksVisibility,
                 inputLinksFormAnimation: _technoHelper.ANIMATION_FADE_IN
             })
-        }, 500)
+        }, _technoHelper.ANIMATION_TIME_START_TO_END_MS)
     }
 
     returnToPreviousFormCallback = () => {
@@ -49,7 +49,7 @@ class CreateNewWorkspace extends React.Component {
                 inputLinksVisibility: !this.state.inputLinksVisibility,
                 chooseTechnoFormAnimation: _technoHelper.ANIMATION_FADE_IN
             })
-        }, 500)
+        }, _technoHelper.ANIMATION_TIME_START_TO_END_MS)
     }
 
     render() {

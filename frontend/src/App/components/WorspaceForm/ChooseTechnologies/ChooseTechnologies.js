@@ -22,14 +22,12 @@ class ChooseTechnologies extends React.Component {
     }
 
     selectBrowserCallback = (browserName) => {
-        if (browserName === this.state.selectedBrowser) {
-            this.setState({
-                selectedBrowser: ""
-            })
-            return;
-        }
+        let selectedBrowser
+        if (browserName === this.state.selectedBrowser) selectedBrowser = ""
+        else selectedBrowser = browserName
+
         this.setState({
-            selectedBrowser: browserName
+            selectedBrowser: selectedBrowser
         })
     }
 
@@ -48,13 +46,6 @@ class ChooseTechnologies extends React.Component {
                 return;
             }
         }
-        // let selected = {
-        //     [technoName]: true
-        // }
-
-        // this.setState(prevState => ({
-        //     selectedTechnologies: [...prevState.selectedTechnologies, selected]
-        // }))
     }
 
     submitTechnologies = (browser, technologies) => {
@@ -160,7 +151,6 @@ class ChooseTechnologies extends React.Component {
     }
 }
 
-
 class BrowserCard extends React.Component {
     constructor(props) {
         super(props)
@@ -235,6 +225,5 @@ class TechnoCard extends React.Component {
         )
     }
 }
-
 
 export default ChooseTechnologies;
