@@ -43,6 +43,7 @@ const _workspaceHelper = {
     ACTIVE_WORKSPACE: "Active",
 
     NAME_FIELD: "name",
+    CATEGORY_FIELD: "category",
     DEFAULT_OPTION: "School",
 
     ARROW_UP: "up",
@@ -124,11 +125,12 @@ const _workspaceHelper = {
                 )
                 return false;
             }
-            return true;
         }
+        console.log(1)
         if (this.isExistsBlankInputFields(componentContext)) return false;
-
+        console.log(2);
         if (this.nameValidation(componentContext)) return false;
+        console.log(3);
         return true
     },
 
@@ -136,8 +138,9 @@ const _workspaceHelper = {
         const temp = [...componentContext.props.workSpaceData]
 
         for (let i = 0; i < temp.length; i++) {
+
             if (temp[i].name === componentContext.state.workspaceProps.name) {
-                
+
                 this.setErrorMessageOnInputField(
                     componentContext,
                     this.NAME_FIELD,
@@ -152,7 +155,11 @@ const _workspaceHelper = {
     isExistsBlankInputFields(componentContext) {
         for (const fieldName in componentContext.state.workspaceProps) {
             const inputField = componentContext.state.workspaceProps[fieldName];
+
             if (fieldName === this.CHECBOX_NAME) continue;
+
+            if (componentContext.state.currentCategoryInput === this.CATEGORY_OPTION
+                && fieldName === this.CATEGORY_FIELD) continue;
 
             if (inputField === this.BLANK_INPUT_FIELD) {
                 const errorFieldName = fieldName,
