@@ -213,7 +213,7 @@ class CreateWorkspace extends React.Component {
                             onClick={this.clickHandler}
                         >Create workspace</a>
                     </div>
-                    <WorkspaceCard data={this.briefInfoWorkspaceCard} />
+                    <WorkspaceCard data={this.briefInfoWorkspaceCard} default={true} />
                     {
                         this.state.filterWorkspaces.map((workspace, index) => {
                             return <WorkspaceCard key={index} data={workspace} />

@@ -1,6 +1,9 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import './InputForm.css';
+
 import { _technoHelper } from '../../../_helper/technoHelper';
+import { _serverHelper } from '../../../_helper/serverReponce';
 
 class InputForm extends React.Component {
     constructor(props) {
@@ -9,7 +12,9 @@ class InputForm extends React.Component {
         this.state = {
             technologiesData: {},
             browserData: {},
-            currentBrowser: ""
+            currentBrowser: "",
+
+            redirect: false
         }
     }
 
@@ -18,9 +23,23 @@ class InputForm extends React.Component {
     }
 
     handleSubmitWorkspace = () => {
-        console.log(this.state.technologiesData)
-        console.log(this.state.browserData)
-        console.log(this.state.currentBrowser)
+        let dataToUpdate = {
+            technologiesData: this.state.technologiesData,
+            browserData: this.state.browserData,
+            currentBrowser: this.state.currentBrowser
+        }
+        
+        _serverHelper.updateExistingWorkspace(dataToUpdate)
+            .then((responce) => {
+                if(responce === _serverHelper.SERVER_WORKSPACE_UPDATED_SUCCESSFUL){
+                    this.setState({
+                        redirect: !this.state.redirect
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     handleInputChange = (technoName, value) => {
@@ -50,6 +69,7 @@ class InputForm extends React.Component {
     render() {
         return (
             <div className={"input-form " + this.props.visibilityState}>
+                {this.state.redirect ? <Redirect to='/' /> : null}
                 <button onClick={this.returnToPreviousForm}></button>
                 <header className="setup-form-info">
                     <h2 className='step-description'>Select path your workspace</h2>

@@ -10,6 +10,8 @@ const _serverHelper = {
     SERVER_FIND_USER_SUCCESS: "User with this username exists",
     SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
     SERVER_USER_SUCCESSFUL_SIGNED_OUT: "User successful signed out",
+    SERVER_SUCCESS_ASSIGN_GLOBAL: "Success assign global",
+    SERVER_WORKSPACE_UPDATED_SUCCESSFUL: "Workspace updated successful",
 
     IP_ADRESS: "http://localhost:4000",
 
@@ -20,6 +22,9 @@ const _serverHelper = {
     PATH_LOAD_WORKSPACE: "/getWorkspaces",
     PATH_SIGNOUT: "/signout",
     PATH_GET_WORKSPACE: "/getSingleWorkspace",
+    PATH_ADD_WORKSPACE: "/addWorkspace",
+    PATH_GET_GLOBAL_WORKSPACE: "/getGlobalWorkspace",
+    PATH_UPDATE_WORKSPACE: "/updateWorkspace",
 
     redirectToHomeIfUserAlreadyOnTheSystem(componentContext) {
         const helperContext = this;
@@ -118,7 +123,49 @@ const _serverHelper = {
                     reject(error)
                 });
         })
-    }
+    },
+
+    setWorkspaceToAdd(name) {
+        const helperContext = this;
+
+        return new Promise(function (resolve, reject) {
+            axios.post(helperContext.IP_ADRESS + helperContext.PATH_ADD_WORKSPACE, { name: name })
+                .then(function (response) {
+                    resolve(response.data)
+                })
+                .catch(function (error) {
+                    reject(error)
+                });
+        })
+    },
+
+    getWorkspaceFromGlobalSetting() {
+        const helperContext = this;
+
+        return new Promise(function (resolve, reject) {
+            axios.get(helperContext.IP_ADRESS + helperContext.PATH_GET_GLOBAL_WORKSPACE)
+                .then(function (response) {
+                    resolve(response.data)
+                })
+                .catch(function (error) {
+                    reject(error)
+                });
+        })
+    },
+
+    updateExistingWorkspace(data) {
+        const helperContext = this;
+        console.log(99)
+        return new Promise(function (resolve, reject) {
+            axios.post(helperContext.IP_ADRESS + helperContext.PATH_UPDATE_WORKSPACE, data)
+                .then(function (response) {
+                    resolve(response.data)
+                })
+                .catch(function (error) {
+                    reject(error)
+                });
+        })
+    },
 }
 
 export { _serverHelper }

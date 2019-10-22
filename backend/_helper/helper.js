@@ -9,6 +9,7 @@ const _helper = {
 
     UNIQUE_VALUE: "unique user",
     USER_CREATED_SUCCESSFUL: "User create successful",
+    SUCCESS_ASSIGN_GLOBAL: "Success assign global",
 
     PATH_IS_USER_ALREADY_IN_SYSTEM: "/",
     PATH_USER_REGISTRATION: "/registration",
@@ -17,6 +18,9 @@ const _helper = {
     PATH_LOAD_WORKSPACE: "/getWorkspaces",
     PATH_SIGNOUT: "/signout",
     PATH_GET_WORKSPACE: "/getSingleWorkspace",
+    PATH_ADD_WORKSPACE: "/addWorkspace",
+    PATH_GET_GLOBAL_WORKSPACE: "/getGlobalWorkspace",
+    PATH_UPDATE_WORKSPACE: "/updateWorkspace",
     
     COOKIES_PROP: "connect.sid",
 
@@ -26,6 +30,7 @@ const _helper = {
 
     SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
     SERVER_USER_SUCCESSFUL_SIGNED_OUT: "User successful signed out",
+    SERVER_WORKSPACE_UPDATED_SUCCESSFUL: "Workspace updated successful"
 }
 
 module.exports = {
