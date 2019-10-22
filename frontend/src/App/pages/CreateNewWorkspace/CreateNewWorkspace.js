@@ -70,6 +70,8 @@ class CreateNewWorkspace extends React.Component {
                 {
                     this.state.inputLinksVisibility
                         ? <InputForm
+                            browser={this.state.browser}
+                            technologies={this.state.technologies}
                             callback={this.returnToPreviousFormCallback}
                             visibilityState={this.state.inputLinksFormAnimation} />
                         : null
