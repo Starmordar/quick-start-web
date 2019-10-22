@@ -16,7 +16,7 @@ class SearchWorkspace extends React.Component {
     }
 
     handleKeyUp(event) {
-        if (event.keyCode == _workspaceHelper.ENTER_CODE) {
+        if (Number(event.keyCode) === Number(_workspaceHelper.ENTER_CODE)) {
             this.props.callback(_workspaceHelper.FIND_BY_PARAMS, this.state.inputValue)
         }
     }
@@ -31,10 +31,10 @@ class SearchWorkspace extends React.Component {
 
                 <h4 className="filter__filter-name">Search</h4>
                 <div className="filter-action__arrow ">
-                    <div class="md-form">
+                    <div className="md-form">
                         <input type="text"
                             id="inputDisabledEx"
-                            class="form-control custom-input"
+                            className="form-control custom-input"
                             value={this.state.inputValue}
                             onChange={this.handleChange}
                             onKeyUp={this.handleKeyUp} />

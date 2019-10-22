@@ -7,7 +7,6 @@ import chromeIcon from "./../../../assets/browserIcons/google-chrome.png";
 import firefoxIcon from "./../../../assets/browserIcons/firefox.jpg";
 import safariIcon from "./../../../assets/browserIcons/safari.png";
 import IEIcon from "./../../../assets/browserIcons/IE.jpg";
-import { _helper } from '../../../_helper/authValidation';
 
 class ChooseTechnologies extends React.Component {
     constructor(props) {
@@ -107,21 +106,25 @@ class ChooseTechnologies extends React.Component {
                 <div className="browser-selection">
                     <BrowserCard
                         browserName={_technoHelper.BROWSER_CHROME}
+                        imgAlt={_technoHelper.BROWSER_CHROME}
                         browserIconLink={chromeIcon}
                         callback={this.selectBrowserCallback}
                         selectedBrowser={this.state.selectedBrowser} />
                     <BrowserCard
                         browserName={_technoHelper.BROWSER_FIREFOX}
+                        imgAlt={_technoHelper.BROWSER_FIREFOX}
                         browserIconLink={firefoxIcon}
                         callback={this.selectBrowserCallback}
                         selectedBrowser={this.state.selectedBrowser} />
                     <BrowserCard
                         browserName={_technoHelper.BROWSER_SAFARI}
+                        imgAlt={_technoHelper.BROWSER_SAFARI}
                         browserIconLink={safariIcon}
                         callback={this.selectBrowserCallback}
                         selectedBrowser={this.state.selectedBrowser} />
                     <BrowserCard
                         browserName={_technoHelper.BROWSER_IE}
+                        imgAlt={_technoHelper.BROWSER_IE}
                         browserIconLink={IEIcon}
                         callback={this.selectBrowserCallback}
                         selectedBrowser={this.state.selectedBrowser} />
@@ -174,6 +177,7 @@ class BrowserCard extends React.Component {
                     data-name={this.props.browserName} onClick={this.selectBrowser}>
 
                     <img src={this.props.browserIconLink}
+                        alt={this.props.imgAlt}
                         width="140px"
                         height="140px"></img>
                     <h5 className="browser-description">{this.props.browserName}</h5>
