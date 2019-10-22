@@ -19,7 +19,9 @@ const _technoHelper = {
     ANIMATION_FADE_IN: "animated bounceInUp",
     ANIMATION_TIME_START_TO_END_MS: 800,
 
-    ICON_NAME: "icon"
+    ICON_NAME: "icon",
+
+    INPUTS_DATA_NUMBER: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 }
 
 export { _technoHelper }

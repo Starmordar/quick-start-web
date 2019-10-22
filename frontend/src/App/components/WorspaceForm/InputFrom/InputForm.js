@@ -1,14 +1,15 @@
 import React from 'react';
 import './InputForm.css';
+import { _technoHelper } from '../../../_helper/technoHelper';
 
 class InputForm extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            technologiesData: {
-
-            }
+            technologiesData: {},
+            browserData: {},
+            currentBrowser: ""
         }
     }
 
@@ -18,6 +19,8 @@ class InputForm extends React.Component {
 
     handleSubmitWorkspace = () => {
         console.log(this.state.technologiesData)
+        console.log(this.state.browserData)
+        console.log(this.state.currentBrowser)
     }
 
     handleInputChange = (technoName, value) => {
@@ -30,8 +33,18 @@ class InputForm extends React.Component {
         })
     }
 
-    handleBrowserChange = (browserName, value) => {
-        console.log(browserName, value)
+    handleBrowserChange = (browserName, evTarget) => {
+        this.setState({
+            currentBrowser: browserName
+        })
+        let dataNumber = evTarget.dataset.number,
+            value = evTarget.value;
+
+        this.setState(prevState => {
+            let browserData = Object.assign({}, prevState.browserData)
+            browserData[dataNumber] = value
+            return { browserData }
+        })
     }
 
     render() {
@@ -113,33 +126,43 @@ class TechnologiesCard extends React.Component {
 class BrowserCard extends React.Component {
     constructor(props) {
         super(props)
+
+        this.inputMap = _technoHelper.INPUTS_DATA_NUMBER
     }
 
     inputHandler = (event) => {
-        this.props.callback(this.props.browserName, event.target.value)
+        this.props.callback(this.props.browserName, event.target)
     }
 
     render() {
         return (
             <div className="card mb-3 border-left-0 border-right-0 border-top-0">
                 <div className="row">
-                    <div className="col-md-2">
+                    <div className="col-md-3 align-items-center d-flex flex-column justify-content-center">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg"
                             className="card-img" alt="..." width="80px" height="80px" />
                         <h4>{this.props.browserName}</h4>
                     </div>
 
-                    <div className="col-md-8 align-items-center justify-content-center">
+                    <div className="col-md-9 align-items-center justify-content-center">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                             </div>
-                            <input type="text"
-                                className="form-control"
-                                placeholder="Input local path..."
-                                aria-label=""
-                                aria-describedby="basic-addon1"
-                                onChange={this.inputHandler} />
                         </div>
+                        {
+                            this.inputMap.map((value, index) => {
+                                return <input
+                                    type="text"
+                                    className="form-control mb-3"
+                                    placeholder="Input local path..."
+                                    aria-label=""
+                                    aria-describedby="basic-addon1"
+                                    key={index}
+                                    data-number={value}
+                                    onChange={this.inputHandler} />
+                            })
+                        }
+
                     </div>
 
                 </div>
