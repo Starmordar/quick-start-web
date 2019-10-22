@@ -9,22 +9,27 @@
     justify-content: center;
 }
 
-.form-step-container::before {
-    content: '';
-    position: absolute;
-    height: 3px;
-    width: 60%;
-    margin-top: 17px;
-    background: #1cce4c;
-    z-index: 1;
-}
-
 .form-step-container .single-step {
     width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.form-step-container .single-step::before {
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 30%;
+    margin-top: -20px;
+    background-color: black;
+    z-index: 1;
+    transition: all .9s linear
+}
+
+.form-step-container .single-step.active-step::before {
+    background-color: #1cce4c;
 }
 
 .form-step-container .single-step .single-step__step-number {
@@ -36,6 +41,7 @@
     align-items: center;
     justify-content: center;
     z-index: 999;
+    transition: all .9s linear
 }
 
 .form-step-container .single-step .single-step__step-number span {

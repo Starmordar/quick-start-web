@@ -8,6 +8,7 @@ const _technoHelper = {
     CLASSNAME_SELECTED_BROWSER: "selected",
     CLASSNAME_SELECTED_TECNOLOGY: "techno-selected",
     CLASSNAME_VISIBLE_FORM: "visible",
+    CLASSNAME_ACTIVE_STEP: "active-step",
 
     CODE_VISUAL_STUDIO_CODE: "VSCode",
     CODE_ATOM: "Atom",
@@ -21,7 +22,12 @@ const _technoHelper = {
 
     ICON_NAME: "icon",
 
-    INPUTS_DATA_NUMBER: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    INPUTS_DATA_NUMBER: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+
+    STEP_DESCRIPTION_CHOOSE_TECHNO: "CHOOSE TECHNOLOGIES",
+    STEP_DESCRIPTION_ADD_LOCAL_PATH: "SETTING TECHNOLOGIES",
+
+    BLACK_COLOR: "black"
 }
 
 export { _technoHelper }

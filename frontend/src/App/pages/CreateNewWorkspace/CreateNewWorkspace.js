@@ -55,7 +55,9 @@ class CreateNewWorkspace extends React.Component {
     render() {
         return (
             <div className="gradiend-overplay" style={{ background: "black" }}>
-                <FormStep />
+                <FormStep
+                    firstStep={this.state.chooseTechnoVisibility}
+                    secondStep={this.state.inputLinksVisibility} />
 
                 {
                     this.state.chooseTechnoVisibility
