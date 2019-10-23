@@ -12,16 +12,16 @@ class App extends Component {
     const App = () => (
       <div>
         <Switch>
-          <Route exact path='/' component={CreateWorkspace}/>
-          <Route exact path='/auth' component={LoginPage}/>
-          <Route exact path='/registration' component={RegistrationPage}/>
-          <Route exact path='/prackRoom' component={CreateNewWorkspace}/>
+          <Route exact path='/' component={CreateWorkspace} />
+          <Route exact path='/auth' component={LoginPage} />
+          <Route exact path='/registration' component={RegistrationPage} />
+          <Route exact path='/prackRoom' component={CreateNewWorkspace} />
         </Switch>
       </div>
     )
     return (
       <Switch>
-        <App/>
+        <App />
       </Switch>
     );
   }

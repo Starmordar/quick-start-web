@@ -8,6 +8,9 @@ import { _technoHelper } from '../../_helper/technoHelper';
 import InputForm from '../../components/WorspaceForm/InputFrom/InputForm';
 import { _serverHelper } from '../../_helper/serverReponce';
 
+import { DEFAULT_LOADER, HIDE_CLASSNAME, Loader } from '../../_helper/loader';
+const loader = new Loader(DEFAULT_LOADER, HIDE_CLASSNAME);
+
 class CreateNewWorkspace extends React.Component {
     constructor(props) {
         super(props)
@@ -63,10 +66,10 @@ class CreateNewWorkspace extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.history);
+        loader.hideLoader()
+
         _serverHelper.getWorkspaceFromGlobalSetting()
             .then((responce) => {
-                console.log(responce)
                 if (responce === "") {
                     this.setState({
                         redirect: !this.state.redirect
@@ -76,6 +79,10 @@ class CreateNewWorkspace extends React.Component {
             .catch((err) => {
                 console.log(err)
             })
+    }
+
+    componentWillUnmount() {
+        loader.showLoader()
     }
 
     render() {

@@ -18,7 +18,7 @@ router.post(_helper.PATH_ADD_WORKSPACE, function (req, res, next) {
   global = req.body.name
   res.send(_helper.SUCCESS_ASSIGN_GLOBAL)
 })
-
+ 
 router.get(_helper.PATH_GET_GLOBAL_WORKSPACE, function (req, res, next) {
   res.send(global)
 })
@@ -31,7 +31,7 @@ router.post(_helper.PATH_UPDATE_WORKSPACE, function (req, res, next) {
   for (const key in req.body.technologiesData) {
     technoData.push({ [key]: req.body.technologiesData[key] })
   }
- 
+    
   Workspace.updateOne(
     { name: global },
     { $set: { technologies: technoData } }, function (error, workspace) {
@@ -54,7 +54,7 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
     dateString: "Added " + req.body.date,
     count: 1
   }
-
+ 
   Workspace.create(workspaceSettings, function (error, user) {
     console.log(error);
     if (error) return next(error);

@@ -9,6 +9,9 @@ import { _workspaceHelper } from '../../_helper/workspaceHelper';
 import { _serverHelper } from '../../_helper/serverReponce';
 import SearchWorkspace from '../../components/SearchWorkspace/SearchWorkspace';
 
+import { DEFAULT_LOADER, HIDE_CLASSNAME, Loader } from '../../_helper/loader';
+const loader = new Loader(DEFAULT_LOADER, HIDE_CLASSNAME);
+
 class CreateWorkspace extends React.Component {
     constructor(props) {
         super(props)
@@ -152,8 +155,13 @@ class CreateWorkspace extends React.Component {
 
     }
 
+    componentWillUnmount() {
+        loader.showLoader()
+    }
+
     componentDidMount() {
-        console.log(this.props.history);
+        setTimeout(() => { loader.hideLoader() }, 500)
+
         const _self = this;
 
         _serverHelper.getWorkspaces()
