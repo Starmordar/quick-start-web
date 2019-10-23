@@ -31,7 +31,7 @@ router.post(_helper.PATH_UPDATE_WORKSPACE, function (req, res, next) {
   for (const key in req.body.technologiesData) {
     technoData.push({ [key]: req.body.technologiesData[key] })
   }
-
+ 
   Workspace.updateOne(
     { name: global },
     { $set: { technologies: technoData } }, function (error, workspace) {

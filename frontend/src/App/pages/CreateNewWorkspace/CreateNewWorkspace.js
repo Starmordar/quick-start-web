@@ -7,7 +7,7 @@ import ChooseTechnologies from '../../components/WorspaceForm/ChooseTechnologies
 import { _technoHelper } from '../../_helper/technoHelper';
 import InputForm from '../../components/WorspaceForm/InputFrom/InputForm';
 import { _serverHelper } from '../../_helper/serverReponce';
- 
+
 class CreateNewWorkspace extends React.Component {
     constructor(props) {
         super(props)
@@ -56,7 +56,14 @@ class CreateNewWorkspace extends React.Component {
         }, _technoHelper.ANIMATION_TIME_START_TO_END_MS)
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.redirect === !this.state.redirect) {
+            this.props.history.push('/');
+        }
+    }
+
     componentDidMount() {
+        console.log(this.props.history);
         _serverHelper.getWorkspaceFromGlobalSetting()
             .then((responce) => {
                 console.log(responce)
@@ -74,8 +81,6 @@ class CreateNewWorkspace extends React.Component {
     render() {
         return (
             <div className="gradiend-overplay" style={{ background: "black" }}>
-                {this.state.redirect ? <Redirect to='/' /> : null}
-
                 <FormStep
                     firstStep={this.state.chooseTechnoVisibility}
                     secondStep={this.state.inputLinksVisibility} />

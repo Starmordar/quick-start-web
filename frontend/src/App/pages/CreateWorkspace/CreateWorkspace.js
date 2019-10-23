@@ -153,6 +153,7 @@ class CreateWorkspace extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.history);
         const _self = this;
 
         _serverHelper.getWorkspaces()
