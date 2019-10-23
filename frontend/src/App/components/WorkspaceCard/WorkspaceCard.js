@@ -10,6 +10,7 @@ class WorkspaceCard extends React.Component {
         super(props)
 
         this.state = {
+            technoString: "",
             redirect: false
         }
     }
@@ -31,12 +32,35 @@ class WorkspaceCard extends React.Component {
         }
     }
 
-    render() {
-        let techno = "";
+    componentDidMount() {
         if (typeof this.props.data.technologies === "string") {
-            techno = _workspaceHelper.WORKSPACE_PROP_TECHNOLOGIES
-        }
 
+            this.setState({
+                technoString: _workspaceHelper.WORKSPACE_PROP_TECHNOLOGIES
+            })
+            return;
+        }
+        if (this.props.data.technologies.length !== 0) {
+            let map = {}
+            let techno = this.props.data.technologies
+            for (let i = 0; i < techno.length; i++) {
+                map[Object.keys(techno[i])[0]] = i
+            }
+
+            let technoString = ""
+            for (const key in map) {
+                technoString += key + ", "
+            }
+
+            let newTechnoString = technoString.slice(0, technoString.length - 2);
+
+            this.setState({
+                technoString: newTechnoString
+            })
+        }
+    }
+
+    render() {
         let isActiveString = _workspaceHelper.DISABLED_WORKSPACE
         if (this.props.data.isActive) isActiveString = _workspaceHelper.ACTIVE_WORKSPACE
         if (this.props.data.isActive === _workspaceHelper.WORKSPACE_PROP_STATUS)
@@ -55,7 +79,7 @@ class WorkspaceCard extends React.Component {
                     <span>{isActiveString}</span>
                 </div>
                 <div className='card-property col-lg-3 text-truncate'>
-                    <span>{techno}</span>
+                    <span>{this.state.technoString}</span>
                 </div>
                 <div className='card-property col-lg-2'>
                     <span>{this.props.data.dateString}</span>
