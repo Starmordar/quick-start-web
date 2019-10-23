@@ -66,14 +66,20 @@ class CreateNewWorkspace extends React.Component {
     }
 
     componentDidMount() {
-        loader.hideLoader()
-
         _serverHelper.getWorkspaceFromGlobalSetting()
             .then((responce) => {
                 if (responce === "") {
                     this.setState({
                         redirect: !this.state.redirect
+                    }, () => {
+                        setTimeout(() => {
+                            loader.hideLoader()
+                        }, 500)
                     })
+                } else {
+                    setTimeout(() => {
+                        loader.hideLoader()
+                    }, 500)
                 }
             })
             .catch((err) => {

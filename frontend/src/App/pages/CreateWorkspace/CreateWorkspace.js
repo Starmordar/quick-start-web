@@ -160,8 +160,6 @@ class CreateWorkspace extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => { loader.hideLoader() }, 500)
-
         const _self = this;
 
         _serverHelper.getWorkspaces()
@@ -175,6 +173,10 @@ class CreateWorkspace extends React.Component {
                         .filter((category, index, self) => {
                             return self.indexOf(category) === index
                         }), _workspaceHelper.DEFAULT_FILTER_RULES]
+                }, () => {
+                    setTimeout(() => {
+                        loader.hideLoader()
+                    }, 500)
                 });
             })
             .catch(function (err) {
