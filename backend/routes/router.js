@@ -18,7 +18,7 @@ router.post(_helper.PATH_ADD_WORKSPACE, function (req, res, next) {
   global = req.body.name
   res.send(_helper.SUCCESS_ASSIGN_GLOBAL)
 })
- 
+
 router.get(_helper.PATH_GET_GLOBAL_WORKSPACE, function (req, res, next) {
   res.send(global)
 })
@@ -31,7 +31,7 @@ router.post(_helper.PATH_UPDATE_WORKSPACE, function (req, res, next) {
   for (const key in req.body.technologiesData) {
     technoData.push({ [key]: req.body.technologiesData[key] })
   }
-    
+
   Workspace.updateOne(
     { name: global },
     { $set: { technologies: technoData } }, function (error, workspace) {
@@ -54,7 +54,7 @@ router.post(_helper.PATH_CREATE_WORKSPACE, (req, res, next) => {
     dateString: "Added " + req.body.date,
     count: 1
   }
- 
+
   Workspace.create(workspaceSettings, function (error, user) {
     console.log(error);
     if (error) return next(error);
@@ -73,6 +73,40 @@ router.get(_helper.PATH_LOAD_WORKSPACE, (req, res, next) => {
       res.send(workspaces)
     }
   })
+})
+
+router.get(_helper.PATH_GET_WORKSPACES, (req, res, next) => {
+  const userData = {
+    username: req.body.name,
+    password: req.body.password
+  }
+
+  User.findOne({ username: userData.username })
+    .exec((err, user) => {
+      if (err) return next(err);
+
+      else if (user) {
+
+        bcrypt.compare(userData.password, user.password, function (err, result) {
+
+          if (result === true) {
+            Workspace.find({ userID: user._id }, function (error, workspaces) {
+              if (error) return next(error);
+
+              else {
+                res.send(workspaces)
+              }
+            })
+          }
+
+          else res.send(_helper.FIND_PASSWORD_ERROR)
+        })
+      }
+
+      else {
+        res.send(_helper.FIND_USER_WRONG_USERNAME)
+      }
+    })
 })
 
 module.exports = router;
