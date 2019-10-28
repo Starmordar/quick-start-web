@@ -32,7 +32,8 @@ class InputForm extends React.Component {
             currentBrowser: this.state.currentBrowser
         }
 
-        if (_technoHelper.isValidBrowserURLs(this, this.props.browser, this.state.browserData)) {
+        if (_technoHelper.isValidBrowserURLs(this, this.props.browser, this.state.browserData) &&
+            _technoHelper.isValidLinuxFolderValidation(this, this.state.technologiesData, this.props.technologies)) {
             _serverHelper.updateExistingWorkspace(dataToUpdate)
                 .then((responce) => {
                     if (responce === _serverHelper.SERVER_WORKSPACE_UPDATED_SUCCESSFUL) {
@@ -85,11 +86,15 @@ class InputForm extends React.Component {
                     {
                         this.props.technologies.map((value, index) => {
                             let firstKey = Object.keys(value)[0];
+                            let error = ""
+                            if (firstKey === Object.keys(this.state.technoError)[0]) error = this.state.technoError
+
                             if (value[firstKey] === true) {
                                 return <TechnologiesCard
                                     key={index}
                                     callback={this.handleInputChange}
-                                    technoName={firstKey} />
+                                    technoName={firstKey}
+                                    technoError={error} />
                             }
                         })
                     }
@@ -120,6 +125,8 @@ class TechnologiesCard extends React.Component {
     }
 
     render() {
+        let key = null
+        if (this.props.technoError !== "") key = Object.keys(this.props.technoError)[0]
         return (
             <div className="card mb-3 border-left-0 border-right-0 border-top-0">
                 <div className="row">
@@ -139,6 +146,11 @@ class TechnologiesCard extends React.Component {
                                 aria-label=""
                                 aria-describedby="basic-addon1"
                                 onChange={this.inputHandler} />
+                            {
+                                key !== null
+                                    ? <ErrorLabel text={this.props.technoError[key]} />
+                                    : null
+                            }
                         </div>
                     </div>
 

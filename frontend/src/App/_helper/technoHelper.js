@@ -17,10 +17,7 @@ const _technoHelper = {
     WARN_CHOOSE_SOMETHING: "Choose something",
     WARN_EMPTY_FIELD: "Path can't be empty",
     WARN_INVALID_URL: "URL should be valid string",
-    WARN_EMPTY_FIELD: "Path can't be empty",
-    WARN_INVALID_URL: "URL should be valid string",
-    WARN_EMPTY_FIELD: "Path can't be empty",
-    WARN_INVALID_URL: "URL should be valid string",
+    WARN_INVALID_FOLDER_PATH: "Folder path should be valid string",
 
     ANIMATION_FADE_OUT: "animated bounceOutUp",
     ANIMATION_FADE_IN: "animated bounceInUp",
@@ -77,16 +74,21 @@ const _technoHelper = {
         return true
     },
 
+    setTechnoErrorMessage(componentContext, technoName) {
+        componentContext.setState({
+            technoError: { [technoName]: this.WARN_INVALID_URL }
+        })
+    },
+
     isValidLinuxFolderValidation(componentContext, folders, props) {
         for (let i = 0; i < props.length; i++) {
             let key = Object.keys(props[i])[0];
-            if (!this.REGEX_VALID_FOLDER_PATH.test(folders[key])) {
-                console.log(12)
-                return "lol"
+            if (props[i][key] === true && !this.REGEX_VALID_FOLDER_PATH.test(folders[key])) {
+                this.setTechnoErrorMessage(componentContext, key)
+                return false
             }
-            // if (folders[key] === undefined && props[i][key] === true) return this.WARN_EMPTY_FIELD
         }
-        return "dwejnk.dn,ew";
+        return true
     }
 }
 
