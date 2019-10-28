@@ -17,6 +17,10 @@ const _technoHelper = {
     WARN_CHOOSE_SOMETHING: "Choose something",
     WARN_EMPTY_FIELD: "Path can't be empty",
     WARN_INVALID_URL: "URL should be valid string",
+    WARN_EMPTY_FIELD: "Path can't be empty",
+    WARN_INVALID_URL: "URL should be valid string",
+    WARN_EMPTY_FIELD: "Path can't be empty",
+    WARN_INVALID_URL: "URL should be valid string",
 
     ANIMATION_FADE_OUT: "animated bounceOutUp",
     ANIMATION_FADE_IN: "animated bounceInUp",
