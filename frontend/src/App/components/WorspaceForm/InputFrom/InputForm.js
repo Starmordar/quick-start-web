@@ -14,6 +14,9 @@ class InputForm extends React.Component {
             browserData: {},
             currentBrowser: "",
 
+            technoError: "",
+            browserError: "",
+
             redirect: false
         }
     }
@@ -28,18 +31,20 @@ class InputForm extends React.Component {
             browserData: this.state.browserData,
             currentBrowser: this.state.currentBrowser
         }
-        
-        _serverHelper.updateExistingWorkspace(dataToUpdate)
-            .then((responce) => {
-                if(responce === _serverHelper.SERVER_WORKSPACE_UPDATED_SUCCESSFUL){
-                    this.setState({
-                        redirect: !this.state.redirect
-                    })
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+
+        if (_technoHelper.isValidBrowserURLs(this, this.props.browser, this.state.browserData)) {
+            _serverHelper.updateExistingWorkspace(dataToUpdate)
+                .then((responce) => {
+                    if (responce === _serverHelper.SERVER_WORKSPACE_UPDATED_SUCCESSFUL) {
+                        this.setState({
+                            redirect: !this.state.redirect
+                        })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
     }
 
     handleInputChange = (technoName, value) => {
@@ -93,7 +98,8 @@ class InputForm extends React.Component {
                         this.props.browser !== ""
                             ? <BrowserCard
                                 callback={this.handleBrowserChange}
-                                browserName={this.props.browser} />
+                                browserName={this.props.browser}
+                                browserError={this.state.browserError} />
                             : null
 
                     }
@@ -155,6 +161,14 @@ class BrowserCard extends React.Component {
     }
 
     render() {
+        let errorObject = this.props.browserError[Object.keys(this.props.browserError)];
+        let key = 0, errorMsg = ""
+        if (errorObject === undefined) errorObject = null;
+        else {
+            key = Object.keys(errorObject)[0]
+            errorMsg = errorObject[key]
+        }
+
         return (
             <div className="card mb-3 border-left-0 border-right-0 border-top-0">
                 <div className="row">
@@ -171,15 +185,23 @@ class BrowserCard extends React.Component {
                         </div>
                         {
                             this.inputMap.map((value, index) => {
-                                return <input
-                                    type="text"
-                                    className="form-control mb-3"
-                                    placeholder="Input local path..."
-                                    aria-label=""
-                                    aria-describedby="basic-addon1"
-                                    key={index}
-                                    data-number={value}
-                                    onChange={this.inputHandler} />
+                                return (
+                                    <div key={index} >
+                                        <input
+                                            type="text"
+                                            className="form-control mb-3"
+                                            placeholder="Input local path..."
+                                            aria-label=""
+                                            aria-describedby="basic-addon1"
+                                            data-number={value}
+                                            onChange={this.inputHandler} />
+                                        {
+                                            errorObject !== null && key == value
+                                                ? <ErrorLabel text={errorMsg} />
+                                                : null
+                                        }
+                                    </div>
+                                )
                             })
                         }
 
@@ -189,6 +211,12 @@ class BrowserCard extends React.Component {
             </div>
         )
     }
+}
+
+function ErrorLabel(props) {
+    return (
+        <small id="emailHelp" className="form-text text-muted">{props.text}</small>
+    )
 }
 
 export default InputForm;
