@@ -68,6 +68,7 @@ const _workspaceHelper = {
     FIND_BY_PARAMS: "User search",
 
     WARN_USER_UNIQUE: "User should be unique",
+    WARN_WORKSPACE_UNIQUE: "Workspace name should be unique",
 
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
@@ -113,7 +114,9 @@ const _workspaceHelper = {
         if (validType === this.CATEGORY_OPTION) {
             if (componentContext.state.workspaceProps.name === this.BLANK_INPUT_FIELD) {
                 const errorFieldName = this.NAME_FIELD,
-                    warnDescription = this.NAME_FIELD + _helper.ERROR_BLANK_DESCRIPTION
+                    warnDescription = this.NAME_FIELD.charAt(0).toUpperCase()
+                        + this.NAME_FIELD.slice(1)
+                        + this.ERROR_BLANK_DESCRIPTION
 
                 this.setErrorMessageOnInputField(
                     componentContext,
@@ -123,11 +126,9 @@ const _workspaceHelper = {
                 return false;
             }
         }
-        console.log(1)
+
         if (this.isExistsBlankInputFields(componentContext)) return false;
-        console.log(2);
         if (this.nameValidation(componentContext)) return false;
-        console.log(3);
         return true
     },
 
@@ -141,7 +142,7 @@ const _workspaceHelper = {
                 this.setErrorMessageOnInputField(
                     componentContext,
                     this.NAME_FIELD,
-                    this.WARN_USER_UNIQUE
+                    this.WARN_WORKSPACE_UNIQUE
                 )
                 return true
             }
@@ -160,7 +161,9 @@ const _workspaceHelper = {
 
             if (inputField === this.BLANK_INPUT_FIELD) {
                 const errorFieldName = fieldName,
-                    warnDescription = fieldName + _helper.ERROR_BLANK_DESCRIPTION
+                    warnDescription = fieldName.charAt(0).toUpperCase()
+                        + fieldName.slice(1)
+                        + _helper.ERROR_BLANK_DESCRIPTION
 
                 this.setErrorMessageOnInputField(
                     componentContext,
@@ -199,8 +202,6 @@ const _workspaceHelper = {
                 currentCategoryInput: this.CATEGORY_OPTION
             })
         }
-
-
     },
 
     calculateDate(string) {

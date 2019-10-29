@@ -10,6 +10,7 @@ import { _serverHelper } from '../../_helper/serverReponce';
 import SearchWorkspace from '../../components/SearchWorkspace/SearchWorkspace';
 
 import { DEFAULT_LOADER, HIDE_CLASSNAME, Loader } from '../../_helper/loader';
+import { _technoHelper } from '../../_helper/technoHelper';
 const loader = new Loader(DEFAULT_LOADER, HIDE_CLASSNAME);
 
 class CreateWorkspace extends React.Component {
@@ -18,6 +19,7 @@ class CreateWorkspace extends React.Component {
 
         this.state = {
             isVisibleWorkspaceForm: false,
+            formAnimation: false,
             workspacesData: [],
             totalWorkspaces: 0,
             filterWorkspaces: [],
@@ -28,7 +30,7 @@ class CreateWorkspace extends React.Component {
             sortRules: _workspaceHelper.DEFAULT_SORT_RULES
         }
 
-        this.clickHandler = this.clickHandler.bind(this);
+        this.handleShowForm = this.handleShowForm.bind(this);
 
         this.briefInfoWorkspaceCard = {
             name: _workspaceHelper.WORKSPACE_PROP_NAME,
@@ -62,8 +64,16 @@ class CreateWorkspace extends React.Component {
         }
     }
 
-    clickHandler() {
-        this.setState({ isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm })
+    handleShowForm() {
+        this.setState({
+            isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm
+        })
+
+        setTimeout(() => {
+            this.setState({
+                formAnimation: !this.state.formAnimation
+            })
+        }, _technoHelper.ANIMATION_FORM_MS)
     }
 
     childCallback = (dataFromChild) => {
@@ -71,9 +81,16 @@ class CreateWorkspace extends React.Component {
 
         if (dataFromChild === _workspaceHelper.USER_WANT_CLOSE_FORM) {
             this.setState({
-                isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm
+                formAnimation: !this.state.formAnimation
             })
+
+            setTimeout(() => {
+                this.setState({
+                    isVisibleWorkspaceForm: !this.state.isVisibleWorkspaceForm
+                })
+            }, _technoHelper.ANIMATION_FORM_MS)
         }
+
         if (dataFromChild === _workspaceHelper.USER_ADDED_NEW_WORKSPACE) {
             _serverHelper.getWorkspaces()
                 .then(function (response) {
@@ -155,10 +172,6 @@ class CreateWorkspace extends React.Component {
 
     }
 
-    componentWillUnmount() {
-        loader.showLoader()
-    }
-
     componentDidMount() {
         const _self = this;
 
@@ -184,6 +197,10 @@ class CreateWorkspace extends React.Component {
             })
     }
 
+    componentWillUnmount() {
+        loader.showLoader()
+    }
+
     render() {
         let darkOverplay = this.state.isVisibleWorkspaceForm
             ? _workspaceHelper.OVERPLAY_FADEIN_ANIMATION
@@ -195,7 +212,9 @@ class CreateWorkspace extends React.Component {
 
         return (
             <div className="gradiend-overplay">
-                <TopNavbar />
+
+                <TopNavbar history={this.props.history} />
+
                 <div className="workset-filters">
 
                     <FilterArea
@@ -203,43 +222,57 @@ class CreateWorkspace extends React.Component {
                         filterName={this.filterProps.statusFilterName}
                         callback={this.filterCallback}
                         filter={this.state.statusRules} />
+
                     <FilterArea
                         param={this.state.uniqueCategories}
                         filterName={this.filterProps.categoryFilterName}
                         callback={this.filterCallback}
                         filter={this.state.categoryRules} />
+
                     <FilterArea
                         param={this.filterProps.sortFilters}
                         filterName={this.filterProps.sortFilterName}
                         callback={this.filterCallback}
                         filter={this.state.sortRules} />
+
                     <SearchWorkspace
                         callback={this.searchCallback} />
 
                 </div>
+
                 <div className="workset-container">
+
                     <div className="workspace-card worksets-total-info">
                         <h3 className="workset-count">Total {this.state.totalWorkspaces}</h3>
                         <a className="btn btn-outline-light"
-                            onClick={this.clickHandler}
+                            onClick={this.handleShowForm}
                         >Create workspace</a>
                     </div>
+
                     <WorkspaceCard data={this.briefInfoWorkspaceCard} default={true} />
+
                     {
                         this.state.filterWorkspaces.map((workspace, index) => {
-                            return <WorkspaceCard key={index} data={workspace} />
+                            return <WorkspaceCard key={index} data={workspace} history={this.props.history} />
                         })
                     }
-                </div>
-                <div className={"dark-shadow-overplay " + darkOverplay + " " + darkOverplayZIndex}>
 
                 </div>
-                <CreateWorkspaceForm
-                    visible={this.state.isVisibleWorkspaceForm}
-                    callback={this.childCallback}
-                    options={this.state.uniqueCategories}
-                    workSpaceData={this.state.workspacesData}
-                />
+
+                <div
+                    className={"dark-shadow-overplay " + darkOverplay + " " + darkOverplayZIndex}>
+                </div>
+
+                {
+                    this.state.isVisibleWorkspaceForm
+                        ? <CreateWorkspaceForm
+                            visible={this.state.formAnimation}
+                            callback={this.childCallback}
+                            options={this.state.uniqueCategories}
+                            workSpaceData={this.state.workspacesData}
+                        />
+                        : null
+                }
             </div>
         )
     }

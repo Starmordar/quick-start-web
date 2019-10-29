@@ -22,6 +22,8 @@ const _technoHelper = {
     ANIMATION_FADE_OUT: "animated bounceOutUp",
     ANIMATION_FADE_IN: "animated bounceInUp",
     ANIMATION_TIME_START_TO_END_MS: 800,
+    ANIMATION_FORM_MS: 500,
+    ANIMATION_FROM_FADEOUT: 700,
 
     ICON_NAME: "icon",
 

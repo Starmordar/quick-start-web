@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import './CreateWorkspaceForm.css';
+import { _technoHelper } from '../../_helper/technoHelper';
 
 const { _workspaceHelper } = require('../../_helper/workspaceHelper');
 const { _serverHelper } = require('../../_helper/serverReponce');
@@ -27,7 +28,7 @@ class CreateWorkspaceForm extends React.Component {
             optionState: _workspaceHelper.DEFAULT_OPTION
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleCloseForm = this.handleCloseForm.bind(this);
         this.replaceInputsHandler = this.replaceInputsHandler.bind(this);
         this.handleCheckBoxOnChange = this.handleCheckBoxOnChange.bind(this);
@@ -45,7 +46,7 @@ class CreateWorkspaceForm extends React.Component {
         this.props.callback(_workspaceHelper.USER_WANT_CLOSE_FORM);
     }
 
-    handleChange(event) {
+    handleInputChange(event) {
         _workspaceHelper.updateValueInFormInput(this, event);
     }
 
@@ -56,9 +57,9 @@ class CreateWorkspaceForm extends React.Component {
     onSubmitHandler(event) {
         event.preventDefault();
 
-        let isActive = false;
+        let isActiveWorkspaceMode = false;
         if (this.state.selectedOption === _workspaceHelper.CHECKBOX_ACTIVE_WORKSPACE_MODE) {
-            isActive = true
+            isActiveWorkspaceMode = true
         }
 
         let today = new Date();
@@ -68,7 +69,7 @@ class CreateWorkspaceForm extends React.Component {
             name: this.state.workspaceProps.name,
             category: this.state.workspaceProps.category,
             technologies: [],
-            isActive: isActive,
+            isActive: isActiveWorkspaceMode,
             date: date
         }
 
@@ -76,35 +77,30 @@ class CreateWorkspaceForm extends React.Component {
             workspaceSettings.category = this.state.optionState
         }
 
-        const componentContext = this;
-        if (_workspaceHelper.isValidWorkspaceProps(
-            componentContext,
-            this.state.currentCategoryInput)
-        ) {
+        const _self = this;
+        if (_workspaceHelper.isValidWorkspaceProps(_self, this.state.currentCategoryInput)) {
 
-            _serverHelper.createNewWorkspace(componentContext, workspaceSettings)
+            _serverHelper.createNewWorkspace(_self, workspaceSettings)
                 .then((responce) => {
                     if (responce === _serverHelper.SERVER_WORKSPACE_CREATED_SECCESSFUL) {
                         this.props.callback(_workspaceHelper.USER_ADDED_NEW_WORKSPACE);
                         this.props.callback(_workspaceHelper.USER_WANT_CLOSE_FORM);
 
-                        _workspaceHelper.resetInputFields(componentContext)
+                        _workspaceHelper.resetInputFields(_self)
                     }
                 })
                 .catch((err) => {
                     console.log(err)
                 })
-
         }
     }
 
     componentDidMount() {
-
         setTimeout(() => {
             this.setState({
                 invisible: false
             })
-        }, 700)
+        }, _technoHelper.ANIMATION_FROM_FADEOUT)
     }
 
     replaceInputsHandler() {
@@ -122,52 +118,54 @@ class CreateWorkspaceForm extends React.Component {
 
         let inputContent;
         if (this.state.currentCategoryInput === _workspaceHelper.CATEGORY_INPUT) {
-            inputContent = <div className="form-group col-md-12" >
-                <label htmlFor="categoryInput">Input Categoty</label>
-                <div className="input-group mb-2">
+            inputContent =
+                <div className="form-group col-md-12" >
+                    <label htmlFor="categoryInput">Input Categoty</label>
+                    <div className="input-group mb-2">
 
-                    <div className="input-group-prepend"
-                        onClick={this.replaceInputsHandler}>
-                        <div className="input-group-text">+</div>
+                        <div className="input-group-prepend"
+                            onClick={this.replaceInputsHandler}>
+                            <div className="input-group-text">+</div>
+                        </div>
+                        <input name="category"
+                            type="text"
+                            className="form-control"
+                            value={this.state.workspaceProps.category}
+                            id="categoryInput"
+                            placeholder="category"
+                            onChange={this.handleInputChange} />
                     </div>
-                    <input name="category"
-                        type="text"
-                        className="form-control"
-                        value={this.state.workspaceProps.category}
-                        id="categoryInput"
-                        placeholder="category"
-                        onChange={this.handleChange} />
+                    {
+                        this.state.workspacePropsWarnings.category.isWarn ?
+                            <ErrorLabel
+                                text={this.state.workspacePropsWarnings.category.warnDescription} />
+                            : null
+                    }
                 </div>
-                {
-                    this.state.workspacePropsWarnings.category.isWarn ?
-                        <ErrorLabel
-                            text={this.state.workspacePropsWarnings.category.warnDescription} />
-                        : null
-                }
-            </div>
         } else {
-            inputContent = <div className="form-group col-12">
-                <label htmlFor="inputState">choose exists</label>
-                <div className="input-group mb-2">
+            inputContent =
+                <div className="form-group col-12">
+                    <label htmlFor="inputState">Choose exists</label>
+                    <div className="input-group mb-2">
 
-                    <div className="input-group-prepend"
-                        onClick={this.replaceInputsHandler}>
-                        <div className="input-group-text">+</div>
+                        <div className="input-group-prepend"
+                            onClick={this.replaceInputsHandler}>
+                            <div className="input-group-text">+</div>
+                        </div>
+
+                        <select id="inputState"
+                            className="form-control"
+                            value={this.optionsState}
+                            onChange={this.onChangeOptionHandler}>
+                            {
+                                this.props.options.map((value, index) => {
+                                    return <option key={index}>{value}</option>
+                                })
+                            }
+                        </select>
+
                     </div>
-
-                    <select id="inputState"
-                        className="form-control"
-                        value={this.optionsState}
-                        onChange={this.onChangeOptionHandler}>
-                        {
-                            this.props.options.map((value, index) => {
-                                return <option key={index}>{value}</option>
-                            })
-                        }
-                    </select>
-
                 </div>
-            </div>
         }
 
         return (
@@ -189,7 +187,7 @@ class CreateWorkspaceForm extends React.Component {
                             value={this.state.workspaceProps.name}
                             id="workspaceNameInput"
                             placeholder="Enter worspace name"
-                            onChange={this.handleChange} />
+                            onChange={this.handleInputChange} />
                         {
                             this.state.workspacePropsWarnings.name.isWarn ?
                                 <ErrorLabel
@@ -234,7 +232,7 @@ class CreateWorkspaceForm extends React.Component {
 
 function ErrorLabel(props) {
     return (
-        <small id="emailHelp" className="form-text text-muted">{props.text}</small>
+        <small id="emailHelp" className="form-text text-danger error-label">{props.text}</small>
     )
 }
 
