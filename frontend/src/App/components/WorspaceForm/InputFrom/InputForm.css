@@ -19,13 +19,37 @@
 }
 
 .input-section {
-    margin-top: 100px;
+    margin-top: 10px;
 }
 
 .input-section .card {
     padding: 20px;
+    border: none !important;
 }
 
-.input-section .card:first-child {
-    border-top: 1px solid rgba(0, 0, 0, 0.125) !important;
+.input-form .setup-form-info .step-helper {
+    font-size: 35px;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+.input-form .setup-form-info .step-description {
+    font-size: 35px;
+    margin-bottom: 40px;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-wrapper .techno-name {
+    margin-top: 10px;
+}
+
+.techno-input-wrapper .form-group input{
+    margin-top: 1.6rem;
 }

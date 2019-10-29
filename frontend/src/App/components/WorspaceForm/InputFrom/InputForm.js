@@ -4,6 +4,7 @@ import './InputForm.css';
 
 import { _technoHelper } from '../../../_helper/technoHelper';
 import { _serverHelper } from '../../../_helper/serverReponce';
+import { _helper } from '../../../_helper/authValidation';
 
 class InputForm extends React.Component {
     constructor(props) {
@@ -73,15 +74,20 @@ class InputForm extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div className={"input-form " + this.props.visibilityState}>
                 {this.state.redirect ? <Redirect to='/' /> : null}
-                <button onClick={this.returnToPreviousForm}></button>
+
+                <div className="go-back" onClick={this.returnToPreviousForm}>
+                    <i className="fas fa-chevron-circle-left"></i>
+                </div>
+
                 <header className="setup-form-info">
-                    <h2 className='step-description'>Select path your workspace</h2>
-                    <h3 className="step-helper">Input path your workspaces</h3>
+                    <h2 className='step-description'>Input path your workspaces</h2>
                 </header>
 
+                <h3 className="step-helper">Input path workspaces</h3>
                 <div className="input-section">
                     {
                         this.props.technologies.map((value, index) => {
@@ -90,11 +96,16 @@ class InputForm extends React.Component {
                             if (firstKey === Object.keys(this.state.technoError)[0]) error = this.state.technoError
 
                             if (value[firstKey] === true) {
-                                return <TechnologiesCard
-                                    key={index}
-                                    callback={this.handleInputChange}
-                                    technoName={firstKey}
-                                    technoError={error} />
+                                for (let i = 0; i < this.props.images.length; i++) {
+                                    if (this.props.images[i].name === firstKey) {
+                                        return <TechnologiesCard
+                                            key={index}
+                                            callback={this.handleInputChange}
+                                            technoName={firstKey}
+                                            image={this.props.images[i].img}
+                                            technoError={error} />
+                                    }
+                                }
                             }
                         })
                     }
@@ -127,24 +138,30 @@ class TechnologiesCard extends React.Component {
     render() {
         let key = null
         if (this.props.technoError !== "") key = Object.keys(this.props.technoError)[0]
+
+        let technoInput = "";
+        if (key !== null)
+            technoInput = _helper.CLASSNAME_INVALID_INPUT
+        
         return (
             <div className="card mb-3 border-left-0 border-right-0 border-top-0">
                 <div className="row">
+
                     <div className="col-md-2">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg"
-                            className="card-img" alt="..." width="80px" height="80px" />
-                        <h4>{this.props.technoName}</h4>
+                        <div className="card-wrapper">
+                            <img src={this.props.image}
+                                className="" alt="..." width="80px" height="80px" />
+                            <h4 className="techno-name">{this.props.technoName}</h4>
+                        </div>
                     </div>
 
-                    <div className="col-md-8 align-items-center justify-content-center">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                            </div>
-                            <input type="text"
-                                className="form-control"
+                    <div className="col-md-8 techno-input-wrapper">
+                        <div className="form-group">
+                            <input name="path"
+                                type="text"
+                                className={"form-control " + technoInput}
+                                id="pathInput"
                                 placeholder="Input local path..."
-                                aria-label=""
-                                aria-describedby="basic-addon1"
                                 onChange={this.inputHandler} />
                             {
                                 key !== null
@@ -227,7 +244,7 @@ class BrowserCard extends React.Component {
 
 function ErrorLabel(props) {
     return (
-        <small id="emailHelp" className="form-text text-muted">{props.text}</small>
+        <small id="emailHelp" className="form-text text-danger">{props.text}</small>
     )
 }
 

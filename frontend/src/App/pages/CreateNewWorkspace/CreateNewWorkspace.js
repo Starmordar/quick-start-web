@@ -24,15 +24,17 @@ class CreateNewWorkspace extends React.Component {
 
             browser: "",
             technologies: [],
+            images: [],
 
             redirect: false
         }
     }
 
-    submitTechnologiesCallback = (browser, technologies) => {
+    submitTechnologiesCallback = (browser, technologies, images) => {
         this.setState({
             browser: browser,
             technologies: technologies,
+            images: images,
             chooseTechnoFormAnimation: _technoHelper.ANIMATION_FADE_OUT
         })
 
@@ -114,6 +116,7 @@ class CreateNewWorkspace extends React.Component {
                         ? <InputForm
                             browser={this.state.browser}
                             technologies={this.state.technologies}
+                            images={this.state.images}
                             callback={this.returnToPreviousFormCallback}
                             visibilityState={this.state.inputLinksFormAnimation} />
                         : null
