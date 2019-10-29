@@ -102,7 +102,7 @@ class CreateWorkspace extends React.Component {
                             .map((workspace) => workspace.category)
                             .filter((category, index, self) => {
                                 return self.indexOf(category) === index
-                            }), _workspaceHelper.DEFAULT_FILTER_RULES]
+                            })]
                     });
                 })
                 .then(() => {
@@ -185,7 +185,7 @@ class CreateWorkspace extends React.Component {
                         .map((workspace) => workspace.category)
                         .filter((category, index, self) => {
                             return self.indexOf(category) === index
-                        }), _workspaceHelper.DEFAULT_FILTER_RULES]
+                        })]
                 }, () => {
                     setTimeout(() => {
                         loader.hideLoader()
@@ -210,6 +210,14 @@ class CreateWorkspace extends React.Component {
             ? _workspaceHelper.Z_INDEX_IN
             : _workspaceHelper.Z_INDEX_OUT;
 
+        let filterParameters = [...this.state.uniqueCategories, _workspaceHelper.DEFAULT_FILTER_RULES]
+
+        let defaultSelection = [...this.state.uniqueCategories, ..._workspaceHelper.DEFAULT_CATEGORIES]
+            .map((workspace) => workspace)
+            .filter((category, index, self) => {
+                return self.indexOf(category) === index
+            })
+
         return (
             <div className="gradiend-overplay">
 
@@ -224,7 +232,7 @@ class CreateWorkspace extends React.Component {
                         filter={this.state.statusRules} />
 
                     <FilterArea
-                        param={this.state.uniqueCategories}
+                        param={filterParameters}
                         filterName={this.filterProps.categoryFilterName}
                         callback={this.filterCallback}
                         filter={this.state.categoryRules} />
@@ -268,7 +276,7 @@ class CreateWorkspace extends React.Component {
                         ? <CreateWorkspaceForm
                             visible={this.state.formAnimation}
                             callback={this.childCallback}
-                            options={this.state.uniqueCategories}
+                            options={defaultSelection}
                             workSpaceData={this.state.workspacesData}
                         />
                         : null

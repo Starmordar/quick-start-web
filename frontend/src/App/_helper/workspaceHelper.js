@@ -69,6 +69,9 @@ const _workspaceHelper = {
 
     WARN_USER_UNIQUE: "User should be unique",
     WARN_WORKSPACE_UNIQUE: "Workspace name should be unique",
+    WARN_WORKSPACE_NAME: "Workspace name can't be \"All\"",
+
+    DEFAULT_CATEGORIES: ["School", "University", "Work", "Custum workspaces"],
 
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
@@ -126,10 +129,24 @@ const _workspaceHelper = {
                 return false;
             }
         }
-
+        console.log(validType)
         if (this.isExistsBlankInputFields(componentContext)) return false;
         if (this.nameValidation(componentContext)) return false;
+        if (this.categoryValidation(componentContext, validType)) return false;
         return true
+    },
+
+    categoryValidation(componentContext, validType) {
+        if (validType === this.CATEGORY_INPUT) {
+            if (componentContext.state.workspaceProps.category === this.DEFAULT_FILTER_RULES) {
+                this.setErrorMessageOnInputField(
+                    componentContext,
+                    this.CATEGORY_FIELD,
+                    this.WARN_WORKSPACE_NAME
+                )
+                return true
+            }
+        } else { return false }
     },
 
     nameValidation(componentContext) {
