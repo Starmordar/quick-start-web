@@ -34,8 +34,7 @@ const _serverHelper = {
 
         axios.get(helperContext.IP_ADRESS + helperContext.PATH_ALREADY_REGISTERED)
             .then(function (response) {
-
-                if (response.data === helperContext.SERVER_USER_NOT_SIGIN) {
+                if (response.data === helperContext.SERVER_USER_ALREADY_IN_SYSTEM) {
                     componentContext.setState({ redirect: true })
                 }
             }).catch(function (error) {
