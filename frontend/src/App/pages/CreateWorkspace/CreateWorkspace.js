@@ -11,6 +11,7 @@ import SearchWorkspace from '../../components/SearchWorkspace/SearchWorkspace';
 
 import { DEFAULT_LOADER, HIDE_CLASSNAME, Loader } from '../../_helper/loader';
 import { _technoHelper } from '../../_helper/technoHelper';
+import { _helper } from '../../_helper/authValidation';
 const loader = new Loader(DEFAULT_LOADER, HIDE_CLASSNAME);
 
 class CreateWorkspace extends React.Component {
@@ -94,16 +95,20 @@ class CreateWorkspace extends React.Component {
         if (dataFromChild === _workspaceHelper.USER_ADDED_NEW_WORKSPACE) {
             _serverHelper.getWorkspaces()
                 .then(function (response) {
+
+                    let uniqueCategories = response
+                        .map((workspace) => workspace.category)
+                        .filter((category, index, self) => {
+                            return self.indexOf(category) === index
+                        });
+
                     _self.setState({
                         workspacesData: response,
                         filterWorkspaces: response,
                         totalWorkspaces: response.length,
-                        uniqueCategories: [...response
-                            .map((workspace) => workspace.category)
-                            .filter((category, index, self) => {
-                                return self.indexOf(category) === index
-                            })]
+                        uniqueCategories: uniqueCategories
                     });
+
                 })
                 .then(() => {
                     _workspaceHelper.resetFiltersParameters(_self)
@@ -140,7 +145,9 @@ class CreateWorkspace extends React.Component {
 
     searchCallback = (status, searchParams) => {
         _workspaceHelper.resetFiltersParameters(this)
+
         if (status === _workspaceHelper.FIND_BY_PARAMS) {
+
             setTimeout(() => {
                 if (searchParams === "") {
                     this.setState({
@@ -167,9 +174,8 @@ class CreateWorkspace extends React.Component {
                     filterWorkspaces: [],
                     totalWorkspaces: 0
                 })
-            }, 10)
+            }, _workspaceHelper.MIN_SETTIMEOUT_TIME)
         }
-
     }
 
     componentDidMount() {
@@ -177,19 +183,21 @@ class CreateWorkspace extends React.Component {
 
         _serverHelper.getWorkspaces()
             .then(function (response) {
+                let uniqueCategories = response
+                    .map((workspace) => workspace.category)
+                    .filter((category, index, self) => {
+                        return self.indexOf(category) === index
+                    });
+
                 _self.setState({
                     workspacesData: response,
                     filterWorkspaces: response,
                     totalWorkspaces: response.length,
-                    uniqueCategories: [...response
-                        .map((workspace) => workspace.category)
-                        .filter((category, index, self) => {
-                            return self.indexOf(category) === index
-                        })]
+                    uniqueCategories: uniqueCategories
                 }, () => {
                     setTimeout(() => {
                         loader.hideLoader()
-                    }, 500)
+                    }, _helper.LOADER_TIME_FADE_OUT_MS)
                 });
             })
             .catch(function (err) {
@@ -243,8 +251,7 @@ class CreateWorkspace extends React.Component {
                         callback={this.filterCallback}
                         filter={this.state.sortRules} />
 
-                    <SearchWorkspace
-                        callback={this.searchCallback} />
+                    <SearchWorkspace callback={this.searchCallback} />
 
                 </div>
 

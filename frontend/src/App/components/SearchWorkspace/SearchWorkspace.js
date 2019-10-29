@@ -12,7 +12,7 @@ class SearchWorkspace extends React.Component {
         };
 
         this.handleKeyUp = this.handleKeyUp.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     handleKeyUp(event) {
@@ -21,7 +21,7 @@ class SearchWorkspace extends React.Component {
         }
     }
 
-    handleChange(event) {
+    handleInputChange(event) {
         this.setState({ inputValue: event.target.value })
     }
 
@@ -30,16 +30,19 @@ class SearchWorkspace extends React.Component {
             <div className="filter">
 
                 <h4 className="filter__filter-name">Search</h4>
+
                 <div className="filter-action__arrow ">
                     <div className="md-form">
                         <input type="text"
                             id="inputDisabledEx"
                             className="form-control custom-input"
                             value={this.state.inputValue}
-                            onChange={this.handleChange}
-                            onKeyUp={this.handleKeyUp} />
+                            onChange={this.handleInputChange}
+                            onKeyUp={this.handleKeyUp}
+                        />
                     </div>
                 </div>
+
             </div>
         )
     }

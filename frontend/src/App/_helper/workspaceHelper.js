@@ -73,6 +73,8 @@ const _workspaceHelper = {
 
     DEFAULT_CATEGORIES: ["School", "University", "Work", "Custum workspaces"],
 
+    MIN_SETTIMEOUT_TIME: 10,
+
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
             targetValue = event.target.value
