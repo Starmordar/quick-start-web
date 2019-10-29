@@ -131,7 +131,7 @@ const _workspaceHelper = {
                 return false;
             }
         }
-        console.log(validType)
+        
         if (this.isExistsBlankInputFields(componentContext)) return false;
         if (this.nameValidation(componentContext)) return false;
         if (this.categoryValidation(componentContext, validType)) return false;
@@ -323,7 +323,7 @@ const _workspaceHelper = {
 
             case _workspaceHelper.HIGH_USAGE_SORT:
                 temp.sort((workspace1, workspace2) => {
-                    console.log(workspace1.count, workspace2.count)
+                    
                     return workspace2.count - workspace1.count
                 })
                 break;

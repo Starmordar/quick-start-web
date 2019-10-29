@@ -13,6 +13,9 @@ const _helper = {
     PATH_REGISTRATION_PAGE: "/registration",
     PATH_PRACK_ROOM: "/prackRoom",
 
+    INPUT_PASSWORD_TYPE: "password",
+    INPUT_TEXT_TYPE: "text",
+
     DEFAULT_CARD_CLASSNAME: "worksets-default",
 
     EMAIL_VALIDATION_REGEX: new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),

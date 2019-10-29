@@ -23,7 +23,7 @@ class RegistrationForm extends React.Component {
             },
 
             redirect: false,
-            passwordInputType: "password"
+            passwordInputType: _helper.INPUT_PASSWORD_TYPE
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -65,13 +65,13 @@ class RegistrationForm extends React.Component {
 
     handleButtonPress() {
         this.setState({
-            passwordInputType: "text"
+            passwordInputType: _helper.INPUT_TEXT_TYPE
         })
     }
 
     handleButtonRelease() {
         this.setState({
-            passwordInputType: "password"
+            passwordInputType: _helper.INPUT_PASSWORD_TYPE
         })
     }
 

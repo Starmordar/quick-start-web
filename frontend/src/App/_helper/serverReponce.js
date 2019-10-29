@@ -78,7 +78,7 @@ const _serverHelper = {
             }
         }).then(function (response) {
             _helper.handleServerErrorMessages(componentContext, response.data);
-            console.log(response.data)
+            
             if (response.data === _serverHelper.SERVER_USER_CREATED) {
                 componentContext.setState({ redirect: true })
             }
@@ -182,7 +182,7 @@ const _serverHelper = {
 
     updateExistingWorkspace(data) {
         const helperContext = this;
-        console.log(99)
+        
         return new Promise(function (resolve, reject) {
             axios.post(helperContext.IP_ADRESS + helperContext.PATH_UPDATE_WORKSPACE, data)
                 .then(function (response) {

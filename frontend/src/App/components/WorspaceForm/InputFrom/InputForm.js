@@ -79,7 +79,6 @@ class InputForm extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div className={"input-form " + this.props.visibilityState}>
             
