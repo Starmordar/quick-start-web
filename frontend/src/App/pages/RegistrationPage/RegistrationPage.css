@@ -34,3 +34,19 @@
 .error-label {
     margin-left: 0.2rem
 }
+
+.authentification {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    z-index: 998;
+}
+
+.authentification .authentification__warn {
+    font-size: 18px;
+    letter-spacing: .2px;
+}
+
+.authentification .authentification__link-to-page {
+    cursor: pointer;
+}

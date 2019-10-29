@@ -9,6 +9,7 @@ const _helper = {
     CLASSNAME_VALID_INPUT: "is-valid",
 
     PATH_HOME_PAGE: "/",
+    PATH_AUTH_PAGE: "/auth",
 
     EMAIL_VALIDATION_REGEX: new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
     ONLY_LETTER_NUMBER_UNDERSCOPES_REGEX: new RegExp(/\W/),
@@ -45,6 +46,8 @@ const _helper = {
 
     FIND_USER_WRONG_USERNAME: "User with this username doesn't exists",
     FIND_PASSWORD_ERROR: "Error password",
+
+    LOADER_TIME_FADE_OUT_MS: 500, 
 
     updateValueInFormInput(componentContext, event) {
         const targetName = event.target.name,
