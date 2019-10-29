@@ -11,6 +11,9 @@ const _helper = {
     PATH_HOME_PAGE: "/",
     PATH_AUTH_PAGE: "/auth",
     PATH_REGISTRATION_PAGE: "/registration",
+    PATH_PRACK_ROOM: "/prackRoom",
+
+    DEFAULT_CARD_CLASSNAME: "worksets-default",
 
     EMAIL_VALIDATION_REGEX: new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
     ONLY_LETTER_NUMBER_UNDERSCOPES_REGEX: new RegExp(/\W/),

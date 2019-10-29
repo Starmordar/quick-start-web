@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import './CreateWorkspaceForm.css';
 import { _technoHelper } from '../../_helper/technoHelper';
+import { _helper } from '../../_helper/authValidation';
 
 const { _workspaceHelper } = require('../../_helper/workspaceHelper');
 const { _serverHelper } = require('../../_helper/serverReponce');
@@ -116,11 +117,17 @@ class CreateWorkspaceForm extends React.Component {
             ? _workspaceHelper.DISPLAY_NONE
             : _workspaceHelper.DISPLAY_BLOCK;
 
+        let name = "", category = ""
+        if (this.state.workspacePropsWarnings.name.isWarn)
+            name = _helper.CLASSNAME_INVALID_INPUT
+        if (this.state.workspacePropsWarnings.category.isWarn)
+            category = _helper.CLASSNAME_INVALID_INPUT
+
         let inputContent;
         if (this.state.currentCategoryInput === _workspaceHelper.CATEGORY_INPUT) {
             inputContent =
                 <div className="form-group col-md-12" >
-                    <label htmlFor="categoryInput">Input Categoty</label>
+                    <label className="workspace-label" htmlFor="categoryInput">Input Categoty</label>
                     <div className="input-group mb-2">
 
                         <div className="input-group-prepend"
@@ -129,7 +136,7 @@ class CreateWorkspaceForm extends React.Component {
                         </div>
                         <input name="category"
                             type="text"
-                            className="form-control"
+                            className={"form-control " + category}
                             value={this.state.workspaceProps.category}
                             id="categoryInput"
                             placeholder="category"
@@ -182,10 +189,10 @@ class CreateWorkspaceForm extends React.Component {
                 <form className="workspace-form" onSubmit={this.onSubmitHandler}>
 
                     <div className="form-group">
-                        <label htmlFor="workspaceNameInput">Workspace name</label>
+                        <label className="workspace-label" htmlFor="workspaceNameInput">Workspace name</label>
                         <input name="name"
                             type="text"
-                            className="form-control"
+                            className={"form-control " + name}
                             value={this.state.workspaceProps.name}
                             id="workspaceNameInput"
                             placeholder="Enter worspace name"
@@ -224,7 +231,8 @@ class CreateWorkspaceForm extends React.Component {
                             <label className="form-check-label" htmlFor="exampleRadios2">Disables mode</label>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+
+                    <button type="submit" className="btn btn-primary btn-block">Create workspace</button>
 
                 </form>
             </div>

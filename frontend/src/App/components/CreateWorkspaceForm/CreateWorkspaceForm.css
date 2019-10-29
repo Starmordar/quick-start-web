@@ -36,3 +36,12 @@
     font-size: 32px;
     cursor: pointer;
 }
+
+.workspace-form .btn {
+    margin-top: 1.5rem;
+}
+
+.workspace-form .workspace-label {
+    margin-bottom: 0.2rem;
+    margin-left: 0.2rem
+}

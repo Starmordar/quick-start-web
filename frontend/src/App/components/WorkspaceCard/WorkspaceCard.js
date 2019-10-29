@@ -4,6 +4,7 @@ import './WorkspaceCard.css';
 
 import { _workspaceHelper } from '../../_helper/workspaceHelper';
 import { _serverHelper } from '../../_helper/serverReponce';
+import { _helper } from '../../_helper/authValidation';
 
 class WorkspaceCard extends React.Component {
     constructor(props) {
@@ -62,7 +63,7 @@ class WorkspaceCard extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.redirect === !this.state.redirect) {
-            this.props.history.push('/prackRoom');
+            this.props.history.push(_helper.PATH_PRACK_ROOM);
         }
     }
 
@@ -72,7 +73,7 @@ class WorkspaceCard extends React.Component {
         if (this.props.data.isActive === _workspaceHelper.WORKSPACE_PROP_STATUS)
             isActiveString = _workspaceHelper.WORKSPACE_PROP_STATUS
 
-        let defaultClassname = "worksets-default"
+        let defaultClassname = _helper.DEFAULT_CARD_CLASSNAME
         if (this.props.default === undefined) defaultClassname = ''
 
         return (
