@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import './RegistrationForm.css';
 
 const { _helper } = require('../../_helper/authValidation');
@@ -22,111 +21,117 @@ class RegistrationForm extends React.Component {
                 passwordErr: { isErr: false, errDescription: "" },
                 confirmPasswordErr: { isErr: false, errDescription: "" }
             },
+
             redirect: false
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleRegistrationSubmit = this.handleRegistrationSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleInputChange(event) {
         _helper.updateValueInFormInput(this, event);
     }
 
-    onSubmitHandler(event) {
+    handleRegistrationSubmit(event) {
         event.preventDefault();
-        const componentContext = this;
 
-        if (_helper.isValidForm(this)) {
-            let userData = {
+        const _self = this;
+        if (_helper.isValidUserData(this)) {
+            const userData = {
                 username: this.state.userData.username,
                 email: this.state.userData.email,
                 password: this.state.userData.password
             }
 
-            _serverHelper.userRegistration(componentContext, userData);
+            _serverHelper.userRegistration(_self, userData);
         }
     }
 
     componentDidMount() {
-        const componentContext = this;
+        const _self = this;
 
-        _serverHelper.redirectToHomeIfUserAlreadyOnTheSystem(componentContext);
+        _serverHelper.redirectToHomeIfUserAlreadyOnTheSystem(_self);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.redirect === !this.state.redirect) {
+            this.props.history.push(_helper.PATH_HOME_PAGE);
+        }
     }
 
     render() {
         return (
-            <form onSubmit={this.onSubmitHandler}>
-                {this.state.redirect ? <Redirect to='/' /> : null}
+            <form className="registration-form" onSubmit={this.handleRegistrationSubmit}>
 
                 <div className="form-group">
-                    <label htmlFor="usernameInput">Username</label>
-                    <input name="username"
+                    <label className="registration-label" htmlFor="usernameInput">Username</label>
+                    <input
+                        name="username"
                         type="text"
                         className="form-control"
                         id="usernameInput"
                         placeholder="Enter username"
-                        onChange={this.handleChange} />
+                        onChange={this.handleInputChange} />
                     {
-                        this.state.userDataErr.usernameErr.isErr ?
-                            <ErrorLabel
+                        this.state.userDataErr.usernameErr.isErr
+                            ? <ErrorLabel
                                 text={this.state.userDataErr.usernameErr.errDescription} />
                             : null
                     }
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="emailInput">Email</label>
+                    <label className="registration-label" htmlFor="emailInput">Email address</label>
                     <input name="email"
                         type="text"
                         className="form-control"
                         id="emailInput"
-                        placeholder="Email"
-                        onChange={this.handleChange} />
+                        placeholder="Enter email"
+                        onChange={this.handleInputChange} />
                     {
-                        this.state.userDataErr.emailErr.isErr ?
-                            <ErrorLabel
+                        this.state.userDataErr.emailErr.isErr
+                            ? <ErrorLabel
                                 text={this.state.userDataErr.emailErr.errDescription} />
                             : null
                     }
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="passwordInput">Password</label>
+                    <label className="registration-label" htmlFor="passwordInput">Create a password</label>
                     <input name="password"
                         type="password"
                         className="form-control"
                         id="passwordInput"
-                        placeholder="Password"
+                        placeholder="Create a password"
                         autoComplete="on"
-                        onChange={this.handleChange} />
+                        onChange={this.handleInputChange} />
                     {
-                        this.state.userDataErr.passwordErr.isErr ?
-                            <ErrorLabel
+                        this.state.userDataErr.passwordErr.isErr
+                            ? <ErrorLabel
                                 text={this.state.userDataErr.passwordErr.errDescription} />
                             : null
                     }
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="passwordInput">Confirm password</label>
+                    <label className="registration-label" htmlFor="confirm-passwordInput">Confirm password</label>
                     <input name="confirmPassword"
                         type="password"
                         className="form-control"
                         id="confirm-passwordInput"
                         placeholder="Confirm password"
                         autoComplete="on"
-                        onChange={this.handleChange} />
+                        onChange={this.handleInputChange} />
                     {
-                        this.state.userDataErr.confirmPasswordErr.isErr ?
-                            <ErrorLabel
+                        this.state.userDataErr.confirmPasswordErr.isErr
+                            ? <ErrorLabel
                                 text={this.state.userDataErr.confirmPasswordErr.errDescription} />
                             : null
                     }
                 </div>
 
-                <button type="submit" className="btn btn-primary">Submit</button>
-
+                <button type="submit" className="btn btn-primary btn-block ">Create your account</button>
             </form>
         )
     }

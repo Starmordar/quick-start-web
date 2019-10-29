@@ -1,10 +1,24 @@
 import React from 'react';
 import './RegistrationPage.css';
+
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
+
+import { DEFAULT_LOADER, HIDE_CLASSNAME, Loader } from '../../_helper/loader';
+const loader = new Loader(DEFAULT_LOADER, HIDE_CLASSNAME);
 
 class RegistrationPage extends React.Component {
     constructor(props) {
         super(props)
+    }
+
+    componentWillUnmount() {
+        loader.showLoader()
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            loader.hideLoader()
+        }, 500)
     }
 
     render() {
@@ -18,7 +32,8 @@ class RegistrationPage extends React.Component {
                         </div>
 
                         <div className="registration-section__form-container col-4">
-                            <RegistrationForm />
+                            <h2 className="registration-header">Join SquidSquad today</h2>
+                            <RegistrationForm history={this.props.history} />
                         </div>
 
                     </div>

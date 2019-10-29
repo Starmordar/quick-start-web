@@ -1,7 +1,7 @@
 .registration-section {
     position: relative;
-    max-height: 100vh;
-    height: 100vh;
+    max-height: 80vh;
+    height: 80vh;
     padding: 100px 0 100px 0;
 }
 
@@ -10,7 +10,22 @@
 }
 
 .registration-section__form-container {
-    padding: 40px !important;
+    padding: 30px 40px 30px 40px !important;
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.35);
     border-radius: 8px;
+}
+
+.registration-section__form-container .registration-header {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.7rem;
+    letter-spacing: 1.2;
+}
+
+.registration-label {
+    margin-bottom: 0.2rem;
+}
+
+.registration-form .btn{
+    margin-top: 1.5rem;
 }

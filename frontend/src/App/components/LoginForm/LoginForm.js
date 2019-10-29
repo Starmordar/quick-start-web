@@ -32,7 +32,7 @@ class LoginForm extends React.Component {
         event.preventDefault();
 
         const componentContext = this;
-        if (_helper.isValidForm(this)) {
+        if (_helper.isValidUserData(this)) {
             
             let userData = {
                 username: this.state.userData.username,

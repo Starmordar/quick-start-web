@@ -5,6 +5,8 @@ const _helper = {
     ERROR_FIELD_NAME_ENDING: "Err",
     ERROR_BLANK_DESCRIPTION: " cannot be blank",
 
+    PATH_HOME_PAGE: "/",
+
     EMAIL_VALIDATION_REGEX: new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
     ONLY_LETTER_NUMBER_UNDERSCOPES_REGEX: new RegExp(/\W/),
     AT_LEAST_ONE_NUMBER_REGEX: new RegExp(/[0-9]/),
@@ -236,7 +238,7 @@ const _helper = {
         return true
     },
 
-    isValidForm(componentContext) {
+    isValidUserData(componentContext) {
         this.resetErrorMessages(componentContext);
 
         if (this.isExistsBlankInputFields(componentContext)) return false;
