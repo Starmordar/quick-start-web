@@ -1,6 +1,5 @@
 import React from 'react';
 import './CreateNewWorkspace.css';
-import { Redirect } from 'react-router-dom';
 
 import FormStep from '../../components/FormStep/FormStep';
 import ChooseTechnologies from '../../components/WorspaceForm/ChooseTechnologies/ChooseTechnologies';
@@ -9,6 +8,7 @@ import InputForm from '../../components/WorspaceForm/InputFrom/InputForm';
 import { _serverHelper } from '../../_helper/serverReponce';
 
 import { DEFAULT_LOADER, HIDE_CLASSNAME, Loader } from '../../_helper/loader';
+import { _helper } from '../../_helper/authValidation';
 const loader = new Loader(DEFAULT_LOADER, HIDE_CLASSNAME);
 
 class CreateNewWorkspace extends React.Component {
@@ -61,7 +61,7 @@ class CreateNewWorkspace extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.redirect === !this.state.redirect) {
-            this.props.history.push('/');
+            this.props.history.push(_helper.PATH_HOME_PAGE);
         }
     }
 
@@ -74,12 +74,12 @@ class CreateNewWorkspace extends React.Component {
                     }, () => {
                         setTimeout(() => {
                             loader.hideLoader()
-                        }, 500)
+                        }, _helper.LOADER_TIME_FADE_OUT_MS)
                     })
                 } else {
                     setTimeout(() => {
                         loader.hideLoader()
-                    }, 500)
+                    }, _helper.LOADER_TIME_FADE_OUT_MS)
                 }
             })
             .catch((err) => {
@@ -102,6 +102,7 @@ class CreateNewWorkspace extends React.Component {
                     this.state.chooseTechnoVisibility
                         ?
                         <ChooseTechnologies
+                            history={this.props.history}
                             defaultBrowser={this.state.browser}
                             defaultTechnologies={this.state.technologies}
                             callback={this.submitTechnologiesCallback}

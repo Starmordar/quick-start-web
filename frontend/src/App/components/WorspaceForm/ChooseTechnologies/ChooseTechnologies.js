@@ -3,10 +3,11 @@ import './ChooseTechnologies.css';
 
 import { _technoHelper } from '../../../_helper/technoHelper';
 
-import chromeIcon from "./../../../assets/browserIcons/google-chrome.png";
-import firefoxIcon from "./../../../assets/browserIcons/firefox.jpg";
+import chromeIcon from "./../../../assets/browserIcons/google.png";
+import firefoxIcon from "./../../../assets/browserIcons/firefox.png";
 import safariIcon from "./../../../assets/browserIcons/safari.png";
-import IEIcon from "./../../../assets/browserIcons/IE.jpg";
+import IEIcon from "./../../../assets/browserIcons/IE.png";
+import { _helper } from '../../../_helper/authValidation';
 
 class ChooseTechnologies extends React.Component {
     constructor(props) {
@@ -19,6 +20,12 @@ class ChooseTechnologies extends React.Component {
 
         this.technoNameTemplate = [_technoHelper.CODE_ATOM,
         _technoHelper.CODE_SUBLIME_TEXT, _technoHelper.CODE_VISUAL_STUDIO_CODE]
+
+        this.handleReturnToHomePage = this.handleReturnToHomePage.bind(this)
+    }
+
+    handleReturnToHomePage() {
+        this.props.history.push(_helper.PATH_HOME_PAGE)
     }
 
     selectBrowserCallback = (browserName) => {
@@ -97,13 +104,20 @@ class ChooseTechnologies extends React.Component {
             }
         }
         return (
-            <div className={"choose-technologies-form " + this.props.visibilityState} onAnimationEnd={this.animationHandler}>
+            <div className={"choose-technologies-form " + this.props.visibilityState}
+                onAnimationEnd={this.animationHandler}>
+
+                <div className="go-back" onClick={this.handleReturnToHomePage}>
+                    <i class="fas fa-chevron-circle-left"></i>
+                </div>
+
                 <header className="setup-form-info">
-                    <h2 className='step-description'>Select technologies</h2>
-                    <h3 className="step-helper">Choose browser and other programs</h3>
+                    <h2 className='step-description'>Setup your workspace</h2>
                 </header>
 
+                <h3 className="step-helper">Choose one browser</h3>
                 <div className="browser-selection">
+
                     <BrowserCard
                         browserName={_technoHelper.BROWSER_CHROME}
                         imgAlt={_technoHelper.BROWSER_CHROME}
@@ -130,6 +144,7 @@ class ChooseTechnologies extends React.Component {
                         selectedBrowser={this.state.selectedBrowser} />
                 </div>
 
+                <h3 className="step-helper-techno">Select technologies</h3>
                 <div className="techno-selection">
                     {
 
@@ -173,16 +188,19 @@ class BrowserCard extends React.Component {
 
         return (
             <div className="browser-card col-3">
+
                 <div className={"card-border " + selectedBrowserClassname}
                     data-name={this.props.browserName} onClick={this.selectBrowser}>
 
-                    <img src={this.props.browserIconLink}
-                        alt={this.props.imgAlt}
-                        width="140px"
-                        height="140px"></img>
+                    <div className="browser-card-wrapper">
+                        <img src={this.props.browserIconLink}
+                            alt={this.props.imgAlt}
+                            width="100px"
+                            height="100px"></img>
+                    </div>
                     <h5 className="browser-description">{this.props.browserName}</h5>
-
                 </div>
+
             </div>
         )
     }
@@ -223,12 +241,14 @@ class TechnoCard extends React.Component {
                 <div className={"card-border techno-card-border " + selectedClassname}
                     data-name={this.props.technoName}
                     onClick={this.selectTechology}>
+                    <div className="techno-card-wrapper">
 
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Icon_Atom.svg"
-                        width="80px"
-                        height="80px"
-                        alt={this.props.altAttribute + " " + _technoHelper.ICON_NAME}></img>
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Icon_Atom.svg"
+                            width="80px"
+                            height="80px"
+                            alt={this.props.altAttribute + " " + _technoHelper.ICON_NAME}></img>
+                    </div>
                     <h5 className="techno-description">{this.props.technoName}</h5>
                 </div>
             </div>
