@@ -7,6 +7,11 @@ import chromeIcon from "./../../../assets/browserIcons/google.png";
 import firefoxIcon from "./../../../assets/browserIcons/firefox.png";
 import safariIcon from "./../../../assets/browserIcons/safari.png";
 import IEIcon from "./../../../assets/browserIcons/IE.png";
+
+import atom from "./../../../assets/technoIcons/atom.jpg";
+import sublime from "./../../../assets/technoIcons/sublime.png";
+import VScode from "./../../../assets/technoIcons/VScode.svg";
+
 import { _helper } from '../../../_helper/authValidation';
 
 class ChooseTechnologies extends React.Component {
@@ -18,8 +23,26 @@ class ChooseTechnologies extends React.Component {
             selectedTechnologies: []
         }
 
-        this.technoNameTemplate = [_technoHelper.CODE_ATOM,
-        _technoHelper.CODE_SUBLIME_TEXT, _technoHelper.CODE_VISUAL_STUDIO_CODE]
+        this.technoNameTemplate = [
+            _technoHelper.CODE_ATOM,
+            _technoHelper.CODE_SUBLIME_TEXT,
+            _technoHelper.CODE_VISUAL_STUDIO_CODE
+        ]
+
+        this.technoTemplate = [
+            {
+                name: _technoHelper.CODE_ATOM,
+                img: atom
+            },
+            {
+                name: _technoHelper.CODE_SUBLIME_TEXT,
+                img: sublime
+            },
+            {
+                name: _technoHelper.CODE_VISUAL_STUDIO_CODE,
+                img: VScode
+            },
+        ]
 
         this.handleReturnToHomePage = this.handleReturnToHomePage.bind(this)
     }
@@ -148,12 +171,13 @@ class ChooseTechnologies extends React.Component {
                 <div className="techno-selection">
                     {
 
-                        this.technoNameTemplate.map((value, index) => {
+                        this.technoTemplate.map((value, index) => {
 
                             return <TechnoCard
                                 key={index}
-                                technoName={value}
-                                altAttribute={value}
+                                technoName={value.name}
+                                altAttribute={value.name}
+                                image={value.img}
                                 callback={this.selectTechnologiesCallback}
                                 defaultSelection={technoMap[value]} />
                         })
@@ -244,7 +268,7 @@ class TechnoCard extends React.Component {
                     <div className="techno-card-wrapper">
 
                         <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Icon_Atom.svg"
+                            src={this.props.image}
                             width="80px"
                             height="80px"
                             alt={this.props.altAttribute + " " + _technoHelper.ICON_NAME}></img>
