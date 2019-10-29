@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import './LoginForm.css';
 
 const { _helper } = require('../../_helper/authValidation');
@@ -20,26 +19,32 @@ class LoginForm extends React.Component {
             redirect: false
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleAuthentificationSubmit = this.handleAuthentificationSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleInputChange(event) {
         _helper.updateValueInFormInput(this, event);
     }
 
-    onSubmitHandler(event) {
+    handleAuthentificationSubmit(event) {
         event.preventDefault();
 
         const componentContext = this;
         if (_helper.isValidUserData(this)) {
-            
+
             let userData = {
                 username: this.state.userData.username,
                 password: this.state.userData.password
             }
 
             _serverHelper.userSignIn(componentContext, userData)
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.redirect === !this.state.redirect) {
+            this.props.history.push(_helper.PATH_HOME_PAGE);
         }
     }
 
@@ -50,19 +55,25 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        let userNameInput = "", passwordInput = "";
+
+        if (this.state.userDataErr.usernameErr.isErr)
+            userNameInput = _helper.CLASSNAME_INVALID_INPUT
+        if (this.state.userDataErr.passwordErr.isErr)
+            passwordInput = _helper.CLASSNAME_INVALID_INPUT
+
         return (
-            <form onSubmit={this.onSubmitHandler}>
-                {this.state.redirect ? <Redirect to='/' /> : null}
+            <form className="authentification-from" onSubmit={this.handleAuthentificationSubmit}>
 
                 <div className="form-group">
-                    <label htmlFor="usernameInput">Username</label>
+                    <label className="auth-label" htmlFor="usernameInput">Username</label>
                     <input name="username"
                         type="text"
-                        className="form-control"
+                        className={"form-control " + userNameInput}
                         value={this.state.username}
                         id="usernameInput"
                         placeholder="Enter username"
-                        onChange={this.handleChange} />
+                        onChange={this.handleInputChange} />
                     {
                         this.state.userDataErr.usernameErr.isErr ?
                             <ErrorLabel
@@ -72,15 +83,15 @@ class LoginForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="passwordInput">Password</label>
+                    <label className="auth-label" htmlFor="passwordInput">Password</label>
                     <input name="password"
                         type="password"
-                        className="form-control"
+                        className={"form-control " + passwordInput}
                         value={this.state.password}
                         id="passwordInput"
-                        placeholder="Password"
+                        placeholder="Enter password"
                         autoComplete="on"
-                        onChange={this.handleChange} />
+                        onChange={this.handleInputChange} />
                     {
                         this.state.userDataErr.passwordErr.isErr ?
                             <ErrorLabel
@@ -89,7 +100,7 @@ class LoginForm extends React.Component {
                     }
                 </div>
 
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary btn-block">Sign in</button>
 
             </form>
         )
@@ -98,7 +109,7 @@ class LoginForm extends React.Component {
 
 function ErrorLabel(props) {
     return (
-        <small id="emailHelp" className="form-text text-muted">{props.text}</small>
+        <small id="emailHelp" className="form-text text-danger error-label">{props.text}</small>
     )
 }
 
