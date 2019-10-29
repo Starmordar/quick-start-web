@@ -25,6 +25,10 @@
     top: 20px;
 }
 
+.create-new-account .create-new-account__link {
+    cursor: pointer;
+}
+
 .auth-header {
     margin-bottom: 20px;
 }

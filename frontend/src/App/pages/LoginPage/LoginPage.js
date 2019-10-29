@@ -10,6 +10,12 @@ const loader = new Loader(DEFAULT_LOADER, HIDE_CLASSNAME)
 class LoginPage extends React.Component {
     constructor(props) {
         super(props)
+
+        this.handleRedirectToHomePage = this.handleRedirectToHomePage.bind(this)
+    }
+
+    handleRedirectToHomePage() {
+        this.props.history.push(_helper.PATH_REGISTRATION_PAGE)
     }
 
     componentWillUnmount() {
@@ -30,7 +36,9 @@ class LoginPage extends React.Component {
                         <div className="form-container">
 
                             <div className="create-new-account">
-                                <span className="create-new-account__link text-primary">Create account</span>
+                                <span className="create-new-account__link text-primary"
+                                    onClick={this.handleRedirectToHomePage}>Create account
+                                </span>
                             </div>
 
                             <div className="auth-header">
