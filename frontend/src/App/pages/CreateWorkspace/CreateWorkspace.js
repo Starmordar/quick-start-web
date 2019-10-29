@@ -30,7 +30,9 @@ class CreateWorkspace extends React.Component {
 
             statusRules: _workspaceHelper.DEFAULT_FILTER_RULES,
             categoryRules: _workspaceHelper.DEFAULT_FILTER_RULES,
-            sortRules: _workspaceHelper.DEFAULT_SORT_RULES
+            sortRules: _workspaceHelper.DEFAULT_SORT_RULES,
+
+            redirect: false
         }
 
         this.handleShowForm = this.handleShowForm.bind(this);
@@ -133,6 +135,9 @@ class CreateWorkspace extends React.Component {
                 totalWorkspaces: temp.length
             })
         }
+        if (prevState.redirect === !this.state.redirect) {
+            this.props.history.push(_helper.PATH_AUTH_PAGE);
+        }
     }
 
     filterCallback = (filterName, filterParam) => {
@@ -183,36 +188,48 @@ class CreateWorkspace extends React.Component {
     componentDidMount() {
         const _self = this;
 
-        _serverHelper.getUsername()
-            .then((responce) => {
-                this.setState({
-                    username: responce.data.username
-                })
+        _serverHelper.redirectToAuthentificationPage(_self)
+            .then((response) => {
+                if (response.data === _serverHelper.SERVER_USER_NOT_SIGIN) {
+                    this.setState({ redirect: true })
+                }
+
+                else {
+                    _serverHelper.getUsername()
+                        .then((responce) => {
+                            this.setState({
+                                username: responce.data.username
+                            })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        });
+
+                    _serverHelper.getWorkspaces()
+                        .then(function (response) {
+                            let uniqueCategories = response
+                                .map((workspace) => workspace.category)
+                                .filter((category, index, self) => {
+                                    return self.indexOf(category) === index
+                                });
+
+                            _self.setState({
+                                workspacesData: response,
+                                filterWorkspaces: response,
+                                totalWorkspaces: response.length,
+                                uniqueCategories: uniqueCategories
+                            }, () => {
+                                setTimeout(() => {
+                                    loader.hideLoader()
+                                }, _helper.LOADER_TIME_FADE_OUT_MS)
+                            });
+                        })
+                        .catch(function (err) {
+                            console.log(err)
+                        })
+                }
             })
             .catch((err) => {
-                console.log(err)
-            });
-
-        _serverHelper.getWorkspaces()
-            .then(function (response) {
-                let uniqueCategories = response
-                    .map((workspace) => workspace.category)
-                    .filter((category, index, self) => {
-                        return self.indexOf(category) === index
-                    });
-
-                _self.setState({
-                    workspacesData: response,
-                    filterWorkspaces: response,
-                    totalWorkspaces: response.length,
-                    uniqueCategories: uniqueCategories
-                }, () => {
-                    setTimeout(() => {
-                        loader.hideLoader()
-                    }, _helper.LOADER_TIME_FADE_OUT_MS)
-                });
-            })
-            .catch(function (err) {
                 console.log(err)
             })
     }

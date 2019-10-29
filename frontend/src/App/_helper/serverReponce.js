@@ -6,6 +6,7 @@ const _serverHelper = {
 
     SERVER_USER_CREATED: "User create successful",
     SERVER_USER_ALREADY_IN_SYSTEM: "Already-registered",
+    SERVER_USER_NOT_SIGIN: "User not in system",
     SERVER_USER_EXISTS: "Successesfull signin",
     SERVER_FIND_USER_SUCCESS: "User with this username exists",
     SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
@@ -16,6 +17,7 @@ const _serverHelper = {
     IP_ADRESS: "http://localhost:4000",
 
     PATH_ALREADY_REGISTERED: "/",
+    PATH_USER_NOT_IN_SYSTEM: "/checkUserSession",
     PATH_USER_REGISTRATION: "/registration",
     PATH_USER_SIGHIN: "/auth",
     PATH_CREATE_WORKSPACE: "/createWorkspace",
@@ -33,12 +35,25 @@ const _serverHelper = {
         axios.get(helperContext.IP_ADRESS + helperContext.PATH_ALREADY_REGISTERED)
             .then(function (response) {
 
-                if (response.data === helperContext.SERVER_USER_ALREADY_IN_SYSTEM) {
+                if (response.data === helperContext.SERVER_USER_NOT_SIGIN) {
                     componentContext.setState({ redirect: true })
                 }
             }).catch(function (error) {
                 console.log(error);
             });
+    },
+
+    redirectToAuthentificationPage(componentContext) {
+        const helperContext = this;
+
+        return new Promise((resolve, reject) => {
+            axios.get(helperContext.IP_ADRESS + helperContext.PATH_USER_NOT_IN_SYSTEM)
+                .then(function (response) {
+                    resolve(response)
+                }).catch(function (error) {
+                    reject(error)
+                });
+        })
     },
 
     getUsername() {

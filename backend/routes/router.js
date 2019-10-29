@@ -14,6 +14,13 @@ router.get(_helper.PATH_SIGNOUT, _registration.userSignOut);
 router.get(_helper.PATH_USER_SIGHIN, _registration.userLogIn.bind(this));
 router.get(_helper.PATH_USER_REGISTRATION, _registration.userSignIn)
 
+router.get(_helper.PATH_USER_NOT_IN_SYSTEM, function (req, res, next) {
+  if (!req.session.userId && !req.cookies[_helper.COOKIES_PROP]) {
+    res.send(_helper.SERVER_USER_NOT_SIGIN)
+  } else {
+    res.send(_helper.USER_ALREADY_REGISTER)
+  }
+})
 
 router.get(_helper.PATH_GET_USERNAME, function (req, res, next) {
   if (req.session.userId && req.cookies[_helper.COOKIES_PROP]) {
@@ -25,7 +32,7 @@ router.get(_helper.PATH_GET_USERNAME, function (req, res, next) {
         res.send(user)
       }
     })
-    
+
   }
 })
 

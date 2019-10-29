@@ -23,6 +23,7 @@ const _helper = {
     PATH_UPDATE_WORKSPACE: "/updateWorkspace",
     PATH_GET_WORKSPACES: "/getWorkspacesCurl",
     PATH_GET_USERNAME: "/getName",
+    PATH_USER_NOT_IN_SYSTEM: "/checkUserSession",
     
     COOKIES_PROP: "connect.sid",
 
@@ -32,7 +33,8 @@ const _helper = {
 
     SERVER_WORKSPACE_CREATED_SECCESSFUL: "Workspace created successful",
     SERVER_USER_SUCCESSFUL_SIGNED_OUT: "User successful signed out",
-    SERVER_WORKSPACE_UPDATED_SUCCESSFUL: "Workspace updated successful"
+    SERVER_WORKSPACE_UPDATED_SUCCESSFUL: "Workspace updated successful",
+    SERVER_USER_NOT_SIGIN: "User not in system",
 }
 
 module.exports = {
