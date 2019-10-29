@@ -1,0 +1,14 @@
+.form-group {
+    position: relative;
+}
+
+.show-password {
+    position: absolute;
+    right: 10px;
+    top: 2.1rem;
+    cursor: pointer;
+}
+
+input[name="password"].is-invalid {
+    background: none !important;
+}

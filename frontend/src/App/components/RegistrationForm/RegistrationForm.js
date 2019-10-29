@@ -22,11 +22,14 @@ class RegistrationForm extends React.Component {
                 confirmPasswordErr: { isErr: false, errDescription: "" }
             },
 
-            redirect: false
+            redirect: false,
+            passwordInputType: "password"
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleRegistrationSubmit = this.handleRegistrationSubmit.bind(this);
+        this.handleButtonPress = this.handleButtonPress.bind(this);
+        this.handleButtonRelease = this.handleButtonRelease.bind(this);
     }
 
     handleInputChange(event) {
@@ -58,6 +61,18 @@ class RegistrationForm extends React.Component {
         if (prevState.redirect === !this.state.redirect) {
             this.props.history.push(_helper.PATH_HOME_PAGE);
         }
+    }
+
+    handleButtonPress() {
+        this.setState({
+            passwordInputType: "text"
+        })
+    }
+
+    handleButtonRelease() {
+        this.setState({
+            passwordInputType: "password"
+        })
     }
 
     render() {
@@ -114,12 +129,22 @@ class RegistrationForm extends React.Component {
                 <div className="form-group">
                     <label className="registration-label" htmlFor="passwordInput">Create a password</label>
                     <input name="password"
-                        type="password"
+                        type={this.state.passwordInputType}
                         className={"form-control " + passwordInput}
                         id="passwordInput"
                         placeholder="Enter password"
                         autoComplete="on"
                         onChange={this.handleInputChange} />
+
+                    <img src={require("../../assets/images/eye.png")}
+                        height="25px" width="25px"
+                        className="show-password"
+                        onTouchStart={this.handleButtonPress}
+                        onTouchEnd={this.handleButtonRelease}
+                        onMouseDown={this.handleButtonPress}
+                        onMouseUp={this.handleButtonRelease}
+                        onMouseLeave={this.handleButtonRelease}>
+                    </img>
                     {
                         this.state.userDataErr.passwordErr.isErr
                             ? <ErrorLabel
