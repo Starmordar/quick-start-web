@@ -51,7 +51,7 @@ const _serverHelper = {
             }
         }).then(function (response) {
             _helper.handleServerErrorMessages(componentContext, response.data);
-
+            console.log(response.data)
             if (response.data === _serverHelper.SERVER_USER_CREATED) {
                 componentContext.setState({ redirect: true })
             }

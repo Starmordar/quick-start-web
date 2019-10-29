@@ -3,7 +3,10 @@ const _helper = {
     NO_ERROR_STRING: "",
     BLANK_INPUT_FIELD: "",
     ERROR_FIELD_NAME_ENDING: "Err",
-    ERROR_BLANK_DESCRIPTION: " cannot be blank",
+    ERROR_BLANK_DESCRIPTION: " can't be blank",
+
+    CLASSNAME_INVALID_INPUT: "is-invalid",
+    CLASSNAME_VALID_INPUT: "is-valid",
 
     PATH_HOME_PAGE: "/",
 
@@ -29,11 +32,11 @@ const _helper = {
     ERROR_PASSWORD_LENGTH: "The password should contains 8 - 30 characters",
     ERROR_PASSWORD_DIFFERENCE_FROM_USERNAME: "Password must be different from Username!",
     ERROR_PASSWORD_AT_LEAST_ONE_NUMBER: "Password must contain at least one number",
-    ERROR_PASSWORD_AT_LEAST_ONE_UPPER_CASE: "Password must contain at least one uppercase letter (A-Z)!",
-    ERROR_PASSWORD_AT_LEAST_ONE_LOWERCASE: "Password must contain at least one lowercase letter (a-z)!",
+    ERROR_PASSWORD_AT_LEAST_ONE_UPPER_CASE: "Password must contain at least one uppercase letter",
+    ERROR_PASSWORD_AT_LEAST_ONE_LOWERCASE: "Password must contain at least one lowercase letter",
 
-    ERROR_EMAIL_ALREADY_TAKEN: "email already taken",
-    ERROR_USERNAME_TAKEN: "a user with that nickname already exists",
+    ERROR_EMAIL_ALREADY_TAKEN: "Email already taken",
+    ERROR_USERNAME_TAKEN: "User with that nickname already exists",
 
     MIN_USERNAME_LENGTH: 6,
     MAX_USERNAME_LENGHT: 30,
@@ -87,7 +90,9 @@ const _helper = {
 
             if (inputField === this.BLANK_INPUT_FIELD) {
                 const errorFieldName = fieldName + this.ERROR_FIELD_NAME_ENDING,
-                    errDescription = fieldName + this.ERROR_BLANK_DESCRIPTION
+                    errDescription = fieldName.charAt(0).toUpperCase()
+                        + fieldName.slice(1)
+                        + this.ERROR_BLANK_DESCRIPTION
 
                 this.setErrorMessageOnInputField(
                     componentContext,

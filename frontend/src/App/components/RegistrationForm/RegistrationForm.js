@@ -61,6 +61,20 @@ class RegistrationForm extends React.Component {
     }
 
     render() {
+        let userNameInput = "",
+            emailInput = "",
+            passwordInput = "",
+            confirmPasswordInput = "";
+
+        if (this.state.userDataErr.usernameErr.isErr)
+            userNameInput = _helper.CLASSNAME_INVALID_INPUT
+        if (this.state.userDataErr.emailErr.isErr)
+            emailInput = _helper.CLASSNAME_INVALID_INPUT
+        if (this.state.userDataErr.passwordErr.isErr)
+            passwordInput = _helper.CLASSNAME_INVALID_INPUT
+        if (this.state.userDataErr.confirmPasswordErr.isErr)
+            confirmPasswordInput = _helper.CLASSNAME_INVALID_INPUT
+
         return (
             <form className="registration-form" onSubmit={this.handleRegistrationSubmit}>
 
@@ -69,7 +83,7 @@ class RegistrationForm extends React.Component {
                     <input
                         name="username"
                         type="text"
-                        className="form-control"
+                        className={"form-control " + userNameInput}
                         id="usernameInput"
                         placeholder="Enter username"
                         onChange={this.handleInputChange} />
@@ -85,7 +99,7 @@ class RegistrationForm extends React.Component {
                     <label className="registration-label" htmlFor="emailInput">Email address</label>
                     <input name="email"
                         type="text"
-                        className="form-control"
+                        className={"form-control " + emailInput}
                         id="emailInput"
                         placeholder="Enter email"
                         onChange={this.handleInputChange} />
@@ -101,9 +115,9 @@ class RegistrationForm extends React.Component {
                     <label className="registration-label" htmlFor="passwordInput">Create a password</label>
                     <input name="password"
                         type="password"
-                        className="form-control"
+                        className={"form-control " + passwordInput}
                         id="passwordInput"
-                        placeholder="Create a password"
+                        placeholder="Enter password"
                         autoComplete="on"
                         onChange={this.handleInputChange} />
                     {
@@ -118,7 +132,7 @@ class RegistrationForm extends React.Component {
                     <label className="registration-label" htmlFor="confirm-passwordInput">Confirm password</label>
                     <input name="confirmPassword"
                         type="password"
-                        className="form-control"
+                        className={"form-control " + confirmPasswordInput}
                         id="confirm-passwordInput"
                         placeholder="Confirm password"
                         autoComplete="on"
@@ -139,7 +153,7 @@ class RegistrationForm extends React.Component {
 
 function ErrorLabel(props) {
     return (
-        <small id="emailHelp" className="form-text text-muted">{props.text}</small>
+        <small id="emailHelp" className="form-text text-danger error-label">{props.text}</small>
     )
 }
 
