@@ -53,3 +53,7 @@
 .techno-input-wrapper .form-group input{
     margin-top: 1.6rem;
 }
+
+.browser-input {
+    margin-bottom: 0 !important;
+}

@@ -115,6 +115,7 @@ class InputForm extends React.Component {
                             ? <BrowserCard
                                 callback={this.handleBrowserChange}
                                 browserName={this.props.browser}
+                                image={this.props.browserImage}
                                 browserError={this.state.browserError} />
                             : null
 
@@ -142,7 +143,7 @@ class TechnologiesCard extends React.Component {
         let technoInput = "";
         if (key !== null)
             technoInput = _helper.CLASSNAME_INVALID_INPUT
-        
+
         return (
             <div className="card mb-3 border-left-0 border-right-0 border-top-0">
                 <div className="row">
@@ -197,28 +198,29 @@ class BrowserCard extends React.Component {
             key = Object.keys(errorObject)[0]
             errorMsg = errorObject[key]
         }
-
         return (
             <div className="card mb-3 border-left-0 border-right-0 border-top-0">
                 <div className="row">
-                    <div className="col-md-3 align-items-center d-flex flex-column justify-content-center">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg"
-                            className="card-img" alt="..." width="80px" height="80px" />
-                        <h4>{this.props.browserName}</h4>
+                    <div className="col-md-2 align-items-center d-flex flex-column justify-content-center">
+                        <img src={this.props.image}
+                            className="" alt="..." width="80px" height="80px" />
+                        <h4 style={{ textAlign: "center", marginTop: "10px" }}>{this.props.browserName}</h4>
                     </div>
 
-                    <div className="col-md-9 align-items-center justify-content-center">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                            </div>
-                        </div>
+                    <div className="col-md-8 align-items-center justify-content-center">
+
                         {
                             this.inputMap.map((value, index) => {
+                                let error = ""
+                                if (errorObject !== null && key == value)
+                                    error = _helper.CLASSNAME_INVALID_INPUT
                                 return (
-                                    <div key={index} >
+                                    <div className="form-group mb-3" key={index} >
+
                                         <input
                                             type="text"
-                                            className="form-control mb-3"
+                                            style={{ marginBottom: "0" }}
+                                            className={"form-control browser-input " + error}
                                             placeholder="Input local path..."
                                             aria-label=""
                                             aria-describedby="basic-addon1"
@@ -230,10 +232,10 @@ class BrowserCard extends React.Component {
                                                 : null
                                         }
                                     </div>
+
                                 )
                             })
                         }
-
                     </div>
 
                 </div>

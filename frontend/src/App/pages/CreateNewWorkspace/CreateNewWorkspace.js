@@ -23,6 +23,7 @@ class CreateNewWorkspace extends React.Component {
             visibilityInputLinksClassname: _technoHelper.CLASSNAME_VISIBLE_FORM,
 
             browser: "",
+            browserImage: "",
             technologies: [],
             images: [],
 
@@ -30,11 +31,12 @@ class CreateNewWorkspace extends React.Component {
         }
     }
 
-    submitTechnologiesCallback = (browser, technologies, images) => {
+    submitTechnologiesCallback = (browser, technologies, images, browserImage) => {
         this.setState({
             browser: browser,
             technologies: technologies,
             images: images,
+            browserImage: browserImage,
             chooseTechnoFormAnimation: _technoHelper.ANIMATION_FADE_OUT
         })
 
@@ -117,6 +119,7 @@ class CreateNewWorkspace extends React.Component {
                             browser={this.state.browser}
                             technologies={this.state.technologies}
                             images={this.state.images}
+                            browserImage={this.state.browserImage}
                             callback={this.returnToPreviousFormCallback}
                             visibilityState={this.state.inputLinksFormAnimation} />
                         : null

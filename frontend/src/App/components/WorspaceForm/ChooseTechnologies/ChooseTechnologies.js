@@ -90,7 +90,17 @@ class ChooseTechnologies extends React.Component {
             && (this.state.selectedTechnologies.length === 0 || flag === true)) {
             alert(_technoHelper.WARN_CHOOSE_SOMETHING)
         } else {
-            this.props.callback(this.state.selectedBrowser, this.state.selectedTechnologies, this.technoTemplate)
+            let browserImage;
+            if (this.state.selectedBrowser === _technoHelper.BROWSER_CHROME)
+                browserImage = chromeIcon
+            if (this.state.selectedBrowser === _technoHelper.BROWSER_FIREFOX)
+                browserImage = firefoxIcon
+            if (this.state.selectedBrowser === _technoHelper.BROWSER_IE)
+                browserImage = IEIcon
+            if (this.state.selectedBrowser === _technoHelper.BROWSER_SAFARI)
+                browserImage = safariIcon
+
+            this.props.callback(this.state.selectedBrowser, this.state.selectedTechnologies, this.technoTemplate, browserImage)
         }
     }
 
