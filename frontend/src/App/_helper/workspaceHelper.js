@@ -68,8 +68,12 @@ const _workspaceHelper = {
     FIND_BY_PARAMS: "User search",
 
     WARN_USER_UNIQUE: "User should be unique",
+    WARN_CATEGORY_WHITESPACE: "Workspace category can't contain white space",
+    WARN_NAME_WHITESPACE: "Workspace name can't contain white space",
     WARN_WORKSPACE_UNIQUE: "Workspace name should be unique",
     WARN_WORKSPACE_NAME: "Workspace name can't be \"All\"",
+
+    REGEX_WHITESPACE: new RegExp(/\s/),
 
     DEFAULT_CATEGORIES: ["School", "University", "Work", "Custum workspaces"],
 
@@ -131,7 +135,7 @@ const _workspaceHelper = {
                 return false;
             }
         }
-        
+
         if (this.isExistsBlankInputFields(componentContext)) return false;
         if (this.nameValidation(componentContext)) return false;
         if (this.categoryValidation(componentContext, validType)) return false;
@@ -140,6 +144,14 @@ const _workspaceHelper = {
 
     categoryValidation(componentContext, validType) {
         if (validType === this.CATEGORY_INPUT) {
+            if (this.REGEX_WHITESPACE.test(componentContext.state.workspaceProps.category)) {
+                this.setErrorMessageOnInputField(
+                    componentContext,
+                    this.CATEGORY_FIELD,
+                    this.WARN_CATEGORY_WHITESPACE
+                )
+                return true
+            }
             if (componentContext.state.workspaceProps.category === this.DEFAULT_FILTER_RULES) {
                 this.setErrorMessageOnInputField(
                     componentContext,
@@ -154,6 +166,14 @@ const _workspaceHelper = {
     nameValidation(componentContext) {
         const temp = [...componentContext.props.workSpaceData]
 
+        if (this.REGEX_WHITESPACE.test(componentContext.state.workspaceProps.name)) {
+            this.setErrorMessageOnInputField(
+                componentContext,
+                this.NAME_FIELD,
+                this.WARN_NAME_WHITESPACE
+            )
+            return true
+        }
         for (let i = 0; i < temp.length; i++) {
 
             if (temp[i].name === componentContext.state.workspaceProps.name) {
@@ -323,7 +343,7 @@ const _workspaceHelper = {
 
             case _workspaceHelper.HIGH_USAGE_SORT:
                 temp.sort((workspace1, workspace2) => {
-                    
+
                     return workspace2.count - workspace1.count
                 })
                 break;
