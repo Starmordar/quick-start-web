@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import './InputForm.css';
 
 import { _technoHelper } from '../../../_helper/technoHelper';
@@ -73,12 +72,17 @@ class InputForm extends React.Component {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.redirect === !this.state.redirect) {
+            this.props.history.push(_helper.PATH_HOME_PAGE);
+        }
+    }
+
     render() {
         console.log(this.props)
         return (
             <div className={"input-form " + this.props.visibilityState}>
-                {this.state.redirect ? <Redirect to='/' /> : null}
-
+            
                 <div className="go-back" onClick={this.returnToPreviousForm}>
                     <i className="fas fa-chevron-circle-left"></i>
                 </div>

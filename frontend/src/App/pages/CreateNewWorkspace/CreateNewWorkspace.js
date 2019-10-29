@@ -70,20 +70,31 @@ class CreateNewWorkspace extends React.Component {
     }
 
     componentDidMount() {
-        _serverHelper.getWorkspaceFromGlobalSetting()
-            .then((responce) => {
-                if (responce === "") {
-                    this.setState({
-                        redirect: !this.state.redirect
-                    }, () => {
-                        setTimeout(() => {
-                            loader.hideLoader()
-                        }, _helper.LOADER_TIME_FADE_OUT_MS)
-                    })
-                } else {
-                    setTimeout(() => {
-                        loader.hideLoader()
-                    }, _helper.LOADER_TIME_FADE_OUT_MS)
+        _serverHelper.redirectToAuthentificationPage(this)
+            .then((response) => {
+                if (response.data === _serverHelper.SERVER_USER_NOT_SIGIN) {
+                    this.setState({ redirect: true })
+                }
+                else {
+                    _serverHelper.getWorkspaceFromGlobalSetting()
+                        .then((responce) => {
+                            if (responce === "") {
+                                this.setState({
+                                    redirect: !this.state.redirect
+                                }, () => {
+                                    setTimeout(() => {
+                                        loader.hideLoader()
+                                    }, _helper.LOADER_TIME_FADE_OUT_MS)
+                                })
+                            } else {
+                                setTimeout(() => {
+                                    loader.hideLoader()
+                                }, _helper.LOADER_TIME_FADE_OUT_MS)
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 }
             })
             .catch((err) => {
@@ -116,6 +127,7 @@ class CreateNewWorkspace extends React.Component {
                 {
                     this.state.inputLinksVisibility
                         ? <InputForm
+                            history={this.props.history}
                             browser={this.state.browser}
                             technologies={this.state.technologies}
                             images={this.state.images}
