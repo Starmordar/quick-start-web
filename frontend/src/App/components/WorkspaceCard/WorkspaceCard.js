@@ -59,6 +59,12 @@ class WorkspaceCard extends React.Component {
             })
         }
     }
+    
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.redirect === !this.state.redirect) {
+            this.props.history.push('/prackRoom');
+        }
+    }
 
     render() {
         let isActiveString = _workspaceHelper.DISABLED_WORKSPACE
@@ -68,7 +74,6 @@ class WorkspaceCard extends React.Component {
 
         return (
             <div className="workspace-card" onClick={this.configChangeHandler}>
-                {this.state.redirect ? <Redirect to='/prackRoom' /> : null}
                 <div className='card-property col-lg-2'>
                     <span className="checkbox-label">{this.props.data.name}</span>
                 </div>
