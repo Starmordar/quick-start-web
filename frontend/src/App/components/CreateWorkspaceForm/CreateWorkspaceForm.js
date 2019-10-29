@@ -172,12 +172,14 @@ class CreateWorkspaceForm extends React.Component {
             <div className={"workspace-form-container " + showForm + " " + displayFrom}>
 
                 <div className="close-form">
-                    <i className="fa fa-window-close"
+                    <i className="fas fa-times"
                         aria-hidden="true"
                         onClick={this.handleCloseForm}></i>
                 </div>
 
-                <form onSubmit={this.onSubmitHandler}>
+                <h3 className="form-info">Create new workspace</h3>
+
+                <form className="workspace-form" onSubmit={this.onSubmitHandler}>
 
                     <div className="form-group">
                         <label htmlFor="workspaceNameInput">Workspace name</label>

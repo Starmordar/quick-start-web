@@ -6,14 +6,19 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    transition: all .2s linear;
 }
 
-.workspace-card:not(.worksets-total-info) {
+.workspace-card:not(.worksets-total-info):not(.worksets-default) {
     cursor: pointer;
 }
 
-.workspace-card:not(.worksets-total-info):not(:last-child):hover {
-    box-shadow: 0 0 20px #000;
+.workspace-card.worksets-default {
+    background-color: #baf1ed
+}
+
+.workspace-card:not(.worksets-total-info):not(.worksets-default):hover {
+    box-shadow: 0px 0px 5px 2px #a7a7a7;
     z-index: 999;
 }
 

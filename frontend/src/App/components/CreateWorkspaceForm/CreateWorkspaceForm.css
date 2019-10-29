@@ -2,11 +2,10 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -12% 0 0 -15%;
-    width: 30%;
-    height: 50%;
+    margin: -12% 0 0 -180px;
+    width: 360px;
     background: white;
-    padding: 50px;
+    padding: 30px;
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.35);
     border-radius: 8px;
     z-index: 100;
@@ -17,5 +16,23 @@
 }
 
 .workspace-form-container.display-none {
-   z-index: -1;
+    z-index: -1;
+}
+
+.workspace-form {
+    position: relative;
+    margin-top: 10px;
+}
+
+.form-info {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.close-form {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 32px;
+    cursor: pointer;
 }

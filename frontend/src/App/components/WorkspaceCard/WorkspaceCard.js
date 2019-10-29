@@ -59,7 +59,7 @@ class WorkspaceCard extends React.Component {
             })
         }
     }
-    
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.redirect === !this.state.redirect) {
             this.props.history.push('/prackRoom');
@@ -72,21 +72,33 @@ class WorkspaceCard extends React.Component {
         if (this.props.data.isActive === _workspaceHelper.WORKSPACE_PROP_STATUS)
             isActiveString = _workspaceHelper.WORKSPACE_PROP_STATUS
 
+        let defaultClassname = "worksets-default"
+        if (this.props.default === undefined) defaultClassname = ''
+
         return (
-            <div className="workspace-card" onClick={this.configChangeHandler}>
-                <div className='card-property col-lg-2'>
+            <div className={"workspace-card " + defaultClassname} onClick={this.configChangeHandler} >
+                <div className='card-property col-lg-2 text-truncate'
+                    data-toggle="tooltip"
+                    data-placement="right"
+                    title={this.props.data.name}>
                     <span className="checkbox-label">{this.props.data.name}</span>
                 </div>
-                <div className='card-property col-lg-2'>
+                <div className='card-property col-lg-2 text-truncate'
+                    data-toggle="tooltip"
+                    data-placement="right"
+                    title={this.props.data.category}>
                     <span>{this.props.data.category}</span>
                 </div>
-                <div className='card-property col-lg-1'>
+                <div className='card-property col-lg-1 text-truncate'>
                     <span>{isActiveString}</span>
                 </div>
-                <div className='card-property col-lg-3 text-truncate'>
+                <div className='card-property col-lg-3 text-truncate'
+                    data-toggle="tooltip"
+                    data-placement="right"
+                    title={this.state.technoString}>
                     <span>{this.state.technoString}</span>
                 </div>
-                <div className='card-property col-lg-2'>
+                <div className='card-property col-lg-2 text-truncate'>
                     <span>{this.props.data.dateString}</span>
                 </div>
                 <div className='card-property col-lg-2 text-truncate'>

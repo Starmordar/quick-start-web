@@ -288,7 +288,7 @@ class CreateWorkspace extends React.Component {
 
                     <div className="workspace-card worksets-total-info">
                         <h3 className="workset-count">Total {this.state.totalWorkspaces}</h3>
-                        <a className="btn btn-outline-light"
+                        <a className="btn btn-danger"
                             onClick={this.handleShowForm}
                         >Create workspace</a>
                     </div>
