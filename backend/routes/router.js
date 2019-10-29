@@ -14,6 +14,21 @@ router.get(_helper.PATH_SIGNOUT, _registration.userSignOut);
 router.get(_helper.PATH_USER_SIGHIN, _registration.userLogIn.bind(this));
 router.get(_helper.PATH_USER_REGISTRATION, _registration.userSignIn)
 
+
+router.get(_helper.PATH_GET_USERNAME, function (req, res, next) {
+  if (req.session.userId && req.cookies[_helper.COOKIES_PROP]) {
+
+    User.findOne({ _id: req.session.userId }, function (error, user) {
+      if (error) return next(error);
+
+      else {
+        res.send(user)
+      }
+    })
+    
+  }
+})
+
 router.post(_helper.PATH_ADD_WORKSPACE, function (req, res, next) {
   global = req.body.name
   res.send(_helper.SUCCESS_ASSIGN_GLOBAL)

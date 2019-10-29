@@ -29,7 +29,7 @@ class TopNavbar extends React.Component {
         return (
             <nav className="navbar">
 
-                <a className="navbar-brand">Starmordar</a>
+                <a className="navbar-brand">{this.props.username}</a>
 
                 <button
                     className="btn btn-outline-light my-2 my-sm-0"

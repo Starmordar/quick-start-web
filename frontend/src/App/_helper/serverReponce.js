@@ -25,6 +25,7 @@ const _serverHelper = {
     PATH_ADD_WORKSPACE: "/addWorkspace",
     PATH_GET_GLOBAL_WORKSPACE: "/getGlobalWorkspace",
     PATH_UPDATE_WORKSPACE: "/updateWorkspace",
+    PATH_GET_USERNAME: "/getName",
 
     redirectToHomeIfUserAlreadyOnTheSystem(componentContext) {
         const helperContext = this;
@@ -38,6 +39,18 @@ const _serverHelper = {
             }).catch(function (error) {
                 console.log(error);
             });
+    },
+
+    getUsername() {
+        const helperContext = this
+        return new Promise((resolve, reject) => {
+            axios.get(helperContext.IP_ADRESS + helperContext.PATH_GET_USERNAME)
+                .then(function (response) {
+                    resolve(response)
+                }).catch(function (error) {
+                    reject(error)
+                });
+        })
     },
 
     userRegistration(componentContext, userData) {

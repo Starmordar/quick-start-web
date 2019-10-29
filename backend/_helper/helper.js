@@ -22,6 +22,7 @@ const _helper = {
     PATH_GET_GLOBAL_WORKSPACE: "/getGlobalWorkspace",
     PATH_UPDATE_WORKSPACE: "/updateWorkspace",
     PATH_GET_WORKSPACES: "/getWorkspacesCurl",
+    PATH_GET_USERNAME: "/getName",
     
     COOKIES_PROP: "connect.sid",
 

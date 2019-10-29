@@ -26,6 +26,8 @@ class CreateWorkspace extends React.Component {
             filterWorkspaces: [],
             uniqueCategories: [],
 
+            username: "",
+
             statusRules: _workspaceHelper.DEFAULT_FILTER_RULES,
             categoryRules: _workspaceHelper.DEFAULT_FILTER_RULES,
             sortRules: _workspaceHelper.DEFAULT_SORT_RULES
@@ -181,6 +183,16 @@ class CreateWorkspace extends React.Component {
     componentDidMount() {
         const _self = this;
 
+        _serverHelper.getUsername()
+            .then((responce) => {
+                this.setState({
+                    username: responce.data.username
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+
         _serverHelper.getWorkspaces()
             .then(function (response) {
                 let uniqueCategories = response
@@ -229,7 +241,7 @@ class CreateWorkspace extends React.Component {
         return (
             <div className="gradiend-overplay">
 
-                <TopNavbar history={this.props.history} />
+                <TopNavbar history={this.props.history} username={this.state.username} />
 
                 <div className="workset-filters">
 
