@@ -1,0 +1,52 @@
+.registration-section {
+    position: relative;
+    max-height: 80vh;
+    height: 80vh;
+    padding: 140px 0 100px 0;
+}
+
+.registration-section__brief-info-container {
+    border: 1px solid gray;
+}
+
+.registration-section__form-container {
+    padding: 40px 40px 40px 40px !important;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+}
+
+.registration-section__form-container .registration-header {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.7rem;
+    letter-spacing: 1.2;
+}
+
+.registration-label {
+    margin-bottom: 0.2rem;
+    margin-left: 0.2rem
+}
+
+.registration-form .btn {
+    margin-top: 1.5rem;
+}
+
+.error-label {
+    margin-left: 0.2rem
+}
+
+.authentification {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    z-index: 998;
+}
+
+.authentification .authentification__warn {
+    font-size: 18px;
+    letter-spacing: .2px;
+}
+
+.authentification .authentification__link-to-page {
+    cursor: pointer;
+}

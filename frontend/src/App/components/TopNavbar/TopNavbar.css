@@ -1,0 +1,10 @@
+.navbar {
+    font-family: 'Blinker', sans-serif;
+    background-color: rgba(255, 255, 255, 0.3)
+}
+
+.navbar .navbar-brand {
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #ffffff !important;
+}
