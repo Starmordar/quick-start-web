@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 
 const { _helper } = require('./_helper/helper');
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(cors({ credentials: true, origin: 'https://starmordar.github.io' }));
 
 mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-3', {
   useCreateIndex: true,
