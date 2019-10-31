@@ -14,7 +14,7 @@ const _serverHelper = {
     SERVER_SUCCESS_ASSIGN_GLOBAL: "Success assign global",
     SERVER_WORKSPACE_UPDATED_SUCCESSFUL: "Workspace updated successful",
 
-    IP_ADRESS: "http://localhost:4000",
+    IP_ADRESS: "http://167.71.13.201:4000",
 
     PATH_ALREADY_REGISTERED: "/",
     PATH_USER_NOT_IN_SYSTEM: "/checkUserSession",
