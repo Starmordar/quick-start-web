@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 
 render((
-    <BrowserRouter basename="/quick-start-web">
+    <BrowserRouter>
         <App/>
     </BrowserRouter>
 ), document.getElementById('root'));
