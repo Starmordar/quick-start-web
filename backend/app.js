@@ -10,7 +10,7 @@ const path = require("path");
 
 const { _helper } = require('./_helper/helper');
 
-app.use(cors({ credentials: true, origin: 'http://167.71.13.201' }));
+app.use(cors({ credentials: true, origin: 'http://167.71.13.201:3000' }));
 
 mongoose.connect('mongodb://Starmordar:msims7529@167.71.13.201:27017/test-mongo?authSource=admin', {
   useCreateIndex: true,
