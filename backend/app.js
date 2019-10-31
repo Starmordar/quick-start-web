@@ -6,12 +6,13 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
+const path = require("path");
 
 const { _helper } = require('./_helper/helper');
 
 app.use(cors({ credentials: true, origin: 'https://starmordar.github.io' }));
 
-mongoose.connect('mongodb://localhost:27017/quick-start-test-auth-3', {
+mongoose.connect('mongodb://Starmordar:msims7529@167.71.13.201:27017/test-mongo?authSource=admin', {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -24,6 +25,8 @@ db.once('open', function () { });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.static(path.join(__dirname, "../frontend/build")))
 
 app.use(cookieParser());
 
